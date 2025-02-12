@@ -1,57 +1,98 @@
-import logo from "../assets/login-logo.png";
+import logo from "../assets/welcome-to.svg";
 import { Link } from "react-router-dom";
+import "../pages/SignUp.css";
+
+
 function SignUp () {
     return(
-        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img class="mx-auto h-10 w-auto" src={logo} alt="Your Company"/>
-            <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Register for Account</h2>
-    </div>
+      <div className="entire-page">
+          <div className="center">
+            <img src={logo}></img>
+          </div>
 
-    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form class="space-y-6" action="#" method="POST">
-    <div>
-        <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
-        <div class="mt-2">
-          <input type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-        </div>
-      </div>
-      <div>
-        <label for="email" class="block text-sm/6 font-medium text-gray-900">Name</label>
-        <div class="mt-2">
-          <input type="name" name="name" id="name" autocomplete="name" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-        </div>
-      </div>
+          <div className="center title">
+            <h1 className="pink">NEXT-GEN&nbsp;</h1>
+            <h1 className="blue">WELLNESS</h1>
+          </div>
 
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm/6 font-medium text-gray-900">Create a Password</label>
-          {/* <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
-          </div> */}
-        </div>
-        <div class="mt-2">
-          <input type="password" name="password" id="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-        </div>
-        
-        <div class="mt-2">
-        <label for="password" class="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
-          <input type="password" name="password" id="confirmpassword" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
-        </div>
-        
-      </div>
+          <div className="center">
+            <button className="sign switch" type="button">SIGN UP</button>
+            <a href="/login">
+              <button className="log switch" type="button" id="login">LOG IN</button>
+            </a>
+            
+          </div>
 
-      <div>
-        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign Up</button>
-      </div>
-    </form>
+          <div className="text-input center">
+            <form action="/submit" method="POST">
+              <div className="center">
+                <input type="name" name="name" id="name" placeholder="Name" size={40} required></input>
+              </div>
+              <div className="center">
+                <input type="email" name="email" id="email" placeholder="Email" size={40} required></input>
+              </div>
+              <div>
+                <input type="password" name="password" id="password" placeholder="Password" size={17} required></input>
+                <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input>
+              </div>
+              <button type="submit" className="center create-account">CREATE ACCOUNT</button>
+            </form>
 
-    <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Already a Member? 
-      <Link to="/login" class="font-semibold text-indigo-600 hover:text-indigo-500">Login</Link>
-    </p>
-  </div>
-</div>
+          </div>
+
+
+          
+      
+                {/* <div>
+                  <h2>HELLO</h2>
+                <div>
+                    <img  alt="Your Company"/>
+                    <h2>Register for Account</h2>
+            </div>
+
+            <div>
+                <form action="#" method="POST">
+            <div>
+                <label for="email">Email address</label>
+                <div>
+                  <input type="email" name="email" id="email" autocomplete="email" required/>
+                </div>
+              </div>
+              <div>
+                <label for="email">Name</label>
+                <div>
+                  <input type="name" name="name" id="name" autocomplete="name" required/>
+                </div>
+              </div>
+
+              <div>
+                <div>
+                  <label for="password">Create a Password</label>
+                </div>
+                <div>
+                  <input type="password" name="password" id="password" autocomplete="current-password" required/>
+                </div>
+                
+                <div class="mt-2">
+                <label for="password">Confirm Password</label>
+                  <input type="password" name="password" id="confirmpassword" autocomplete="current-password" required/>
+                </div>
+                
+              </div>
+
+              <div>
+                <button type="submit">Sign Up</button>
+              </div>
+            </form>
+
+            <p>
+              Already a Member? 
+              <Link to="/login">Login</Link>
+            </p>
+          </div>
+        </div> */}
+
+      </div>
     );
 }
 

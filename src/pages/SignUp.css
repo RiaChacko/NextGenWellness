@@ -1,1 +1,102 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
+.entire-page {
+    background-color: #17161F;
+    color: white;
+    height: 50rem;
+    font-size: 0.8rem;
+}
+
+img {
+    width: 14rem;
+    margin: 3rem
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pink {
+    color: #FF5DA3;
+}  
+
+.blue {
+    color: #5D80FF;
+}
+
+.title {
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+button {
+    background-color: rgb(255, 104, 104);
+    padding: 0.5rem;
+    margin: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+    border-radius: 12px;
+}
+
+.sign {
+    background-color: rgb(93, 128, 255, 1);
+    /* background-color:#5D80FF; */
+    border-color:#5D80FF;
+    border-width: 3px;
+    color: #17161F;
+    /* color: #5D80FF; */
+    font-weight: bold;
+}
+
+.log {
+    background-color:  rgb(93, 128, 255, 0);
+    /* background-color: rgb(255, 93, 163, 0.2); */
+    border-color:#FF5DA3;
+    border-width: 3px;
+    color: #FF5DA3;
+    font-weight: bold;
+}
+
+.log:hover {
+    background-color: rgb(255, 93, 163);
+    border-color: rgb(255, 93, 163);
+    color: #17161F
+}
+
+.create-account {
+    background-color: #5D80FF;
+    border-color:#5D80FF;
+    border-width: 3px;
+    color: #17161F;
+    font-weight: bold;
+    margin-top: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.create-account:hover {
+    background-color: rgba(93, 128, 255, 0.398);
+    border-color:rgb(93, 128, 255, 0.8);
+    color: rgb(144, 168, 255);
+    border-width: 0px;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+input {
+    border-width: 2px;
+    border-color: #5D80FF;
+    border-radius: 12px;
+    padding: 0.5rem;
+    margin: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+}
+
+.switch {
+    width: 13.5rem;
+}
