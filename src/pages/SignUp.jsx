@@ -40,58 +40,6 @@ function SignUp () {
 
           </div>
 
-
-          
-      
-                {/* <div>
-                  <h2>HELLO</h2>
-                <div>
-                    <img  alt="Your Company"/>
-                    <h2>Register for Account</h2>
-            </div>
-
-            <div>
-                <form action="#" method="POST">
-            <div>
-                <label for="email">Email address</label>
-                <div>
-                  <input type="email" name="email" id="email" autocomplete="email" required/>
-                </div>
-              </div>
-              <div>
-                <label for="email">Name</label>
-                <div>
-                  <input type="name" name="name" id="name" autocomplete="name" required/>
-                </div>
-              </div>
-
-              <div>
-                <div>
-                  <label for="password">Create a Password</label>
-                </div>
-                <div>
-                  <input type="password" name="password" id="password" autocomplete="current-password" required/>
-                </div>
-                
-                <div class="mt-2">
-                <label for="password">Confirm Password</label>
-                  <input type="password" name="password" id="confirmpassword" autocomplete="current-password" required/>
-                </div>
-                
-              </div>
-
-              <div>
-                <button type="submit">Sign Up</button>
-              </div>
-            </form>
-
-            <p>
-              Already a Member? 
-              <Link to="/login">Login</Link>
-            </p>
-          </div>
-        </div> */}
-
       </div>
     );
 }
