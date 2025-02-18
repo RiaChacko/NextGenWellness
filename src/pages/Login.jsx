@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/login-logo.png";
 import "../pages/Login.css";
+import googlelogo from "../assets/google-lg.png";
 function Login () {
   return(
     <div className="entire-page-l">
@@ -35,7 +36,12 @@ function Login () {
               {/* <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input> */}
             </div>
             <button type="submit" className="center-l create-account-l">LOGIN</button>
-            
+            {/* <div className="sign-in-google">
+              <img src={googlelogo}/>
+              
+            </div> */}
+            <button type="submit" className="center-l create-account-l">Sign in with Google</button>
+           
           </form>
 
         </div>
