@@ -63,7 +63,8 @@ button {
 .log:hover {
     background-color: rgb(255, 93, 163);
     border-color: rgb(255, 93, 163);
-    color: #17161F
+    color: #17161F;
+    cursor: pointer;
 }
 
 .create-account {
