@@ -63,7 +63,8 @@ button {
 .log:hover {
     background-color: rgb(255, 93, 163);
     border-color: rgb(255, 93, 163);
-    color: #17161F
+    color: #17161F;
+    cursor: pointer;
 }
 
 .create-account {
@@ -99,4 +100,26 @@ input {
 
 .switch {
     width: 13.5rem;
+}
+
+.google-section-s {
+    margin: 0px;
+    padding: 0px;
+}
+
+.google-section-s:hover {
+    color: rgb(133, 133, 133);
+}
+
+.google-s {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    background-color: #17161F;
+}
+
+#google-img {
+    padding: 0px;
+    margin: 0px;
 }

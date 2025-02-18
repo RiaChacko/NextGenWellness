@@ -1,6 +1,7 @@
 import logo from "../assets/welcome-to.svg";
 import { Link } from "react-router-dom";
 import "../pages/SignUp.css";
+import google from "../assets/google-lg.png";
 
 
 function SignUp () {
@@ -25,72 +26,33 @@ function SignUp () {
 
           <div className="text-input center">
             <form action="/submit" method="POST">
+
               <div className="center">
                 <input type="name" name="name" id="name" placeholder="Name" size={40} required></input>
               </div>
+
               <div className="center">
                 <input type="email" name="email" id="email" placeholder="Email" size={40} required></input>
               </div>
+
               <div>
                 <input type="password" name="password" id="password" placeholder="Password" size={17} required></input>
                 <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input>
               </div>
+
               <button type="submit" className="center create-account">CREATE ACCOUNT</button>
+              
+              <div className="center google-section-s">
+                <button type="submit" className="google-s">
+                  <img id="google-img" src={google}  style={{ width: "2rem", height: "auto" }}></img> 
+                  Sign up with Google</button> 
+              </div>
+                      
             </form>
+            
+           
 
           </div>
-
-
-          
-      
-                {/* <div>
-                  <h2>HELLO</h2>
-                <div>
-                    <img  alt="Your Company"/>
-                    <h2>Register for Account</h2>
-            </div>
-
-            <div>
-                <form action="#" method="POST">
-            <div>
-                <label for="email">Email address</label>
-                <div>
-                  <input type="email" name="email" id="email" autocomplete="email" required/>
-                </div>
-              </div>
-              <div>
-                <label for="email">Name</label>
-                <div>
-                  <input type="name" name="name" id="name" autocomplete="name" required/>
-                </div>
-              </div>
-
-              <div>
-                <div>
-                  <label for="password">Create a Password</label>
-                </div>
-                <div>
-                  <input type="password" name="password" id="password" autocomplete="current-password" required/>
-                </div>
-                
-                <div class="mt-2">
-                <label for="password">Confirm Password</label>
-                  <input type="password" name="password" id="confirmpassword" autocomplete="current-password" required/>
-                </div>
-                
-              </div>
-
-              <div>
-                <button type="submit">Sign Up</button>
-              </div>
-            </form>
-
-            <p>
-              Already a Member? 
-              <Link to="/login">Login</Link>
-            </p>
-          </div>
-        </div> */}
 
       </div>
     );
