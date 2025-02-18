@@ -1,149 +1,112 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
-* {
+
+.entire-page-l {
+    background-color: #17161F;
+    color: white;
+    height: 100rem;
+    font-size: 0.8rem;
+}
+
+.center-l img {
+    width: 14rem;
+    margin: 3rem
+}
+
+.center-l {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.center-l input{
+    border-color: #FF5DA3;
+}
+
+.pink-l {
+    color: #FF5DA3;
+}  
+
+.blue-l {
+    color: #5D80FF;
+}
+
+.title-l {
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+button {
+    background-color: rgb(255, 104, 104);
+    padding: 0.5rem;
+    margin: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+    border-radius: 12px;
+}
+
+.log-l {
+    background-color: #FF5DA3;
+    /* background-color:#5D80FF; */
+    border-color:#FF5DA3;
+    border-width: 3px;
+    color: #17161F;
+    /* color: #5D80FF; */
+    font-weight: bold;
+    transition: all 1s;
+
+}
+
+.sign-l {
+    background-color:  rgb(93, 128, 255, 0);
+    /* background-color: rgb(255, 93, 163, 0.2); */
+    border-color:#5D80FF;
+    border-width: 3px;
+    color: #5D80FF;
+    font-weight: bold;
+    transition: all 1s;
+    
+}
+
+.sign-l:hover {
+    background-color: #5D80FF;
+    border-color: #5D80FF;
+    color: #17161F;
+    cursor: pointer;
+}
+
+.create-account-l {
+    background-color: #FF5DA3;
+    border-color:#FF5DA3;
+    border-width: 3px;
+    color: #17161F;
+    font-weight: bold;
+    margin-top: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.create-account-l:hover {
+    background-color: rgba(93, 128, 255, 0.398);
+    border-color:rgb(93, 128, 255, 0.8);
+    color: rgb(144, 168, 255);
+    border-width: 0px;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    cursor: pointer;
+}
+
+input {
+    border-width: 2px;
+    border-color: #5D80FF;
+    border-radius: 12px;
+    padding: 0.5rem;
+    margin: 1rem;
     font-family: 'Lexend Mega', sans-serif;
 }
 
-.entire-pg{
-    width: 100%;
-    height: 100rem;
-    background-color: #17161F;
+.switch-l {
+    width: 13.5rem;
 }
-
-.logo-title{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
-
-.top-header-form img{
-    margin-bottom: 1rem;
-}
-
-.top-header-form{
-    padding-top: 4rem;
-    margin-bottom: 1rem;
-   
-}
-.nextgen{
-    color: #FF5DA3;
-
-}
-.wellness{
-    color: #5D80FF;
-    
-}
-
-.buttons{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-}
-.buttons button{
-    text-align: center;
-    padding: auto;
-    background-color: transparent;
-    border: solid #5D80FF .3rem;
-    width: 15rem;
-    height: 3.5rem;
-    border-radius: .5rem;
-    color: #5D80FF;
-    font-size: 1.3rem;
-    transition: all .5s;
-}
-
-.buttons button:hover{
-    background-color: #5D80FF;
-    color: #17161F;
-    cursor: pointer;
-    
-}
-.buttons #selected{
-    background-color: #ff5da376;
-
-    border: solid #FF5DA3 .2rem;
-    color: #17161F;
-}
-.top-header-form img{
-    width: 15rem;
-    height: auto;
-}
-
-.top-header-form h2{
-   color: #FF5DA3;
-   text-align: center;
-   font-size: 62px;
-}
-.top-header-form #blue{
-    color: #5D80FF;
-    text-align: center;
-    font-size: 62px;
- }
-
- .form-field{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-   /* position: relative;
-    width: 35%;
-    height: auto;
-    left: 35rem; */
-   
-    margin-top: 1rem;
-   
-    
- }
-
- .form-field :placeholder-shown{
-    color: #D5D5D5;
- }
-
- .form-field input{
-    border: solid #FF5DA3 .1rem;
-    border-radius: 1.2rem;
-    background-color: transparent;
-    box-shadow: none;
-    outline: none;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: .7rem;
-    padding-bottom: .7rem;
-    width: 35rem;
- }
-
- .forgot-pass{
-    display: flex;
-    align-items: center;
-    justify-content: end;
-   
- }
- .forgot-pass a{
-    color: #5D80FF;
-    padding-right: 1rem;
-   
- }
-
- .login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
- }
-
- .login-button{
-
-    margin-top: 1rem;
-    width: 221px;
-    height: 51px;
-    background-color: #FF5DA3;
-    border-radius: 1rem;
-    /* position: relative;
-    left: 12rem; */
-    font-size: 1.3rem;
- }
- .sign-up-link{
-    color: #5D80FF;
- }
