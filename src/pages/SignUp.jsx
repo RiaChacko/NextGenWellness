@@ -1,10 +1,132 @@
-import logo from "../assets/welcome-to.svg";
-import { Link } from "react-router-dom";
+// Importing necessary libraries and functionality  
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth, db } from "./firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+
+// Importing logos
+import logo from "../assets/welcome-to.svg";;
+import googleLogo from "../assets/google-lg.png";
+
 import "../pages/SignUp.css";
 import google from "../assets/google-lg.png";
 
-
+// Implements signup functionality 
 function SignUp () {
+
+
+  // Setting variable to store input values onclick
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleSignupEmailPassword = async (e) => {
+    e.preventDefault();
+    setShowAlert(false);
+    setErrorMessage("");
+
+    // Checks the email/password/name fields for valid input
+    if (!name && !email && !password && !confirmPassword) {
+      setErrorMessage("Please fill in all fields.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!name) {
+      setErrorMessage("Please fill in name field.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!email) {
+      setErrorMessage("Please fill in email field.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!password) {
+      setErrorMessage("Please fill in password field.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!confirmPassword) {
+      setErrorMessage("Please fill in password confirmation fields.");
+      setShowAlert(true);
+      return;
+    }
+
+    // Checks if password input matches actual password
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      setShowAlert(true);
+      return;
+    }
+
+
+    // Configuration of firebase database
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+
+      // Firebase sends email to user based on input
+      await sendEmailVerification(userCredential.user);
+
+      // Adding credentials to ‘users’ doc w/ standard signin
+      await setDoc(doc(db, "users", userCredential.user.uid), {
+        userId: userCredential.user.uid,
+        name: name,
+        email: email,
+        signupMethod: "email/password",
+        createdAt: serverTimestamp(),
+      });
+
+      // Redirects user to dashboard page
+      navigate("/dashboard");
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    setShowAlert(false);
+    setErrorMessage("");
+
+    // Implementing ‘signup with google’ feature for simplicity
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      // Adding credentials to ‘users’ doc w/ google signin
+      await setDoc(doc(db, "users", user.uid), {
+        userId: user.uid,
+        name: user.displayName || "",
+        email: user.email,
+        signupMethod: "google",
+        createdAt: serverTimestamp(),
+      });
+
+      // Redirects user to dashboard page
+      navigate("/dashboard");
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+
+
+    // Rendering display elements on page
     return(
       <div className="entire-page">
           <div className="center">
@@ -43,7 +165,7 @@ function SignUp () {
               <button type="submit" className="center create-account">CREATE ACCOUNT</button>
               
               <div className="center google-section-s">
-                <button type="submit" className="google-s">
+                <button onClick={handleGoogleSignUp} className="google-s">
                   <img id="google-img" src={google}  style={{ width: "2rem", height: "auto" }}></img> 
                   Sign up with Google</button> 
               </div>
