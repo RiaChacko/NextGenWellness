@@ -1,8 +1,79 @@
-import { Link } from "react-router-dom";
+// Importing necessary libraries and functionality
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "./firebaseConfig";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
+// Importing logos
 import logo from "../assets/login-logo.png";
 import "../pages/Login.css";
 import googlelogo from "../assets/google-lg.png";
+
+// Implements login functionality
 function Login () {
+
+
+  // Setting variable to store input values onclick
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleEmailSignIn = async (e) => {
+    e.preventDefault();
+    setShowAlert(false);
+    setErrorMessage("");
+
+    // Checks email and password fields for valid input
+    if (!email && !password) {
+      setErrorMessage("Please fill in both email and password.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!email) {
+      setErrorMessage("Please fill in email field.");
+      setShowAlert(true);
+      return;
+    }
+    else if (!password) {
+      setErrorMessage("Please fill in password field.");
+      setShowAlert(true);
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      // Redirects user to dashboard page
+      navigate("/dashboard");
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+
+  // Implementing ‘login with google’ feature for ease
+  const handleGoogleSignIn = async () => {
+    setShowAlert(false);
+    setErrorMessage("");
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+      
+      // Redirects user to dashboard page
+      navigate("/dashboard");
+    } catch (error) {
+      setErrorMessage(error.message);
+      setShowAlert(true);
+    }
+  };
+  
   return(
     <div className="entire-page-l">
         <div className="center-l">
@@ -40,7 +111,12 @@ function Login () {
               <img src={googlelogo}/>
               
             </div> */}
-            <button type="submit" className="center-l create-account-l">Sign in with Google</button>
+            <div className="center google-section-s">
+            <button onClick={handleGoogleSignIn} className="google-s">
+              <img id="google-img" src={googlelogo}  style={{ width: "2rem", height: "auto" }}></img>
+              Sign in with Google</button>
+            </div>
+            
            
           </form>
 
