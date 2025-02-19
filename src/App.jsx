@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Profile from './pages/Profile.jsx';
 import GoalSetting from './pages/GoalSetting.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/goals' element={<GoalSetting/>}/>
+          <Route path='/forgot-password' element={<ForgotPassword/>}/>
         </Routes>
 
       </Router>
