@@ -106,7 +106,17 @@ function Login () {
               <input type="password" name="password" id="password" placeholder="Password" size={40} required></input>
               {/* <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input> */}
             </div>
-            <button type="submit" className="center-l create-account-l">LOGIN</button>
+            <div className="flex justify-between items-center mt-4">
+            <button type="submit" className="create-account-l">
+              LOGIN
+            </button>
+            <Link
+              to="/forgot-password"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
             {/* <div className="sign-in-google">
               <img src={googlelogo}/>
               
