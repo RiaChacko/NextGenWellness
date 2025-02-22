@@ -5,7 +5,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 
 
 import logo from "../assets/welcome-to.svg";
-import "../pages/SignUp.css";
+import "../pages/ForgotPassword.css";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -78,7 +78,7 @@ function ForgotPassword() {
         )}
       </div>
 
-      <div className="center">
+      <div className="center google-section-s">
         <Link to="/signup">Don't have an account? Sign up</Link>
       </div>
     </div>
