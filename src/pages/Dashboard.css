@@ -1,4 +1,4 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -163,4 +163,9 @@
   .activity-time {
     font-size: 14px;
   }
-  
+   */
+
+   .dashboard-container{
+    background-color: #17161F;
+    height: 100rem;
+   }
