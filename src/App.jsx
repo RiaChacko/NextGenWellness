@@ -8,7 +8,7 @@ import Profile from './pages/Profile.jsx';
 import GoalSetting from './pages/GoalSetting.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Questionnaire from './pages/Questionnaire.jsx';
-
+import Navbar from './pages/Navbar.jsx';
 
 function App() {
   
@@ -25,6 +25,7 @@ function App() {
           <Route path='/goals' element={<GoalSetting/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/questionnaire' element={<Questionnaire/>}/>
+          <Route path='/navbar' element={<Navbar/>}/>
         
         </Routes>
 
