@@ -1,1 +1,58 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+.landing-container{
+    background-color: #17161F;
+    height: 100rem;
+}
+
+.navbar{
+    height: 8rem;
+    background-color: #23212e;
+}
+
+.pink-la {
+    color: #FF5DA3;
+}  
+
+.blue-la {
+    color: #5D80FF;
+}
+
+.title-la{
+    font-family: 'Lexend Mega', sans-serif;
+    display: inline-flex;
+}
+
+.logo-name{
+    display: inline-flex;
+    justify-content: start;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem;
+}
+.logo-name img{
+    width: 3rem;
+}
+
+.navbar, .nav-links{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav-links{
+    display: flex;
+    font-family: 'Lexend Mega', sans-serif;
+    color: white;
+    gap: 3rem;
+    padding-right: 3rem;
+}
+
+.main-content-l{
+    font-family: 'Lexend Mega', sans-serif;
+    color: white;
+    display: flex;
+    font-size: 1.5rem;
+    flex-direction: column;
+    
+}

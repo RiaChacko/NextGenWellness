@@ -15,19 +15,19 @@ function Questionnaire() {
   };
 
   const handleWorkoutSelect = (workout) => {
-    // Toggle workout selection
+    
     setSelectedWorkout(selectedWorkout === workout ? "" : workout);
-    setFitnessGoal(""); // Reset fitness goal when new workout is selected or deselected
-    setselectSpecificWorkout(""); // Reset specific workout selection
+    setFitnessGoal(""); 
+    setselectSpecificWorkout(""); 
   };
 
   const handleFitnessGoalSelect = (goal) => {
-    // Toggle fitness goal selection
+    
     setFitnessGoal(fitnessGoal === goal ? "" : goal);
   };
 
   const handleSpecificWorkoutSelect = (specificWorkout) => {
-    // Toggle specific workout selection
+ 
     setselectSpecificWorkout(selectSpecificWorkout === specificWorkout ? "" : specificWorkout);
   };
 
