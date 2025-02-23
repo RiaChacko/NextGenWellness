@@ -1,7 +1,9 @@
+import Navbar from "./Navbar";
+import "../pages/Dashboard.css";
 function Dashboard () {
     return(
-        <div>
-            <h1>Dashboard!</h1>
+        <div className="dashboard-container">
+            <Navbar/>
         </div>
     );
 }

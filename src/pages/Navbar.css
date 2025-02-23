@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
 .n-background {
   background-color: #242330;
   height: 100vh;
@@ -5,5 +7,59 @@
   position: fixed;
   top: 0;
   left: 0;
+  padding-top: 2rem;
 }
 
+.logo-name-d {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 2rem;
+}
+
+.logo-name-d img {
+  width: 3rem;
+}
+
+.pink-da {
+  color: #FF5DA3;
+}
+
+.blue-da {
+  color: #5D80FF;
+}
+
+.title-da {
+  font-family: 'Lexend Mega', sans-serif;
+  display: flex;
+  font-size: 1.2rem;
+  flex-direction: column;
+}
+
+.nav-links-dash {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 5rem;
+  gap: 6rem;
+  font-family: 'Lexend Mega', sans-serif;
+  color: white;
+  padding-left: 2rem;
+}
+
+.nav-links-dash a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+
+
+
+.nav-links-dash a.active {
+  background-color: #413f57; 
+  color: white; 
+  padding: .5rem;
+  border-radius: 5px;
+}
