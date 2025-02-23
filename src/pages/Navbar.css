@@ -1,0 +1,9 @@
+.n-background {
+  background-color: #242330;
+  height: 100vh;
+  width: 16vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
