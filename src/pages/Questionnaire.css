@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
+.entire-page-q {
+    background-color: #17161F;
+    color: white;
+    height: 100rem;
+    font-size: 0.8rem;
+}
+
+.center-q img {
+    width: 14rem;
+    margin: 3rem
+}
+
+.center-q {
+    display: flex;
+    justify-content: right;
+    padding: 2rem;
+}
+
+.pink-q {
+    color: #FF5DA3;
+}  
+
+.blue-q {
+    color: #5D80FF;
+}
+
+.title-q {
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+.title2{
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    margin-left: 5rem;
+}
+.whole-content{
+    margin-left: 5rem;
+}
+.whole-content h3{
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 1rem;
+}
+.gender-choices{
+    display: inline-flex;
+    gap: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.gender-choices button{
+    margin: 0;
+    width: 15rem;
+    height: 3.2rem;
+    text-align: center;
+    font-size: 1rem;
+    padding: auto;
+}
+.female{
+    background-color: #17161F;
+    border: .2rem solid #FF5DA3;
+    color: #FF5DA3;
+    transition: all 1ms;
+}
+
+.male{
+    background-color: #17161F;
+    border: .2rem solid #5D80FF;
+    color: #5D80FF;
+    transition: all 1ms;
+}
+.prefer{
+    background-color: #17161F;
+    border: .2rem solid #915DFF;
+    color: #915DFF;
+    transition: all 1ms;
+}
+.female:hover{
+    cursor: pointer;
+}
+.male:hover{
+    cursor: pointer;
+}
+.prefer:hover{
+    cursor: pointer;
+}
+
+.f-selected{
+    background-color: #FF5DA3;
+    color: #17161F;
+    cursor: pointer;
+}
+
+
+.m-selected{
+    background-color: #5D80FF;
+    color: #17161F;
+    cursor: pointer;
+}
+.p-selected{
+    background-color: #915DFF;
+    color: #17161F;
+    cursor: pointer;
+}
+
+.bio-metrics{
+
+}
+/* button {
+    background-color: rgb(255, 104, 104);
+    padding: 0.5rem;
+    margin: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+    border-radius: 12px;
+}
+
+.google-section-s {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Lexend Mega', sans-serif;
+}
+
+.google-section-s:hover {
+    color: rgb(133, 133, 133);
+}
+
+.google-s {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    background-color: #17161F;
+}
+
+button {
+    background-color: rgb(255, 104, 104);
+    padding: 0.5rem;
+    margin: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+    border-radius: 12px;
+}
+
+.text-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .text-input form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .text-input button {
+    margin-top: 10px;
+  }
+  
+  .text-input p {
+    text-align: center;
+    width: 100%;
+  } */
