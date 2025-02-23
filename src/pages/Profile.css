@@ -1,2 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
 
+.profile-container {
+  display: flex;
+  height: 100vh;
+  background-color: #242330;
+  overflow: hidden;
+}
 
+.profile-page {
+  flex-grow: 1;
+  margin-left: 30rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #242330;
+}
+
+.profile-content {
+  display: flex;
+  gap: 50px;
+}
+
+.profile-card {
+  background-color: #242330;
+  margin-top: 3rem;
+  margin-left: -20rem;
+  margin-right: 5rem;
+  border-radius: 20px;
+  width: 15rem;
+  height: 40rem;
+  text-align: center;
+  color: white;
+}
+
+.profile-image {
+  width: 100%;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-card h2 {
+  font-size: 24px;
+  font-family: 'Lexend Mega', sans-serif;
+  margin: 10px 0;
+}
+
+.profile-card p {
+  font-size: 16px;
+  font-family: 'Lexend Mega', sans-serif;
+  color: #ddd;
+  margin-bottom: 20px;
+}
+
+button {
+  font-family: 'Lexend Mega', sans-serif;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: 2px solid #5D80FF;
+  color: #5D80FF;
+  margin-top: 14rem;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background-color: #5D80FF;
+  color: white;
+}
+
+.delete-button {
+  background-color: transparent;
+  border: 2px solid #FF5D5D;
+  color: #FF5D5D;
+  width: 100%;
+}
+
+.delete-button:hover {
+  background-color: #FF5D5D;
+  color: white;
+}
+
+.edit-profile-card {
+  margin-top: 3rem;
+  background-color: #2A2937;
+  border-radius: 20px;
+  padding: 3rem;
+  width: 40vw;
+  height: 85vh;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.edit-profile-title {
+  color: #FF5DA3;
+  font-size: 1.5rem;
+  font-family: 'Lexend Mega', sans-serif;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  font-size: 0.8rem;
+  font-family: 'Lexend Mega', sans-serif;
+  color: #FF5DA3;
+  margin-bottom: 0.1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background-color: #1C1B25;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  color: white;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+.change-button {
+  align-self: flex-start;
+  background-color: transparent;
+  border: 2px solid #5D80FF;
+  color: #5D80FF;
+  width: 11rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.55rem;
+  font-family: 'Lexend Mega', sans-serif;
+  margin-left: 18rem;
+  margin-top: -0.2rem;
+  margin-bottom: -1rem;
+}
+
+.change-button:hover {
+  background-color: #5D80FF;
+  color: white;
+}
