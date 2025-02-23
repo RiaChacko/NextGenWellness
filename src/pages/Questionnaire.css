@@ -106,7 +106,22 @@
 }
 
 .bio-metrics{
+    margin-top: 2rem;
+    display: inline-flex;
+    gap: 4rem;
+    margin-bottom: 2rem;
 
+}
+.bio-metrics label{
+    font-family: 'Lexend Mega', sans-serif;
+
+}
+.bio-metrics input{
+    width: 15rem;
+    height: 3.2rem;
+    margin: 0;
+    border: .2rem solid #5D80FF;
+   
 }
 /* button {
     background-color: rgb(255, 104, 104);
@@ -165,3 +180,124 @@ button {
     text-align: center;
     width: 100%;
   } */
+  .workout-choices{
+    display: inline-flex;
+    gap: 4rem;
+    margin-top: 2rem;
+  
+  }
+
+  .workout-choices button{
+    margin: 0;
+  }
+
+  .workout-button {
+    width: 15rem;
+    height: 3.2rem;
+    text-align: center;
+    font-size: 1rem;
+    padding: auto;
+    background-color: #17161F;
+    border: .2rem solid #5D80FF;
+    color: #5D80FF;
+    transition: all 1s;
+}
+
+.workout-button:hover {
+    cursor: pointer;
+    background-color: #5D80FF;
+    color: #17161F;
+}
+
+.selected {
+    background-color: #5D80FF;
+    color: #17161F;
+}
+
+.specific-workouts{
+    margin-bottom: 2rem;
+    margin-top: 3rem;
+ 
+    
+}
+
+
+.fitness-goals-container {
+   
+    margin-top: 2rem;
+    /* background-color: #ff5da370; */
+    /* position: absolute;
+    left: 65rem;
+    top: 25%; */
+    margin-left: 0;
+    
+    padding-left: 0;
+    width: max-content;
+    border-radius: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+}
+
+.goal-button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    width: 15rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #17161F;
+    color: #5D80FF;
+    border: .2rem solid #5D80FF;
+    transition: all 1s;
+    margin-left: 0;
+   
+}
+
+.specific-w-button{
+    margin-top: 1rem;
+    padding: 0.5rem;
+    width: 15rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #17161F;
+    color: #5D80FF;
+    border: .2rem solid #5D80FF;
+    transition: all 1s;
+    margin-left: 0;
+}
+
+.goal-button:hover {
+    cursor: pointer;
+    background-color: #5D80FF;
+    color: #17161F;
+}
+
+.goal-selected {
+    background-color: #5D80FF;
+    color: #17161F;
+}
+.specific-w-button-selected{
+    background-color: #5D80FF;
+    color: #17161F;
+    cursor: pointer;
+}
+/* 
+.fitness-goals-container input {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    width: 30rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #17161F;
+    color: white;
+    border: 1px solid #5D80FF;
+}
+
+.fitness-goals-container input:focus {
+    outline: none;
+    border-color: #FF5DA3;
+} */
+
+.pink-n {
+    border: .3rem #FF5DA3 solid;
+    position: relative;
+    left: 80rem;
+}
