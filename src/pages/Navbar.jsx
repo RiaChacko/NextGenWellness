@@ -1,6 +1,7 @@
 import "../pages/Navbar.css";
 import svglogod from "../assets/Icon.svg";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
  
@@ -28,27 +29,29 @@ function Navbar() {
         >
           DASHBOARD
         </a>
-        <a
-          href="/log-new-workout"
+        <Link to="/log-new-workout"><a
           onClick={() => handleTabSelect("log-new-workout")}
           className={activeTab === "log-new-workout" ? "active" : ""}
         >
           LOG NEW WORKOUT
         </a>
+        </Link>
+        <Link to="/motivation">
         <a
-          href="/motivation"
           onClick={() => handleTabSelect("motivation")}
           className={activeTab === "motivation" ? "active" : ""}
         >
           MOTIVATION
         </a>
+        </Link>
+        <Link to="/profile">
         <a
-          href="/profile"
           onClick={() => handleTabSelect("profile")}
           className={activeTab === "profile" ? "active" : ""}
         >
           PROFILE
         </a>
+        </Link>
       </div>
     </div>
   );
