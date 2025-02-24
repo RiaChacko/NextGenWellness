@@ -8,15 +8,27 @@ function Questionnaire() {
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");
   const [selectedWorkouts, setSelectedWorkouts] = useState([]);
+  const [selectedWorkoutType, setSelectedWorkoutType] = useState("");
 
-  // Separate goals for each workout type
-  const [cardioGoals, setCardioGoals] = useState([]);
-  const [strengthGoals, setStrengthGoals] = useState([]);
-  const [yogaGoals, setYogaGoals] = useState([]);
+  const [cardioGoals, setCardioGoals] = useState({
+    targetTime: "",
+    targetSpeed: "",
+    targetDistance: "",
+  });
+  const [strengthGoals, setStrengthGoals] = useState({
+    targetTime: "",
+    targetSpeed: "",
+    targetDistance: "",
+  });
+  const [yogaGoals, setYogaGoals] = useState({
+    targetTime: "",
+    targetSpeed: "",
+    targetDistance: "",
+  });
 
-  const cardioGoalsList = ["Run 5K", "Lose Weight", "Improve Endurance"];
-  const strengthGoalsList = ["Build Muscle", "Increase Strength", "Tone Body"];
-  const yogaGoalsList = ["Improve Flexibility", "Reduce Stress", "Improve Posture"];
+//   const cardioGoalsList = ["Run 5K", "Lose Weight", "Improve Endurance"];
+//   const strengthGoalsList = ["Build Muscle", "Increase Strength", "Tone Body"];
+//   const yogaGoalsList = ["Improve Flexibility", "Reduce Stress", "Improve Posture"];
 
   const handleGenderSelect = (selectedGender) => {
     setGender(selectedGender);
@@ -26,23 +38,27 @@ function Questionnaire() {
     setSelectedWorkouts((prev) =>
       prev.includes(workout) ? prev.filter((item) => item !== workout) : [...prev, workout]
     );
+    setSelectedWorkoutType(workout);
   };
 
-  const handleFitnessGoalSelect = (goal, workoutType) => {
-    if (workoutType === "cardio") {
-      setCardioGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    } else if (workoutType === "strength") {
-      setStrengthGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    } else if (workoutType === "yoga") {
-      setYogaGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    }
-  };
+//   const handleFitnessGoalSelect = (goal, workoutType) => {
+//     if (workoutType === "CARDIO") {
+//       setCardioGoals((prev) => ({
+//         ...prev,
+//         [goal]: !prev[goal],
+//       }));
+//     } else if (workoutType === "STRENGTH") {
+//       setStrengthGoals((prev) => ({
+//         ...prev,
+//         [goal]: !prev[goal],
+//       }));
+//     } else if (workoutType === "YOGA") {
+//       setYogaGoals((prev) => ({
+//         ...prev,
+//         [goal]: !prev[goal],
+//       }));
+//     }
+//   };
 
   return (
     <div className="entire-page-q">
@@ -98,66 +114,159 @@ function Questionnaire() {
 
         <h3>SELECT YOUR WORKOUT(S):</h3>
         <div className="workout-choices">
-          {["cardio", "strength", "yoga"].map((workout) => (
-            <button
-              key={workout}
-              className={`workout-button ${selectedWorkouts.includes(workout) ? "selected" : ""}`}
-              onClick={() => handleWorkoutSelect(workout)}
-            >
-              {workout.charAt(0).toUpperCase() + workout.slice(1)}
-            </button>
-          ))}
+          <div className="specific-workout-s">
+            <h4>CARDIO:</h4>
+            {["RUN", "WALK", "STAIRMASTER"].map((workout) => (
+              <button
+                key={workout}
+                className={`workout-button ${selectedWorkouts.includes(workout) ? "selected" : ""}`}
+                onClick={() => handleWorkoutSelect(workout)}
+              >
+                {workout}
+              </button>
+            ))}
+          </div>
+
+          <div className="specific-workout-s">
+            <h4>STRENGTH TRAINING:</h4>
+            {["SQUATS", "BENCHPRESS", "PULLUPS"].map((workout) => (
+              <button
+                key={workout}
+                className={`workout-button ${selectedWorkouts.includes(workout) ? "selected" : ""}`}
+                onClick={() => handleWorkoutSelect(workout)}
+              >
+                {workout}
+              </button>
+            ))}
+          </div>
+
+          <div className="specific-workout-s">
+            <h4>YOGA:</h4>
+            {["VINYASA", "HATHA", "POWER"].map((workout) => (
+              <button
+                key={workout}
+                className={`workout-button ${selectedWorkouts.includes(workout) ? "selected" : ""}`}
+                onClick={() => handleWorkoutSelect(workout)}
+              >
+                {workout}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Fitness Goals container appears when any workouts are selected */}
-        {(selectedWorkouts.length > 0) && (
+ 
+        {selectedWorkouts.length > 0 && (
           <div className="fitness-goals-container">
-            {selectedWorkouts.includes("cardio") && (
+            {selectedWorkouts.includes("RUN") || selectedWorkouts.includes("WALK") || selectedWorkouts.includes("STAIRMASTER") ? (
               <div className="fitness-goal-section">
-                <h3>Fitness Goals for Cardio:</h3>
-                {cardioGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${cardioGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "cardio")}
-                  >
-                    {goal}
-                  </button>
-                ))}
+                <h3>SET GOALS FOR CARDIO:</h3>
+                <form>
+                  <div>
+                    <label>Target Time:</label>
+                    <input
+                      type="number"
+                      placeholder="e.g., 30"
+                      value={cardioGoals.targetTime || ""}
+                      onChange={(e) => setCardioGoals({ ...cardioGoals, targetTime: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Target Speed:</label>
+                    <input
+                      type="number"
+                      placeholder="e.g., 8"
+                      value={cardioGoals.targetSpeed || ""}
+                      onChange={(e) => setCardioGoals({ ...cardioGoals, targetSpeed: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Target Distance:</label>
+                    <input
+                      type="number"
+                      placeholder="e.g., 5"
+                      value={cardioGoals.targetDistance || ""}
+                      onChange={(e) => setCardioGoals({ ...cardioGoals, targetDistance: e.target.value })}
+                    />
+                  </div>
+                </form>
               </div>
-            )}
-            {selectedWorkouts.includes("strength") && (
+            ) : null}
+
+            {selectedWorkouts.includes("SQUATS") || selectedWorkouts.includes("BENCHPRESS") || selectedWorkouts.includes("PULLUPS") ? (
               <div className="fitness-goal-section">
-                <h3>Fitness Goals for Strength:</h3>
-                {strengthGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${strengthGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "strength")}
-                  >
-                    {goal}
-                  </button>
-                ))}
+                <h3>SET GOALS FOR STRENGTH TRAINING:</h3>
+                <form>
+                  <div>
+                    <label>Target Time:</label>
+                    <input
+                      type="number"
+                      placeholder="Ex: 80 kg"
+                      value={strengthGoals.targetTime || ""}
+                      onChange={(e) => setStrengthGoals({ ...strengthGoals, targetTime: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Lift Amount:</label>
+                    <input
+                      type="number"
+                      placeholder="Ex: 4"
+                      value={strengthGoals.targetSpeed || ""}
+                      onChange={(e) => setStrengthGoals({ ...strengthGoals, targetSpeed: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Target Sets/Reps:</label>
+                    <input
+                      type="text"
+                      placeholder="Ex: 3 sets of 10 reps"
+                      value={strengthGoals.targetDistance || ""}
+                      onChange={(e) => setStrengthGoals({ ...strengthGoals, targetDistance: e.target.value })}
+                    />
+                  </div>
+                </form>
               </div>
-            )}
-            {selectedWorkouts.includes("yoga") && (
+            ) : null}
+
+            {selectedWorkouts.includes("VINYASA") || selectedWorkouts.includes("HATHA") || selectedWorkouts.includes("POWER") ? (
               <div className="fitness-goal-section">
-                <h3>Fitness Goals for Yoga:</h3>
-                {yogaGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${yogaGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "yoga")}
-                  >
-                    {goal}
-                  </button>
-                ))}
+                <h3>SET GOALS FOR YOGA:</h3>
+                <form>
+                  <div>
+                    <label>Target Time:</label>
+                    <input
+                      type="number"
+                      placeholder="Ex: 30 minutes"
+                      value={yogaGoals.targetTime || ""}
+                      onChange={(e) => setYogaGoals({ ...yogaGoals, targetTime: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Target Frequency:</label>
+                    <input
+                      type="number"
+                      placeholder="e.g., 3 times a week"
+                      value={yogaGoals.targetSpeed || ""}
+                      onChange={(e) => setYogaGoals({ ...yogaGoals, targetSpeed: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label>Target Poses:</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Warrior II Pose"
+                      value={yogaGoals.targetDistance || ""}
+                      onChange={(e) => setYogaGoals({ ...yogaGoals, targetDistance: e.target.value })}
+                    />
+                  </div>
+                </form>
               </div>
-            )}
+            ) : null}
           </div>
         )}
       </div>
-     <Link to="/dashboard"> <button className="pink-n">Next</button></Link>
+      <Link to="/dashboard">
+        <button className="pink-n">NEXT</button>
+      </Link>
     </div>
   );
 }
