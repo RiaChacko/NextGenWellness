@@ -147,19 +147,19 @@ function SignUp () {
           </div>
 
           <div className="text-input center">
-            <form action="/submit" method="POST">
+            <form onSubmit={handleSignupEmailPassword}>
 
               <div className="center">
-                <input type="name" name="name" id="name" placeholder="Name" size={40} required></input>
+                <input type="name" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" size={40} required></input>
               </div>
 
               <div className="center">
-                <input type="email" name="email" id="email" placeholder="Email" size={40} required></input>
+                <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" size={40} required></input>
               </div>
 
               <div>
-                <input type="password" name="password" id="password" placeholder="Password" size={17} required></input>
-                <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input>
+                <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" size={17} required></input>
+                <input type="password" name="password" id="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" size={17} required></input>
               </div>
 
               <button type="submit" className="center create-account">CREATE ACCOUNT</button>
