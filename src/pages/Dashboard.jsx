@@ -53,6 +53,51 @@ function Dashboard () {
                 <div className="steps-count-container">
                     <StepsChart/>
                 </div>
+                <div className="fitness-goals-dashboard">
+                    <h3>Fitness Goals</h3>
+                    <div className="fitness-goals-individual">
+                        <div className="time-card">
+                            <span>10</span>
+                            <span>min</span>
+                        </div>
+                        <div className="goal-name-log">
+                            <h4>ABS& STRETCH</h4>
+                            <span>10 min/day</span>
+                        </div>
+                        <div className="progress-bar-dashboard" style={{ width: '4rem', height: '4rem' }}>
+                            <CircularProgress/>
+                        </div>
+
+                    </div>
+                    <div className="fitness-goals-individual">
+                        <div className="time-card">
+                            <span>10</span>
+                            <span>min</span>
+                        </div>
+                        <div className="goal-name-log">
+                            <h4>ABS& STRETCH</h4>
+                            <span>10 min/day</span>
+                        </div>
+                        <div className="progress-bar-dashboard" style={{ width: '4rem', height: '4rem' }}>
+                            <CircularProgress/>
+                        </div>
+
+                    </div>
+                    <div className="fitness-goals-individual">
+                        <div className="time-card">
+                            <span>10</span>
+                            <span>min</span>
+                        </div>
+                        <div className="goal-name-log">
+                            <h4>ABS& STRETCH</h4>
+                            <span>10 min/day</span>
+                        </div>
+                        <div className="progress-bar-dashboard" style={{ width: '4rem', height: '4rem' }}>
+                            <CircularProgress/>
+                        </div>
+
+                    </div>
+                </div>
             </div>
            
         </div>
