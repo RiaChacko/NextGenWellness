@@ -17,7 +17,7 @@ function Profile () {
     return(
         <div className="profile-container">
             <Navbar />
-            <div className="profile-page">
+            <div className={`profile-page ${deleteAccountConfirmMessage ? 'blur-background' : ''}`}>
                 <div className="profile-content">
                     <div className="profile-card">
                         <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRoHDdcekKSGl-5gzbOJNeVbtgpqdwhljlrkYDIw9I58UA2r81dnE_Pof4_E5IQhzLpM5PMKsKP5OIR4aAZwz8zpg" alt="Profile" className="profile-image" />
