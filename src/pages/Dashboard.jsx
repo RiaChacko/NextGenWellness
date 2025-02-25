@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import "../pages/Dashboard.css";
 import CircularProgress from "./CircularProgressBar";
 import bell from "../assets/bell.svg";
+import StepsChart from "./StepsGraph";
 function Dashboard () {
     return(
         <div className="dashboard-container">
@@ -48,7 +49,9 @@ function Dashboard () {
                     <div className="progress-bar-dashboard">
                         <CircularProgress/>
                     </div>
-                  
+                </div>
+                <div className="steps-count-container">
+                    <StepsChart/>
                 </div>
             </div>
            
