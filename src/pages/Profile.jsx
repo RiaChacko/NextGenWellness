@@ -12,7 +12,10 @@ function Profile () {
                         <h2>BOB ROSS</h2>
                         <p>bobross@gmail.com</p>
                         <button className="logout-button">LOG OUT</button>
-                        <button className="delete-button">DELETE ACCOUNT</button>
+                        <a href='/delete-account'>
+                            <button className="delete-button">DELETE ACCOUNT</button>
+                        </a>
+                        
                     </div>
                     <div className="edit-profile-card">
                         <h2 className="edit-profile-title">EDIT PROFILE</h2>
