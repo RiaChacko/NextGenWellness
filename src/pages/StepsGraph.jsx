@@ -51,7 +51,7 @@ function StepsChart() {
   };
 
   return (
-    <div style={{ width: '90%', margin: 'auto' }}>
+    <div style={{ width: '90%', margin: 'auto'}}>
       <h2 style={{ color: 'white', textAlign: 'center' }}>Steps Measurements</h2>
       <p style={{ color: 'white', textAlign: 'center' }}>You’re walking more than you usually do by this point</p>
       <Bar data={data} options={options} />

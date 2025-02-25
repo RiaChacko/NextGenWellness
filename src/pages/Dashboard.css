@@ -123,3 +123,21 @@
   color: white;
 }
 
+.steps-count-container{
+
+  padding: 2rem;
+  color: white;
+  font-family: 'Lexend Mega', sans-serif;
+  margin: 1rem;
+  background-color: #2b2939;
+  width: 35%;
+  display: flex;
+  gap: 5rem;
+  align-items: center;
+  border-radius: 1rem;
+  position: relative;
+  left: 0rem;
+  height: min-content;
+
+}
+
