@@ -1,7 +1,19 @@
+import React, { useState } from "react";
 import "../pages/Profile.css";
 import Navbar from '../pages/Navbar.jsx';
 
 function Profile () {
+
+    const [deleteAccountConfirmMessage, setDeleteAccountConfirmMessage] = useState(false);
+
+    const handleDeleteClick = () => {
+        setDeleteAccountConfirmMessage(true);
+    }
+
+    const handleCancelClick = () => {
+        setDeleteAccountConfirmMessage(false);
+    }
+
     return(
         <div className="profile-container">
             <Navbar />
@@ -12,9 +24,7 @@ function Profile () {
                         <h2>BOB ROSS</h2>
                         <p>bobross@gmail.com</p>
                         <button className="logout-button">LOG OUT</button>
-                        <a href='/delete-account'>
-                            <button className="delete-button">DELETE ACCOUNT</button>
-                        </a>
+                        <button className="delete-button" onClick={handleDeleteClick}>DELETE ACCOUNT</button>
                         
                     </div>
                     <div className="edit-profile-card">
@@ -41,6 +51,17 @@ function Profile () {
                     </div>
                 </div>
             </div>
+            {deleteAccountConfirmMessage && (
+                <div className="popup-overlay">
+                    <div className="popup">
+                        <p>ARE YOU SURE YOU WANT TO <span className="delete-text">DELETE</span> YOUR ACCOUNT?</p>
+                        <div className="popup-buttons">
+                            <button className="delete-button">DELETE ACCOUNT</button>
+                            <button className="cancel-button" onClick={handleCancelClick}>CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
