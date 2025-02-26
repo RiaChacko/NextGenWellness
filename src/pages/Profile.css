@@ -130,6 +130,7 @@ input[type="password"] {
   color: white;
   margin-bottom: 1rem;
   font-size: 0.8rem;
+  font-family: 'Lexend Mega', sans-serif;
 }
 
 .change-button {
@@ -185,6 +186,7 @@ input[type="password"] {
 /* Popup Text */
 .popup p {
     font-size: 20px;
+    font-family: 'Lexend Mega', sans-serif;
     margin-bottom: 30px;
     color: white;
 }
@@ -248,7 +250,7 @@ input[type="password"] {
   left: -15rem;
   width: 200%;
   height: 100%;
-  background-color: rgba(255, 101, 101, 0.167);
+  /* background-color: rgba(255, 101, 101, 0.167); */
   z-index: 10;
   pointer-events: none;
 }
@@ -270,24 +272,26 @@ input[type="password"] {
 
   .popup {
       background-color: #242330;
-      padding: 40px;
-      border-radius: 20px;
+      padding: 3rem;
+      margin-left: 15rem;
+      border-radius: 1rem;
       text-align: center;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
+      max-width: 43rem;
       color: white;
   }
   
 
   .popup p {
-      font-size: 20px;
+      font-size: 1rem;
       margin-bottom: 30px;
       color: white;
+      font-family: 'Lexend Mega', sans-serif;
   }
   
   .delete-text {
       color: #fc5d5d;
       font-weight: bold;
+      font-family: 'Lexend Mega', sans-serif;
   }
   
  
@@ -299,8 +303,8 @@ input[type="password"] {
   
   .cancel-button {
       background-color: transparent;
-      border: 2px solid #5d5dfc;
-      color: #5d5dfc;
+      border: 2px solid #5D80FF;
+      color: #5D80FF;
       padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
@@ -309,7 +313,7 @@ input[type="password"] {
   }
   
   .cancel-button:hover {
-      background-color: #5d5dfc;
+      background-color: #5D80FF;
       color: white;
   }
   
