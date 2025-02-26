@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "../pages/Dashboard.css";
 import CircularProgress from "./CircularProgressBar";
@@ -7,11 +8,14 @@ import StepsChart from "./StepsGraph";
 import activity from "../assets/activity1.svg";
 import { auth, db } from "./firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 function Dashboard () {
 
     const [user, setUser] = useState(null);
     const [name, setName] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
             const getData = onAuthStateChanged(auth, async (currentUser) => {
@@ -37,6 +41,15 @@ function Dashboard () {
             return () => getData();
         }, []);
 
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/login");
+        } catch (error) {
+            console.error("There was an error signing the user out:", error);
+        }
+    };
+        
     return(
         <div className="dashboard-container">
             <Navbar/>
@@ -61,7 +74,7 @@ function Dashboard () {
                     <i className="fa-solid fa-bell" style={{ color: "white", fontSize: "1.5rem" }}></i>
                     <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i>
                 </div>
-                <button>LOG OUT</button>
+                <button onClick={handleLogout}>LOG OUT</button>
             </div>
             <div className="dashboard-content-space">
                 <div className="dashboard-metrics-container">
