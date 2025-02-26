@@ -3,6 +3,7 @@ import "../pages/Dashboard.css";
 import CircularProgress from "./CircularProgressBar";
 import bell from "../assets/bell.svg";
 import StepsChart from "./StepsGraph";
+import activity from "../assets/activity1.svg";
 function Dashboard () {
     return(
         <div className="dashboard-container">
@@ -95,9 +96,71 @@ function Dashboard () {
                         <div className="progress-bar-dashboard" style={{ width: '4rem', height: '4rem' }}>
                             <CircularProgress/>
                         </div>
-
                     </div>
+                    <button className="metrics-btn">VIEW ALL GOALS</button>
+
                 </div>
+                <div className="recommended-activity-dashboard">
+                    <h3>Recommended Activity</h3>
+                    <div className="recommended-activity-individual">
+                        <div className="icon-activity">
+                            <img src={activity}></img>
+                        </div>
+                        <div className="workout-title-info">
+                            <h4>Workout for Beginners</h4>
+                            <span>Starts from July 18 2025</span>
+                        </div>
+                        <div className="workout-times">
+                            <span>7:00 AM -</span>
+                            <span>9:00 AM -</span>
+                        </div>
+                        
+                    </div>
+                    <div className="recommended-activity-individual">
+                        <div className="icon-activity">
+                            <img src={activity}></img>
+                        </div>
+                        <div className="workout-title-info">
+                            <h4>Workout for Advanced</h4>
+                            <span>Starts from July 25 2025</span>
+                        </div>
+                        <div className="workout-times">
+                            <span>8:00 AM -</span>
+                            <span>10:00 AM -</span>
+                        </div>
+                        
+                    </div>
+                    <div className="recommended-activity-individual">
+                        <div className="icon-activity">
+                            <img src={activity}></img>
+                        </div>
+                        <div className="workout-title-info">
+                            <h4>Morning Yoga</h4>
+                            <span>Starts from Aug 2 2025</span>
+                        </div>
+                        <div className="workout-times">
+                            <span>8:00 AM -</span>
+                            <span>9:00 AM -</span>
+                        </div>
+                        
+                    </div>
+                    <div className="recommended-activity-individual">
+                        <div className="icon-activity">
+                            <img src={activity}></img>
+                        </div>
+                        <div className="workout-title-info">
+                            <h4>Cardio</h4>
+                            <span>Starts from Sept 3 2025</span>
+                        </div>
+                        <div className="workout-times">
+                            <span>7:00 AM -</span>
+                            <span>9:00 AM -</span>
+                        </div>
+                        
+                    </div>
+                   <button className="metrics-btn">VIEW ALL ACTIVITIES</button>
+                </div>
+              
             </div>
            
         </div>

@@ -186,3 +186,52 @@
   padding: .5rem;
 }
 
+.recommended-activity-individual{
+  display: flex;
+  flex-direction: row;
+  color: white;
+  font-family: 'Lexend Mega', sans-serif;
+  gap: 2rem;
+  align-items: center;
+  border-bottom: 1px solid white;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+
+}
+
+.recommended-activity-individual hr{
+  color: white;
+}
+
+.icon-activity{
+  background-color: #ff5da38e;
+  padding: .8rem;
+  border-radius: .3rem;
+}
+
+.recommended-activity-dashboard{
+
+  background-color: #2b2939;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  height: min-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  gap: 2rem;
+  position: relative;
+  margin-top: 2rem;
+  left: 3rem;
+
+}
+
+.workout-times{
+  display: flex;
+  flex-direction: column;
+}
+
+.recommended-activity-dashboard h3{
+  color: white;
+  font-family: 'Lexend Mega', sans-serif;
+}
