@@ -8,7 +8,6 @@ body, html {
   color: #FFFFFF;
 }
 
-/* Overall container using flex for left & right panels */
 .entire-page-q {
   display: flex;
   position: relative;
@@ -18,7 +17,6 @@ body, html {
   box-sizing: border-box;
 }
 
-/* Sticky Top-right corner text */
 .top-right-title {
   position: fixed;
   top: 1rem;
@@ -31,21 +29,18 @@ body, html {
   margin: 0;
 }
 
-/* Main left panel */
 .left-panel {
   width: 60%;
   margin-right: 2rem;
   overflow-y: auto;
 }
 
-/* Main heading */
 .main-title {
   font-size: 2.5rem;
   margin-bottom: 2rem;
   color: #FFFFFF;
 }
 
-/* GENDER SECTION */
 .gender-section {
   margin-bottom: 2rem;
 }
@@ -105,7 +100,6 @@ body, html {
   color: #17161F;
 }
 
-/* Bio Section */
 .bio-section {
   margin-bottom: 2rem;
 }
@@ -128,7 +122,6 @@ body, html {
   font-size: 1rem;
 }
 
-/* WORKOUTS SECTION */
 .workouts-section h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
@@ -144,53 +137,45 @@ body, html {
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
+
 .workout-btn {
   background-color: transparent;
-  border: 2px solid #915DFF;
-  color: #915DFF;
   padding: 0.75rem 1.25rem;
   cursor: pointer;
   font-size: 1.125rem;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
-.workout-btn:hover {
-  background-color: #915DFF;
-  color: #17161F;
+
+.workout-btn.yoga {
+  border: 2px solid #fe5da0;
+  color: #fe5da0;
 }
-.workout-btn.active {
-  background-color: #915DFF;
+.workout-btn.yoga:hover,
+.workout-btn.yoga.active {
+  background-color: #fe5da0;
   color: #17161F;
 }
 
-/* Cardio-specific button overrides */
-.workout-btn.cardio-btn {
-  border-color: #FF5DA3;
-  color: #FF5DA3;
+.workout-btn.strength {
+  border: 2px solid #5c80ff;
+  color: #5c80ff;
 }
-.workout-btn.cardio-btn:hover {
-  background-color: #FF5DA3;
-  color: #17161F;
-}
-.workout-btn.cardio-btn.active {
-  background-color: #FF5DA3;
+.workout-btn.strength:hover,
+.workout-btn.strength.active {
+  background-color: #5c80ff;
   color: #17161F;
 }
 
-/* Yoga-specific button overrides */
-.workout-btn.yoga-btn {
-  border-color: #5D80FF;
-  color: #5D80FF;
+.workout-btn.cardio {
+  border: 2px solid #915cff;
+  color: #915cff;
 }
-.workout-btn.yoga-btn:hover {
-  background-color: #5D80FF;
-  color: #17161F;
-}
-.workout-btn.yoga-btn.active {
-  background-color: #5D80FF;
+.workout-btn.cardio:hover,
+.workout-btn.cardio.active {
+  background-color: #915cff;
   color: #17161F;
 }
 
-/* Sticky Right panel */
 .right-panel {
   position: fixed;
   top: 8rem;
@@ -204,7 +189,6 @@ body, html {
   overflow-y: auto;
 }
 
-/* Form container inside right panel */
 .form-container {
   margin-bottom: 2rem;
 }
@@ -231,7 +215,6 @@ body, html {
   font-size: 1.25rem;
 }
 
-/* Placeholder styling for when no exercise is selected */
 .placeholder {
   display: flex;
   justify-content: center;
@@ -241,7 +224,6 @@ body, html {
   color: #CCCCCC;
 }
 
-/* Submit/Save button */
 .save-button {
   background-color: #FF5DA3;
   border: none;
@@ -255,7 +237,6 @@ body, html {
   opacity: 0.9;
 }
 
-/* Fixed NEXT button (sticky at bottom-right, outside of right panel) */
 .next-btn-fixed {
   position: fixed;
   bottom: 2rem;
