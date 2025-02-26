@@ -1,4 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
 .motivation-pg-container{
     background-color: #17161F;
     height: 100rem;
+}
+
+.motivation-pg-container h2{
+    color: white;
+    font-family: 'Lexend Mega', sans-serif;
+    position: relative;
+    left: 20rem;
+    padding-top: 3rem;
+    font-size: 1.5rem;
+}
+
+.why-motivaton-containers{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: 'Lexend Mega', sans-serif;
+    gap: 2rem;
+    position: relative;
+    margin-top: 2rem;
+    left: 20rem;
+    width: 50%;
+}
+
+.why-container{
+    padding: 1.2rem;
+    background-color: #ff5da38e;
+    border-radius: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.why-container button{
+    display: flex;
+    align-items: center;
+    background-color: #5D80FF;
+}
+
+.motivation-container{
+    padding: 1.2rem;
+    background-color: #ff5da38e;
+    border-radius: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.motivation-container button{
+    background-color: #5D80FF;
 }
