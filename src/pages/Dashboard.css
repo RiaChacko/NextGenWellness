@@ -31,7 +31,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  left: 52rem;
+  left: 30rem;
 }
 
 .metric-header {
@@ -90,10 +90,14 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  left: 58rem;
+  left: 37rem;
   gap: 2rem;
 }
-
+.top-header-dashboard button{
+  position: relative;
+  left: 42rem;
+  background-color: #FF5DA3;
+}
 .dashboard-content-space {
   display: flex;
   justify-content: start;
