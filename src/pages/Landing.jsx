@@ -24,8 +24,8 @@ function Landing() {
                 <div className="nav-links">
                     <a>Home</a>
                     <a>About us</a>
-                    <a>Sign up</a>
-                    <a>Login</a>
+                   <Link to="/signup"><a>Sign up</a></Link> 
+                   <Link to="/login"><a>Login</a></Link> 
                     <a>Contact Us</a>
                 </div>
 
@@ -41,6 +41,7 @@ function Landing() {
                 <Link to="/profile"><a>Profile</a></Link>
                 <Link to="/navbar"><a>Navbar</a></Link>
                 <Link to="/goals"><a>Goals</a></Link>
+                <Link to="/motivation"><a>Motivation</a></Link>
 
             </div>
             {/* <div className="text-3xl font-extrabold underline">
