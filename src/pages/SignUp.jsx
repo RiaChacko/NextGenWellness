@@ -92,7 +92,7 @@ function SignUp () {
       });
 
       // Redirects user to dashboard page
-      navigate("/dashboard");
+      navigate("/questionnaire");
     } catch (error) {
       setErrorMessage(error.message);
       setShowAlert(true);
@@ -118,7 +118,7 @@ function SignUp () {
       });
 
       // Redirects user to dashboard page
-      navigate("/dashboard");
+      navigate("/questionnaire");
     } catch (error) {
       setErrorMessage(error.message);
       setShowAlert(true);
