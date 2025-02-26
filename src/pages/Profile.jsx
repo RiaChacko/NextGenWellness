@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "./firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import "../pages/Profile.css";
 import Navbar from '../pages/Navbar.jsx';
 
 function Profile () {
 
+    const navigate = useNavigate();
+
     const [deleteAccountConfirmMessage, setDeleteAccountConfirmMessage] = useState(false);
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/login");
+        } catch (error) {
+            console.error("There was an error signing the user out:", error);
+        }
+    };
 
     const handleDeleteClick = () => {
         setDeleteAccountConfirmMessage(true);
@@ -79,7 +91,7 @@ function Profile () {
                         />
                         <h2>{name}</h2> 
                         <p>{email}</p>
-                        <button className="logout-button">LOG OUT</button>
+                        <button className="logout-button" onClick={handleLogout}>LOG OUT</button>
                         <button className="delete-button" onClick={handleDeleteClick}>DELETE ACCOUNT</button>
                         
                     </div>
