@@ -52,6 +52,14 @@ function Navbar() {
           PROFILE
         </a>
         </Link>
+        <Link to="/profile">
+        <a
+          onClick={() => handleTabSelect("goal-setting")}
+          className={activeTab === "goal-setting" ? "active" : ""}
+        >
+          GOAL-SETTING
+        </a>
+        </Link>
       </div>
     </div>
   );
