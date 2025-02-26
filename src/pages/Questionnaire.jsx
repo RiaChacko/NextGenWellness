@@ -1,248 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../pages/Questionnaire.css";
 import { Link } from "react-router-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig";
 
 function Questionnaire() {
-  // Personal info states (gender, bio-metrics)
+
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");
 
-  // State to track which workout’s form is open (for the right-side panel)
+  const [workouts, setWorkouts] = useState([]);
+  const [groupedWorkouts, setGroupedWorkouts] = useState({});
+
   const [activeWorkout, setActiveWorkout] = useState(null);
-  // Store the saved goals for each workout (key: workout name, value: data object)
   const [workoutGoals, setWorkoutGoals] = useState({});
-  // Temporary state for form inputs while editing
   const [tempGoals, setTempGoals] = useState({});
 
-  // Define workouts for each category
-  const cardioWorkouts = [
-    "RUN",
-    "WALK",
-    "STAIRMASTER",
-    "CYCLING",
-    "SWIMMING",
-    "ELLIPTICAL",
-    "ROWING",
-    "JUMP ROPE",
-    "HIIT"
-  ];
-  const strengthWorkouts = [
-    "BENCH PRESS",
-    "INCLINE BENCH PRESS",
-    "DUMBBELL CHEST PRESS",
-    "OVERHEAD PRESS",
-    "DUMBBELL SHOULDER PRESS",
-    "DIPS",
-    "PUSH UPS",
-    "PULL UPS",
-    "LAT PULLDOWNS",
-    "BARBELL ROWS",
-    "DUMBBELL ROWS",
-    "SEATED CABLE ROWS",
-    "FACE PULLS",
-    "BICEPS CURLS",
-    "SQUATS",
-    "DEADLIFTS",
-    "LEG PRESS",
-    "LUNGES",
-    "LEG EXTENSIONS",
-    "CALF RAISES"
-  ];
-  const yogaWorkouts = [
-    "VINYASA",
-    "HATHA",
-    "POWER",
-    "YIN",
-    "RESTORATIVE",
-    "ASHTANGA"
-  ];
+  
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      const querySnapshot = await getDocs(collection(db, "workouts"));
+      const workoutsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setWorkouts(workoutsData);
 
-  // Mapping of each exercise to its specific form fields
-  const exerciseAttributes = {
-    // Cardio workouts
-    "RUN": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 30" },
-      { key: "targetDistance", label: "Target Distance (km)", type: "number", placeholder: "e.g., 5" },
-      { key: "targetPace", label: "Target Pace (min/km)", type: "number", placeholder: "e.g., 6" }
-    ],
-    "WALK": [
-      { key: "steps", label: "Steps", type: "number", placeholder: "e.g., 10000" },
-      { key: "duration", label: "Duration (minutes)", type: "number", placeholder: "e.g., 60" }
-    ],
-    "STAIRMASTER": [
-      { key: "duration", label: "Duration (minutes)", type: "number", placeholder: "e.g., 20" },
-      { key: "intensity", label: "Intensity Level", type: "number", placeholder: "e.g., 5" }
-    ],
-    "CYCLING": [
-      { key: "distance", label: "Distance (km)", type: "number", placeholder: "e.g., 20" },
-      { key: "avgSpeed", label: "Average Speed (km/h)", type: "number", placeholder: "e.g., 25" }
-    ],
-    "SWIMMING": [
-      { key: "laps", label: "Laps", type: "number", placeholder: "e.g., 10" },
-      { key: "distance", label: "Distance (meters)", type: "number", placeholder: "e.g., 100" }
-    ],
-    "ELLIPTICAL": [
-      { key: "duration", label: "Duration (minutes)", type: "number", placeholder: "e.g., 30" },
-      { key: "resistance", label: "Resistance Level", type: "number", placeholder: "e.g., 5" }
-    ],
-    "ROWING": [
-      { key: "duration", label: "Duration (minutes)", type: "number", placeholder: "e.g., 20" },
-      { key: "strokes", label: "Strokes per Minute", type: "number", placeholder: "e.g., 30" }
-    ],
-    "JUMP ROPE": [
-      { key: "jumps", label: "Number of Jumps", type: "number", placeholder: "e.g., 200" },
-      { key: "duration", label: "Duration (minutes)", type: "number", placeholder: "e.g., 10" }
-    ],
-    "HIIT": [
-      { key: "rounds", label: "Number of Rounds", type: "number", placeholder: "e.g., 8" },
-      { key: "workInterval", label: "Work Interval (seconds)", type: "number", placeholder: "e.g., 30" },
-      { key: "restInterval", label: "Rest Interval (seconds)", type: "number", placeholder: "e.g., 15" }
-    ],
-    // Strength workouts
-    "BENCH PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 70" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "INCLINE BENCH PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 60" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "DUMBBELL CHEST PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 40" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 12" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "OVERHEAD PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 50" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 8" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "DUMBBELL SHOULDER PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 20" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "DIPS": [
-      { key: "weight", label: "Added Weight (kg)", type: "number", placeholder: "e.g., 0" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 12" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "PUSH UPS": [
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 15" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "PULL UPS": [
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 8" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "LAT PULLDOWNS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 40" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "BARBELL ROWS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 70" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "DUMBBELL ROWS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 25" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "SEATED CABLE ROWS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 50" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "FACE PULLS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 15" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 12" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "BICEPS CURLS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 10" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 12" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "SQUATS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 100" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 8" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "DEADLIFTS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 120" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 5" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "LEG PRESS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 150" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 10" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "LUNGES": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 20" },
-      { key: "reps", label: "Reps per leg", type: "number", placeholder: "e.g., 12" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "LEG EXTENSIONS": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 40" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 15" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    "CALF RAISES": [
-      { key: "weight", label: "Weight (kg)", type: "number", placeholder: "e.g., 50" },
-      { key: "reps", label: "Reps", type: "number", placeholder: "e.g., 20" },
-      { key: "sets", label: "Sets", type: "number", placeholder: "e.g., 3" }
-    ],
-    // Yoga workouts
-    "VINYASA": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 30" },
-      { key: "poses", label: "Number of Poses", type: "number", placeholder: "e.g., 5" }
-    ],
-    "HATHA": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 45" },
-      { key: "frequency", label: "Frequency (days/week)", type: "number", placeholder: "e.g., 3" }
-    ],
-    "POWER": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 20" },
-      { key: "intensity", label: "Intensity", type: "number", placeholder: "e.g., 7" }
-    ],
-    "YIN": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 40" },
-      { key: "relaxation", label: "Relaxation Level", type: "number", placeholder: "e.g., 5" }
-    ],
-    "RESTORATIVE": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 50" },
-      { key: "frequency", label: "Frequency (days/week)", type: "number", placeholder: "e.g., 2" }
-    ],
-    "ASHTANGA": [
-      { key: "targetTime", label: "Target Time (minutes)", type: "number", placeholder: "e.g., 60" },
-      { key: "sequences", label: "Number of Sequences", type: "number", placeholder: "e.g., 6" }
-    ]
-  };
+      const grouped = workoutsData.reduce((acc, workout) => {
+        const category = workout.category.trim().toLowerCase();
+        if (!acc[category]) {
+          acc[category] = [];
+        }
+        acc[category].push(workout);
+        return acc;
+      }, {});
+      setGroupedWorkouts(grouped);
+    };
 
-  // Handle clicking on a workout button
+    fetchWorkouts();
+  }, []);
+
   const handleWorkoutClick = (workout) => {
-    if (activeWorkout === workout) {
-      // Close the right panel if the same workout is clicked again
+    if (activeWorkout && activeWorkout.id === workout.id) {
       setActiveWorkout(null);
       setTempGoals({});
     } else {
-      // Open the right panel for the clicked workout
       setActiveWorkout(workout);
-      if (workoutGoals[workout]) {
-        // If we have saved goals, load them
-        setTempGoals(workoutGoals[workout]);
+      if (workoutGoals[workout.id]) {
+        setTempGoals(workoutGoals[workout.id]);
       } else {
-        // Otherwise, initialize empty fields for that workout
-        if (exerciseAttributes[workout]) {
+        if (workout.trackingAttributes) {
           const initialGoals = {};
-          exerciseAttributes[workout].forEach((field) => {
+          workout.trackingAttributes.forEach((field) => {
             initialGoals[field.key] = "";
           });
           setTempGoals(initialGoals);
@@ -253,19 +64,17 @@ function Questionnaire() {
     }
   };
 
-  // Save the form data and close the panel
   const handleSave = () => {
     if (activeWorkout) {
       setWorkoutGoals((prev) => ({
         ...prev,
-        [activeWorkout]: tempGoals
+        [activeWorkout.id]: tempGoals,
       }));
       setActiveWorkout(null);
       setTempGoals({});
     }
   };
 
-  // Render the goal form or placeholder in the right panel
   const renderGoalContent = () => {
     if (!activeWorkout) {
       return (
@@ -274,11 +83,11 @@ function Questionnaire() {
         </div>
       );
     }
-    const fields = exerciseAttributes[activeWorkout];
+    const fields = activeWorkout.trackingAttributes;
     if (!fields) return null;
     return (
       <div className="form-container">
-        <h2 className="goals-header">SET GOALS FOR {activeWorkout}</h2>
+        <h2 className="goals-header">SET GOALS FOR {activeWorkout.name}</h2>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -298,24 +107,25 @@ function Questionnaire() {
               />
             </div>
           ))}
-          <button type="submit" className="save-button">SUBMIT</button>
+          <button type="submit" className="save-button">
+            SUBMIT
+          </button>
         </form>
       </div>
     );
   };
 
+  const orderedCategories = ["yoga", "cardio", "strength"];
+
   return (
     <div className="entire-page-q">
-      {/* Sticky Top-right corner */}
       <div className="top-right-title">
         <h1>NEXT-GEN WELLNESS</h1>
       </div>
 
-      {/* Main left panel */}
       <div className="left-panel">
         <h1 className="main-title">CONTINUE SETTING UP YOUR PROFILE</h1>
 
-        {/* Gender Selection */}
         <div className="gender-section">
           <h3>SELECT YOUR GENDER:</h3>
           <div className="gender-buttons">
@@ -340,7 +150,6 @@ function Questionnaire() {
           </div>
         </div>
 
-        {/* Personal Info */}
         <div className="bio-section">
           <h3>ENTER YOUR INFORMATION:</h3>
           <div className="bio-inputs">
@@ -365,57 +174,38 @@ function Questionnaire() {
           </div>
         </div>
 
-        {/* Workouts */}
         <div className="workouts-section">
           <h3>SELECT YOUR WORKOUTS:</h3>
-
-          <h4 className="category-header">CARDIO:</h4>
-          <div className="workout-buttons">
-            {cardioWorkouts.map((workout) => (
-              <button
-                key={workout}
-                className={`workout-btn cardio-btn ${workoutGoals[workout] ? "active" : ""}`}
-                onClick={() => handleWorkoutClick(workout)}
-              >
-                {workout}
-              </button>
-            ))}
-          </div>
-
-          <h4 className="category-header">STRENGTH TRAINING:</h4>
-          <div className="workout-buttons">
-            {strengthWorkouts.map((workout) => (
-              <button
-                key={workout}
-                className={`workout-btn ${workoutGoals[workout] ? "active" : ""}`}
-                onClick={() => handleWorkoutClick(workout)}
-              >
-                {workout}
-              </button>
-            ))}
-          </div>
-
-          <h4 className="category-header">YOGA:</h4>
-          <div className="workout-buttons">
-            {yogaWorkouts.map((workout) => (
-              <button
-                key={workout}
-                className={`workout-btn yoga-btn ${workoutGoals[workout] ? "active" : ""}`}
-                onClick={() => handleWorkoutClick(workout)}
-              >
-                {workout}
-              </button>
-            ))}
-          </div>
+          {orderedCategories.map((category) => {
+            if (!groupedWorkouts[category]) return null;
+            return (
+              <div key={category}>
+                <h4 className="category-header">{category.toUpperCase()}:</h4>
+                <div className="workout-buttons">
+                  {groupedWorkouts[category].map((workout) => {
+                    const isActive =
+                      activeWorkout && activeWorkout.id === workout.id;
+                    return (
+                      <button
+                        key={workout.id}
+                        className={`workout-btn ${workout.category.toLowerCase()} ${
+                          isActive ? "active" : ""
+                        }`}
+                        onClick={() => handleWorkoutClick(workout)}
+                      >
+                        {workout.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
-      {/* Fixed Right panel */}
-      <div className="right-panel">
-        {renderGoalContent()}
-      </div>
+      <div className="right-panel">{renderGoalContent()}</div>
 
-      {/* Fixed NEXT button (outside the form) */}
       <div className="next-btn-fixed">
         <Link to="/dashboard">
           <button className="next-btn">NEXT</button>
