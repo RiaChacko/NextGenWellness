@@ -1,219 +1,293 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
 
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: #17161F;
+  font-family: 'Lexend Mega', sans-serif;
+  color: #FFFFFF;
+}
+
+/* Overall container using flex for left & right panels */
 .entire-page-q {
+<<<<<<< Updated upstream
     background-color: #17161F;
     color: white;
     height: 170rem;
     font-size: 0.8rem;
+=======
+  display: flex;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+>>>>>>> Stashed changes
 }
 
-.center-q img {
-    width: 14rem;
-    margin: 3rem
+/* Sticky Top-right corner text */
+.top-right-title {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
 }
 
-.center-q {
-    display: flex;
-    justify-content: right;
-    padding: 2rem;
+.top-right-title h1 {
+  color: #5D80FF;
+  font-size: 1.5rem;
+  margin: 0;
 }
 
-.pink-q {
-    color: #FF5DA3;
-}  
-
-.blue-q {
-    color: #5D80FF;
+/* Main left panel */
+.left-panel {
+  width: 60%;
+  margin-right: 2rem;
+  overflow-y: auto;
 }
 
-.title-q {
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-.title2{
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    margin-left: 5rem;
-}
-.whole-content{
-    margin-left: 5rem;
-}
-.whole-content h3{
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1rem;
-}
-.gender-choices{
-    display: inline-flex;
-    gap: 4rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-.gender-choices button{
-    margin: 0;
-    width: 16rem;
-    height: 3.2rem;
-    text-align: center;
-    font-size: 1rem;
-    padding: auto;
-}
-.female{
-    background-color: #17161F;
-    border: .2rem solid #FF5DA3;
-    color: #FF5DA3;
-    transition: all 1ms;
+/* Main heading */
+.main-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #FFFFFF;
 }
 
-.male{
-    background-color: #17161F;
-    border: .2rem solid #5D80FF;
-    color: #5D80FF;
-    transition: all 1ms;
+/* GENDER SECTION */
+.gender-section {
+  margin-bottom: 2rem;
 }
+<<<<<<< Updated upstream
 .prefer{
     background-color: #17161F;
     border: .2rem solid #915DFF;
     color: #915DFF;
     transition: all 1ms;
     width: 16rem;
+=======
+.gender-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+>>>>>>> Stashed changes
 }
-.female:hover{
-    cursor: pointer;
+.gender-buttons {
+  display: flex;
+  gap: 0.5rem;
 }
-.male:hover{
-    cursor: pointer;
+.gender-btn,
+.gender-btn-male,
+.gender-btn-prefer {
+  background-color: transparent;
+  border: 2px solid;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  transition: background-color 0.3s;
 }
-.prefer:hover{
-    cursor: pointer;
+.gender-btn {
+  border-color: #FF5DA3;
+  color: #FF5DA3;
 }
-
-.f-selected{
-    background-color: #FF5DA3;
-    color: #17161F;
-    cursor: pointer;
+.gender-btn:hover {
+  background-color: #FF5DA3;
+  color: #17161F;
 }
-
-
-.m-selected{
-    background-color: #5D80FF;
-    color: #17161F;
-    cursor: pointer;
+.gender-btn.selected {
+  background-color: #FF5DA3;
+  color: #17161F;
 }
-.p-selected{
-    background-color: #915DFF;
-    color: #17161F;
-    cursor: pointer;
+.gender-btn-male {
+  border-color: #5D80FF;
+  color: #5D80FF;
 }
-
-.bio-metrics{
-    margin-top: 2rem;
-    display: inline-flex;
-    gap: 4rem;
-    margin-bottom: 2rem;
-
+.gender-btn-male:hover {
+  background-color: #5D80FF;
+  color: #17161F;
 }
-.bio-metrics label{
-    font-family: 'Lexend Mega', sans-serif;
-
+.gender-btn-male.selected {
+  background-color: #5D80FF;
+  color: #17161F;
 }
-.bio-metrics input{
-    width: 15rem;
-    height: 3.2rem;
-    margin: 0;
-    border: .2rem solid #5D80FF;
-   
+.gender-btn-prefer {
+  border-color: #915DFF;
+  color: #915DFF;
 }
-/* button {
-    background-color: rgb(255, 104, 104);
-    padding: 0.5rem;
-    margin: 1rem;
-    font-family: 'Lexend Mega', sans-serif;
-    border-radius: 12px;
+.gender-btn-prefer:hover {
+  background-color: #915DFF;
+  color: #17161F;
 }
-
-.google-section-s {
-    margin: 0px;
-    padding: 0px;
-    font-family: 'Lexend Mega', sans-serif;
+.gender-btn-prefer.selected {
+  background-color: #915DFF;
+  color: #17161F;
 }
 
-.google-section-s:hover {
-    color: rgb(133, 133, 133);
+/* Bio Section */
+.bio-section {
+  margin-bottom: 2rem;
+}
+.bio-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+.bio-inputs {
+  display: flex;
+  gap: 1rem;
+}
+.bio-inputs input {
+  background-color: #17161F;
+  border: 2px solid #5D80FF;
+  color: #FFFFFF;
+  padding: 0.75rem;
+  width: 10rem;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
-.google-s {
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    align-items: center;
-    background-color: #17161F;
+/* WORKOUTS SECTION */
+.workouts-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+.category-header {
+  font-size: 1.125rem;
+  margin: 1.5rem 0 0.5rem 0;
+  color: #FFFFFF;
+}
+.workout-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.workout-btn {
+  background-color: transparent;
+  border: 2px solid #915DFF;
+  color: #915DFF;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  font-size: 1.125rem;
+  transition: background-color 0.3s;
+}
+.workout-btn:hover {
+  background-color: #915DFF;
+  color: #17161F;
+}
+.workout-btn.active {
+  background-color: #915DFF;
+  color: #17161F;
 }
 
-button {
-    background-color: rgb(255, 104, 104);
-    padding: 0.5rem;
-    margin: 1rem;
-    font-family: 'Lexend Mega', sans-serif;
-    border-radius: 12px;
+/* Cardio-specific button overrides */
+.workout-btn.cardio-btn {
+  border-color: #FF5DA3;
+  color: #FF5DA3;
+}
+.workout-btn.cardio-btn:hover {
+  background-color: #FF5DA3;
+  color: #17161F;
+}
+.workout-btn.cardio-btn.active {
+  background-color: #FF5DA3;
+  color: #17161F;
 }
 
-.text-input {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .text-input form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .text-input button {
-    margin-top: 10px;
-  }
-  
-  .text-input p {
-    text-align: center;
-    width: 100%;
-  } */
-  .workout-choices{
-    display: inline-flex;
-    gap: 4rem;
-    margin-top: 2rem;
-  
-  }
-
-  .workout-choices button{
-    margin: 0;
-  }
-
-  .workout-button {
-    width: 15rem;
-    height: 3.2rem;
-    text-align: center;
-    font-size: 1rem;
-    padding: auto;
-    background-color: #17161F;
-    border: .2rem solid #5D80FF;
-    color: #5D80FF;
-    transition: all 1s;
+/* Yoga-specific button overrides */
+.workout-btn.yoga-btn {
+  border-color: #5D80FF;
+  color: #5D80FF;
+}
+.workout-btn.yoga-btn:hover {
+  background-color: #5D80FF;
+  color: #17161F;
+}
+.workout-btn.yoga-btn.active {
+  background-color: #5D80FF;
+  color: #17161F;
 }
 
-.workout-button:hover {
-    cursor: pointer;
-    background-color: #5D80FF;
-    color: #17161F;
+/* Sticky Right panel */
+.right-panel {
+  position: fixed;
+  top: 8rem;
+  right: 2rem;
+  width: 650px;
+  background-color: #2A2937;
+  padding: 4rem;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
 }
 
-.selected {
-    background-color: #5D80FF;
-    color: #17161F;
+/* Form container inside right panel */
+.form-container {
+  margin-bottom: 2rem;
 }
+.goals-header {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.form-field label {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+.form-field input {
+  background-color: #17161F;
+  border: 2px solid #5D80FF;
+  border-radius: 4px;
+  color: #FFFFFF;
+  padding: 0.75rem;
+  font-size: 1.25rem;
+}
+
+/* Placeholder styling for when no exercise is selected */
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 1.5rem;
+  color: #CCCCCC;
+}
+
+/* Submit/Save button */
+.save-button {
+  background-color: #FF5DA3;
+  border: none;
+  color: #17161F;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.25rem;
+}
+.save-button:hover {
+  opacity: 0.9;
+}
+
+/* Fixed NEXT button (sticky at bottom-right, outside of right panel) */
+.next-btn-fixed {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+.next-btn {
+  background-color: #FF5DA3;
+  border: none;
+  color: #17161F;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.125rem;
+  transition: background-color 0.3s;
+}
+<<<<<<< Updated upstream
 
 .specific-workouts{
     margin-bottom: 2rem;
@@ -436,4 +510,8 @@ button {
 .goal-selected {
     background-color: #5D80FF;
     color: #17161F;
+=======
+.next-btn:hover {
+  background-color: #E05594;
+>>>>>>> Stashed changes
 }
