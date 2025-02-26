@@ -10,19 +10,12 @@ body, html {
 
 /* Overall container using flex for left & right panels */
 .entire-page-q {
-<<<<<<< Updated upstream
-    background-color: #17161F;
-    color: white;
-    height: 170rem;
-    font-size: 0.8rem;
-=======
   display: flex;
   position: relative;
   min-height: 100vh;
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
->>>>>>> Stashed changes
 }
 
 /* Sticky Top-right corner text */
@@ -56,19 +49,10 @@ body, html {
 .gender-section {
   margin-bottom: 2rem;
 }
-<<<<<<< Updated upstream
-.prefer{
-    background-color: #17161F;
-    border: .2rem solid #915DFF;
-    color: #915DFF;
-    transition: all 1ms;
-    width: 16rem;
-=======
 .gender-section h3 {
   font-size: 1.25rem;
   margin-bottom: 1rem;
   color: #FFFFFF;
->>>>>>> Stashed changes
 }
 .gender-buttons {
   display: flex;
@@ -287,231 +271,6 @@ body, html {
   font-size: 1.125rem;
   transition: background-color 0.3s;
 }
-<<<<<<< Updated upstream
-
-.specific-workouts{
-    margin-bottom: 2rem;
-    margin-top: 3rem;
- 
-    
-}
-
-
-.fitness-goals-container {
-   
-    margin-top: 2rem;
-    background-color: #ff5da370; 
-    position: absolute;
-    left: 65rem;
-    top: 25%; 
-    margin-left: 0;
-    
-    padding-left: 0;
-    width: max-content;
-    border-radius: 1rem;
-    font-family: 'Lexend Mega', sans-serif;
-}
-
-.goal-button {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    width: 15rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: #17161F;
-    color: #5D80FF;
-    border: .2rem solid #5D80FF;
-    transition: all 1s;
-    margin-left: 0;
-   
-}
-
-.specific-w-button{
-    margin-top: 1rem;
-    padding: 0.5rem;
-    width: 15rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: #17161F;
-    color: #5D80FF;
-    border: .2rem solid #5D80FF;
-    transition: all 1s;
-    margin-left: 0;
-}
-
-.goal-button:hover {
-    cursor: pointer;
-    background-color: #5D80FF;
-    color: #17161F;
-}
-
-.goal-selected {
-    background-color: #5D80FF;
-    color: #17161F;
-}
-.specific-w-button-selected{
-    background-color: #5D80FF;
-    color: #17161F;
-    cursor: pointer;
-}
-/* 
-.fitness-goals-container input {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    width: 30rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: #17161F;
-    color: white;
-    border: 1px solid #5D80FF;
-}
-
-.fitness-goals-container input:focus {
-    outline: none;
-    border-color: #FF5DA3;
-} */
-.pink-n {
-    border: .3rem #FF5DA3 solid;
-    position: relative;
-    left: 5rem;  /* Adjust to move the button more to the left */
-    top: 3rem;   /* Adjust to move the button more down from the top */
-    border-radius:1rem;
-    width: 12rem;
-    font-size: 1rem;
-    background-color: #FF5DA3;
-    color: #17161F;
-    margin-left: 0;
-  }
-  
-
-
-.entire-page-q {
-    background-color: #17161F;
-    color: white;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.8rem;
-}
-
-.center-q img {
-    width: 14rem;
-    margin: 3rem;
-}
-
-.center-q {
-    display: flex;
-    justify-content: right;
-    padding: 2rem;
-}
-
-.pink-q {
-    color: #FF5DA3;
-}
-
-.blue-q {
-    color: #5D80FF;
-}
-
-.title-q {
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-}
-
-.title2 {
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    margin-left: 5rem;
-}
-
-.whole-content {
-    margin-left: 5rem;
-}
-
-.whole-content h3 {
-    font-family: 'Lexend Mega', sans-serif;
-    font-size: 1rem;
-}
-
-.gender-choices {
-    display: inline-flex;
-    gap: 4rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.gender-choices button {
-    margin: 0;
-    width: 15rem;
-    height: 3.2rem;
-    text-align: center;
-    font-size: 1rem;
-    padding: auto;
-}
-
-.workout-choices {
-    display: inline-flex;
-    gap: 4rem;
-    margin-top: 2rem;
-}
-
-.workout-choices button {
-    margin: 0;
-}
-
-.selected {
-    background-color: #5D80FF;
-    color: #17161F;
-}
-
-.fitness-goals-container {
-    display: flex;
-    flex-direction: row;
-    margin-top: 2rem;
-    position: absolute;
-    right: 5rem; /* Positioned on the right */
-    top: 10%; /* Adjust position as needed */
-    width: auto;
-    padding-left: 1rem;
-    font-family: 'Lexend Mega', sans-serif;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: 1rem;
-    padding: 1rem;
-    flex-wrap: wrap;
-}
-
-.fitness-goal-section{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.goal-button {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    width: 15rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    background-color: #17161F;
-    color: #5D80FF;
-    border: .2rem solid #5D80FF;
-    transition: all 1s;
-    margin-left: 0;
-}
-
-.goal-button:hover {
-    cursor: pointer;
-    background-color: #5D80FF;
-    color: #17161F;
-}
-
-.goal-selected {
-    background-color: #5D80FF;
-    color: #17161F;
-=======
 .next-btn:hover {
   background-color: #E05594;
->>>>>>> Stashed changes
 }

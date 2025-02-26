@@ -8,18 +8,6 @@ function Questionnaire() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");
-<<<<<<< Updated upstream
-  const [selectedWorkouts, setSelectedWorkouts] = useState([]);
-
-  // Separate goals for each workout type
-  const [cardioGoals, setCardioGoals] = useState([]);
-  const [strengthGoals, setStrengthGoals] = useState([]);
-  const [yogaGoals, setYogaGoals] = useState([]);
-
-  const cardioGoalsList = ["Run 5K", "Lose Weight", "Improve Endurance"];
-  const strengthGoalsList = ["Build Muscle", "Increase Strength", "Tone Body"];
-  const yogaGoalsList = ["Improve Flexibility", "Reduce Stress", "Improve Posture"];
-=======
 
   // State to track which workout’s form is open (for the right-side panel)
   const [activeWorkout, setActiveWorkout] = useState(null);
@@ -70,7 +58,6 @@ function Questionnaire() {
     "RESTORATIVE",
     "ASHTANGA"
   ];
->>>>>>> Stashed changes
 
   // Mapping of each exercise to its specific form fields
   const exerciseAttributes = {
@@ -317,25 +304,6 @@ function Questionnaire() {
     );
   };
 
-<<<<<<< Updated upstream
-  const handleFitnessGoalSelect = (goal, workoutType) => {
-    if (workoutType === "cardio") {
-      setCardioGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    } else if (workoutType === "strength") {
-      setStrengthGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    } else if (workoutType === "yoga") {
-      setYogaGoals((prev) =>
-        prev.includes(goal) ? prev.filter((item) => item !== goal) : [...prev, goal]
-      );
-    }
-  };
-
-=======
->>>>>>> Stashed changes
   return (
     <div className="entire-page-q">
       {/* Sticky Top-right corner */}
@@ -397,70 +365,6 @@ function Questionnaire() {
           </div>
         </div>
 
-<<<<<<< Updated upstream
-        <h3>SELECT YOUR WORKOUT(S):</h3>
-        <div className="workout-choices">
-          {["cardio", "strength", "yoga"].map((workout) => (
-            <button
-              key={workout}
-              className={`workout-button ${selectedWorkouts.includes(workout) ? "selected" : ""}`}
-              onClick={() => handleWorkoutSelect(workout)}
-            >
-              {workout.charAt(0).toUpperCase() + workout.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/* Fitness Goals container appears when any workouts are selected */}
-        {(selectedWorkouts.length > 0) && (
-          <div className="fitness-goals-container">
-            {selectedWorkouts.includes("cardio") && (
-              <div className="fitness-goal-section">
-                <h3>Fitness Goals for Cardio:</h3>
-                {cardioGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${cardioGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "cardio")}
-                  >
-                    {goal}
-                  </button>
-                ))}
-              </div>
-            )}
-            {selectedWorkouts.includes("strength") && (
-              <div className="fitness-goal-section">
-                <h3>Fitness Goals for Strength:</h3>
-                {strengthGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${strengthGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "strength")}
-                  >
-                    {goal}
-                  </button>
-                ))}
-              </div>
-            )}
-            {selectedWorkouts.includes("yoga") && (
-              <div className="fitness-goal-section">
-                <h3>Fitness Goals for Yoga:</h3>
-                {yogaGoalsList.map((goal) => (
-                  <button
-                    key={goal}
-                    className={`goal-button ${yogaGoals.includes(goal) ? "goal-selected" : ""}`}
-                    onClick={() => handleFitnessGoalSelect(goal, "yoga")}
-                  >
-                    {goal}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-     <Link to="/dashboard"> <button className="pink-n">Next</button></Link>
-=======
         {/* Workouts */}
         <div className="workouts-section">
           <h3>SELECT YOUR WORKOUTS:</h3>
@@ -517,7 +421,6 @@ function Questionnaire() {
           <button className="next-btn">NEXT</button>
         </Link>
       </div>
->>>>>>> Stashed changes
     </div>
   );
 }

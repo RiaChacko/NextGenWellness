@@ -9,6 +9,8 @@ import GoalSetting from './pages/GoalSetting.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import Questionnaire from './pages/Questionnaire.jsx';
 import Navbar from './pages/Navbar.jsx';
+import Motivation from './pages/Motivation.jsx';
+import DeleteAccount from './pages/DeleteAccount.jsx';
 
 function App() {
   
@@ -22,10 +24,12 @@ function App() {
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/dashboard' element={<Dashboard/>}/>
           <Route path='/profile' element={<Profile/>}/>
+          <Route path='/delete-account' element={<DeleteAccount/>}/>
           <Route path='/goals' element={<GoalSetting/>}/>
           <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/questionnaire' element={<Questionnaire/>}/>
           <Route path='/navbar' element={<Navbar/>}/>
+          <Route path='/motivation' element={<Motivation/>}/>
         
         </Routes>
 
