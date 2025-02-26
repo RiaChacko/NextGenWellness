@@ -55,11 +55,13 @@ function Dashboard () {
                         <h4>Age</h4>
                         <p>23</p>
                     </div>
+                    
                 </div>
                 <div className="icons-dashboard">
                     <i className="fa-solid fa-bell" style={{ color: "white", fontSize: "1.5rem" }}></i>
                     <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i>
                 </div>
+                <button>LOG OUT</button>
             </div>
             <div className="dashboard-content-space">
                 <div className="dashboard-metrics-container">
