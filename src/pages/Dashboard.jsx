@@ -1,14 +1,46 @@
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import "../pages/Dashboard.css";
 import CircularProgress from "./CircularProgressBar";
 import bell from "../assets/bell.svg";
 import StepsChart from "./StepsGraph";
+import { auth, db } from "./firebaseConfig";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 function Dashboard () {
+
+    const [user, setUser] = useState(null);
+    const [name, setName] = useState("");
+
+    useEffect(() => {
+            const getData = onAuthStateChanged(auth, async (currentUser) => {
+                if (currentUser) {
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                        if (userDoc.exists()) {
+                            const userData = userDoc.data();
+                            setUser(currentUser);
+                            setName(userData.name || "No name found");
+                        } else {
+                            console.error("The user's document does not exist in the database.");
+                        }
+                    } catch (error) {
+                        console.error("There was an error fetching user data:", error);
+                    }
+                } else {
+                    console.error("No authenticated user found.");
+                }
+                setLoading(false);
+            });
+    
+            return () => getData();
+        }, []);
+
     return(
         <div className="dashboard-container">
             <Navbar/>
             <div className="top-header-dashboard">
-                <h3>WELCOME BACK BOB!</h3>
+                <h3>WELCOME BACK {name}!</h3>
                 <div className="metrics-header">
                     <div className="metric-header">
                         <h4>Weight</h4>
