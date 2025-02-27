@@ -11,7 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebaseConfig";
 
 function Questionnaire() {
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(""); // made gender optional
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [birthdate, setBirthdate] = useState("");
@@ -63,19 +63,7 @@ function Questionnaire() {
       setTempGoals({});
     } else {
       setActiveWorkout(workout);
-      if (workoutGoals[workout.id]) {
-        setTempGoals(workoutGoals[workout.id]);
-      } else {
-        if (workout.trackingAttributes) {
-          const initialGoals = {};
-          workout.trackingAttributes.forEach((field) => {
-            initialGoals[field.key] = "";
-          });
-          setTempGoals(initialGoals);
-        } else {
-          setTempGoals({});
-        }
-      }
+      setTempGoals(workoutGoals[workout.id] || {});
     }
   };
 
@@ -90,7 +78,7 @@ function Questionnaire() {
         console.error("User is not signed in");
         return;
       }
-      
+
       const userId = user.uid;
 
       const goal = {
@@ -160,24 +148,21 @@ function Questionnaire() {
   };
 
   const handleNext = async () => {
-    if (!gender || !height || !weight || !birthdate) {
-      window.alert("Please complete all personal information fields (gender, height, weight, and birthdate).");
-      return;
-    }
-    if (Object.keys(workoutGoals).length < 10) {
-      window.alert("Please select and fill out goals for at least 10 workouts.");
+    if (!height || !weight || !birthdate) {
+      window.alert("Please complete all personal information fields (height, weight, and birthdate).");
       return;
     }
     if (!user) {
       window.alert("User not signed in");
       return;
     }
+
     const userId = user.uid;
     try {
       await setDoc(
         doc(db, "users", userId),
         {
-          gender,
+          ...(gender && { gender }), 
           height,
           weight,
           birthdate
@@ -203,7 +188,7 @@ function Questionnaire() {
         <h1 className="main-title">CONTINUE SETTING UP YOUR PROFILE</h1>
 
         <div className="gender-section">
-          <h3>SELECT YOUR GENDER:</h3>
+          <h3>SELECT YOUR GENDER (Optional):</h3>
           <div className="gender-buttons">
             <button
               className={`gender-btn ${gender === "female" ? "selected" : ""}`}
@@ -251,25 +236,22 @@ function Questionnaire() {
         </div>
 
         <div className="workouts-section">
-          <h3>SELECT YOUR WORKOUTS:</h3>
+          <h3>SELECT YOUR WORKOUTS (Optional):</h3>
           {orderedCategories.map((category) => {
             if (!groupedWorkouts[category]) return null;
             return (
               <div key={category}>
                 <h4 className="category-header">{category.toUpperCase()}:</h4>
                 <div className="workout-buttons">
-                  {groupedWorkouts[category].map((workout) => {
-                    const isActive = (activeWorkout && activeWorkout.id === workout.id) || workoutGoals[workout.id];
-                    return (
-                      <button
-                        key={workout.id}
-                        className={`workout-btn ${workout.category.toLowerCase()} ${isActive ? "active" : ""}`}
-                        onClick={() => handleWorkoutClick(workout)}
-                      >
-                        {workout.name}
-                      </button>
-                    );
-                  })}
+                  {groupedWorkouts[category].map((workout) => (
+                    <button
+                      key={workout.id}
+                      className={`workout-btn ${workout.category.toLowerCase()} ${activeWorkout && activeWorkout.id === workout.id ? "active" : ""}`}
+                      onClick={() => handleWorkoutClick(workout)}
+                    >
+                      {workout.name}
+                    </button>
+                  ))}
                 </div>
               </div>
             );
