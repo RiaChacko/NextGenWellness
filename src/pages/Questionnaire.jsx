@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../pages/Questionnaire.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { 
   collection, 
   getDocs, 
@@ -14,7 +14,7 @@ function Questionnaire() {
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
-  const [age, setAge] = useState("");
+  const [birthdate, setBirthdate] = useState("");
 
   const [workouts, setWorkouts] = useState([]);
   const [groupedWorkouts, setGroupedWorkouts] = useState({});
@@ -24,6 +24,7 @@ function Questionnaire() {
   const [tempGoals, setTempGoals] = useState({});
 
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = getAuth();
@@ -90,7 +91,7 @@ function Questionnaire() {
         return;
       }
       
-      const userId = user.uid; 
+      const userId = user.uid;
 
       const goal = {
         exerciseName: activeWorkout.name,
@@ -158,6 +159,38 @@ function Questionnaire() {
     );
   };
 
+  const handleNext = async () => {
+    if (!gender || !height || !weight || !birthdate) {
+      window.alert("Please complete all personal information fields (gender, height, weight, and birthdate).");
+      return;
+    }
+    if (Object.keys(workoutGoals).length < 10) {
+      window.alert("Please select and fill out goals for at least 10 workouts.");
+      return;
+    }
+    if (!user) {
+      window.alert("User not signed in");
+      return;
+    }
+    const userId = user.uid;
+    try {
+      await setDoc(
+        doc(db, "users", userId),
+        {
+          gender,
+          height,
+          weight,
+          birthdate
+        },
+        { merge: true }
+      );
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error saving user info: ", error);
+      window.alert("Error saving your profile. Please try again.");
+    }
+  };
+
   const orderedCategories = ["yoga", "cardio", "strength"];
 
   return (
@@ -209,10 +242,10 @@ function Questionnaire() {
               onChange={(e) => setWeight(e.target.value)}
             />
             <input
-              type="number"
-              placeholder="AGE (yrs)"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
+              type="text"
+              placeholder="BIRTHDATE (mm/dd/yy)"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
             />
           </div>
         </div>
@@ -226,15 +259,11 @@ function Questionnaire() {
                 <h4 className="category-header">{category.toUpperCase()}:</h4>
                 <div className="workout-buttons">
                   {groupedWorkouts[category].map((workout) => {
-                    // A button is styled as active if it is either currently selected
-                    // or if a goal has already been set for that workout.
                     const isActive = (activeWorkout && activeWorkout.id === workout.id) || workoutGoals[workout.id];
                     return (
                       <button
                         key={workout.id}
-                        className={`workout-btn ${workout.category.toLowerCase()} ${
-                          isActive ? "active" : ""
-                        }`}
+                        className={`workout-btn ${workout.category.toLowerCase()} ${isActive ? "active" : ""}`}
                         onClick={() => handleWorkoutClick(workout)}
                       >
                         {workout.name}
@@ -251,9 +280,9 @@ function Questionnaire() {
       <div className="right-panel">{renderGoalContent()}</div>
 
       <div className="next-btn-fixed">
-        <Link to="/dashboard">
-          <button className="next-btn">NEXT</button>
-        </Link>
+        <button className="next-btn" onClick={handleNext}>
+          NEXT
+        </button>
       </div>
     </div>
   );
