@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../pages/Questionnaire.css";
 import { Link } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
+import { 
+  collection, 
+  getDocs, 
+  doc, 
+  setDoc
+} from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebaseConfig";
 
 function Questionnaire() {
-
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
@@ -18,7 +23,16 @@ function Questionnaire() {
   const [workoutGoals, setWorkoutGoals] = useState({});
   const [tempGoals, setTempGoals] = useState({});
 
-  
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
   useEffect(() => {
     const fetchWorkouts = async () => {
       const querySnapshot = await getDocs(collection(db, "workouts"));
@@ -64,12 +78,41 @@ function Questionnaire() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (activeWorkout) {
       setWorkoutGoals((prev) => ({
         ...prev,
         [activeWorkout.id]: tempGoals,
       }));
+
+      if (!user) {
+        console.error("User is not signed in");
+        return;
+      }
+      
+      const userId = user.uid; 
+
+      const goal = {
+        exerciseName: activeWorkout.name,
+        attributes: tempGoals,
+        submittedAt: new Date().toISOString()
+      };
+
+      const userDocRef = doc(db, "userGoals", userId);
+      try {
+        await setDoc(
+          userDocRef,
+          {
+            userId,
+            [`goals.${activeWorkout.id}`]: goal
+          },
+          { merge: true }
+        );
+        console.log("Goal saved successfully");
+      } catch (error) {
+        console.error("Error saving goal: ", error);
+      }
+
       setActiveWorkout(null);
       setTempGoals({});
     }
@@ -183,8 +226,9 @@ function Questionnaire() {
                 <h4 className="category-header">{category.toUpperCase()}:</h4>
                 <div className="workout-buttons">
                   {groupedWorkouts[category].map((workout) => {
-                    const isActive =
-                      activeWorkout && activeWorkout.id === workout.id;
+                    // A button is styled as active if it is either currently selected
+                    // or if a goal has already been set for that workout.
+                    const isActive = (activeWorkout && activeWorkout.id === workout.id) || workoutGoals[workout.id];
                     return (
                       <button
                         key={workout.id}
