@@ -11,7 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebaseConfig";
 
 function Questionnaire() {
-  const [gender, setGender] = useState(""); // made gender optional
+  const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [birthdate, setBirthdate] = useState("");
@@ -187,32 +187,11 @@ function Questionnaire() {
       <div className="left-panel">
         <h1 className="main-title">CONTINUE SETTING UP YOUR PROFILE</h1>
 
-        <div className="gender-section">
-          <h3>SELECT YOUR GENDER (Optional):</h3>
-          <div className="gender-buttons">
-            <button
-              className={`gender-btn ${gender === "female" ? "selected" : ""}`}
-              onClick={() => setGender("female")}
-            >
-              FEMALE
-            </button>
-            <button
-              className={`gender-btn-prefer ${gender === "prefer" ? "selected" : ""}`}
-              onClick={() => setGender("prefer")}
-            >
-              PREFER NOT TO SAY
-            </button>
-            <button
-              className={`gender-btn-male ${gender === "male" ? "selected" : ""}`}
-              onClick={() => setGender("male")}
-            >
-              MALE
-            </button>
-          </div>
-        </div>
-
+        {/* Required Section */}
         <div className="bio-section">
-          <h3>ENTER YOUR INFORMATION:</h3>
+          <h3>
+            ENTER YOUR INFORMATION: <span className="field-required">(Required)</span>
+          </h3>
           <div className="bio-inputs">
             <input
               type="number"
@@ -235,8 +214,38 @@ function Questionnaire() {
           </div>
         </div>
 
+        {/* Optional Section: Gender */}
+        <div className="gender-section">
+          <h3>
+            SELECT YOUR GENDER: <span className="field-optional">(Optional)</span>
+          </h3>
+          <div className="gender-buttons">
+            <button
+              className={`gender-btn ${gender === "female" ? "selected" : ""}`}
+              onClick={() => setGender("female")}
+            >
+              FEMALE
+            </button>
+            <button
+              className={`gender-btn-prefer ${gender === "prefer" ? "selected" : ""}`}
+              onClick={() => setGender("prefer")}
+            >
+              PREFER NOT TO SAY
+            </button>
+            <button
+              className={`gender-btn-male ${gender === "male" ? "selected" : ""}`}
+              onClick={() => setGender("male")}
+            >
+              MALE
+            </button>
+          </div>
+        </div>
+
+        {/* Optional Section: Workouts */}
         <div className="workouts-section">
-          <h3>SELECT YOUR WORKOUTS (Optional):</h3>
+          <h3>
+            SELECT YOUR WORKOUTS: <span className="field-optional">(Optional)</span>
+          </h3>
           {orderedCategories.map((category) => {
             if (!groupedWorkouts[category]) return null;
             return (
