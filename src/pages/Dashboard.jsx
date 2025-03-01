@@ -14,11 +14,14 @@ function Dashboard () {
 
     const [user, setUser] = useState(null);
     const [name, setName] = useState("");
+    const [height, setHeight] = useState("");
+    const [weight, setWeight] = useState("");
+    const [age, setAge] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
-            const getData = onAuthStateChanged(auth, async (currentUser) => {
+        const getData = onAuthStateChanged(auth, async (currentUser) => {
                 if (currentUser) {
                     try {
                         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
@@ -26,6 +29,9 @@ function Dashboard () {
                             const userData = userDoc.data();
                             setUser(currentUser);
                             setName(userData.name || "No name found");
+                            setHeight(calcHeight(userData.height) || "No height found");
+                            setWeight(userData.weight || "No weight found");
+                            setAge(calcAge(userData.birthdate) || "No age found");
                         } else {
                             console.error("The user's document does not exist in the database.");
                         }
@@ -38,8 +44,28 @@ function Dashboard () {
                 setLoading(false);
             });
     
-            return () => getData();
-        }, []);
+        return () => getData();
+    }, []);
+
+    const calcHeight = (heightInput) => {
+        const feet = Math.floor(heightInput / 12);
+        const inches = heightInput % 12;
+        return `${feet}'${inches}\"`;
+    };
+
+    const calcAge = (bdayInput) => {
+        const [month, day, year] = bdayInput.split("/").map(Number);
+        const birthDate = new Date(year, month - 1, day);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        if (
+            today.getMonth() < birthDate.getMonth() ||
+            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
+        ) {
+            age--;
+        }
+        return age;
+    };
 
     const handleLogout = async () => {
         try {
@@ -58,15 +84,15 @@ function Dashboard () {
                 <div className="metrics-header">
                     <div className="metric-header">
                         <h4>Weight</h4>
-                        <p>86 kg</p>
+                        <p>{weight} lb</p>
                     </div>
                     <div className="metric-header">
                         <h4>Height</h4>
-                        <p>5'6</p>
+                        <p>{height} in</p>
                     </div>
                     <div className="metric-header">
                         <h4>Age</h4>
-                        <p>23</p>
+                        <p>{age} years</p>
                     </div>
                     
                 </div>

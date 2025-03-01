@@ -207,7 +207,7 @@ function Questionnaire() {
             />
             <input
               type="text"
-              placeholder="BIRTHDATE (mm/dd/yy)"
+              placeholder="BIRTHDATE (mm/dd/yyyy)"
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
             />
