@@ -1,15 +1,21 @@
 import React from "react";
 
-const Card = ({ children, className }) => {
+const Card = ({ children, category }) => {
+  const categoryColors = {
+    cardio: "bg-pink-600",
+    strength: "bg-blue-600",
+    yoga: "bg-purple-600",
+  };
+
   return (
-    <div className={`bg-gray-800 p-4 rounded-lg shadow-md ${className}`}>
+    <div className={`p-4 rounded-lg shadow-md ${categoryColors[category] || "bg-gray-800"}`}>
       {children}
     </div>
   );
 };
 
 Card.Content = ({ children }) => {
-    return <div className="mt-2">{children}</div>;
-  };
+  return <div className="mt-2 text-white">{children}</div>;
+};
 
 export default Card;

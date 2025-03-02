@@ -53,6 +53,14 @@ const GoalSetting = () => {
                       )}
                     </div>
                   </Card>
+                  // <Card category="cardio">
+                  //   <Card.Content>
+                  //     <h2 className="text-lg font-semibold">RUNNING GOAL</h2>
+                  //     <p>60 minutes</p>
+                  //     <p>5 mph</p>
+                  //     <Button>Edit</Button>
+                  //   </Card.Content>
+                  // </Card>
                 ))}
                 <Card className="add-goal-card">
                   <Plus size={32} />
