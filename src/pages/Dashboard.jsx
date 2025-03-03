@@ -41,7 +41,6 @@ function Dashboard () {
                 } else {
                     console.error("No authenticated user found.");
                 }
-                setLoading(false);
             });
     
         return () => getData();
