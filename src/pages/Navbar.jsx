@@ -52,10 +52,10 @@ function Navbar() {
           PROFILE
         </a>
         </Link>
-        <Link to="/goal-setting">
+        <Link to="/goals">
         <a
-          onClick={() => handleTabSelect("goal-setting")}
-          className={activeTab === "goal-setting" ? "active" : ""}
+          onClick={() => handleTabSelect("goals")}
+          className={activeTab === "goals" ? "active" : ""}
         >
           GOAL-SETTING
         </a>
