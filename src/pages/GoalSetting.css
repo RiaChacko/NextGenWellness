@@ -1,20 +1,17 @@
-/* @import "tailwindcss";
+@import "tailwindcss";
 
-/* Sidebar Styles */
-/* GoalSetting.css */
 
 .goal-setting-container {
     display: flex;
-    flex-direction: column; /* Ensure navbar stays on top */
+    flex-direction: column; 
 }
 
 .main-content {
     display: flex;
     flex-grow: 1;
-    margin-top: 80px; /* Adjust based on your Navbar height */
+    margin-top: 80px;
 }
 
-/* Sidebar Styling */
 .sidebar {
     width: 250px;
     background-color: #1a1a1a;
@@ -23,21 +20,21 @@
     padding: 20px;
     position: fixed;
     left: 0;
-    top: 80px; /* Adjust this to match your Navbar height */
+    top: 80px; 
 }
 
-/* Main Content Adjustments */
+
 .goal-main {
     flex-grow: 1;
     padding: 20px;
-    margin-left: 250px; /* Offset for sidebar width */
-    margin-top: 80px; /* Ensures it stays below navbar */
+    margin-left: 250px;
+    margin-top: 80px; 
     background-color: #2a2a2a;
     color: white;
-    min-height: calc(100vh - 80px); /* Prevents overlap */
+    min-height: calc(100vh - 80px); 
 }
 
-/* Goal Grid */
+
 .goal-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -45,7 +42,6 @@
     margin-top: 10px;
 }
 
-/* Goal Card */
 .goal-card {
     padding: 15px;
     background-color: #444;
@@ -53,7 +49,7 @@
     text-align: center;
 }
 
-/* Add Goal Button */
+
 .add-goal-card {
     display: flex;
     justify-content: center;
