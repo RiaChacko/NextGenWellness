@@ -107,16 +107,16 @@ function Dashboard () {
                     <h3>METRICS</h3>
                         <div className="metric-content-inner">
                             <p>Calories Burned</p>
-                            <span>31.2%</span>
+                            {/* <span>31.2%</span> */}
                         </div>
-                        <div className="metric-content-inner">
+                        {/* <div className="metric-content-inner">
                             <p>Carbs</p>
                             <span>23.2%</span>
                         </div>
                         <div className="metric-content-inner">
                             <p>Proteins</p>
                             <span>11.9%</span>
-                        </div>
+                        </div> */}
                         <button className="metrics-btn">VIEW ALL METRICS</button>
                     </div>
                     <div className="progress-bar-dashboard">
