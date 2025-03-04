@@ -11,6 +11,7 @@ import Questionnaire from './pages/Questionnaire.jsx';
 import Navbar from './pages/Navbar.jsx';
 import Motivation from './pages/Motivation.jsx';
 import DeleteAccount from './pages/DeleteAccount.jsx';
+import Log from './pages/Log.jsx';
 
 function App() {
   
@@ -30,6 +31,7 @@ function App() {
           <Route path='/questionnaire' element={<Questionnaire/>}/>
           <Route path='/navbar' element={<Navbar/>}/>
           <Route path='/motivation' element={<Motivation/>}/>
+          <Route path='/log' element={<Log/>}/>
         
         </Routes>
 
