@@ -1,73 +1,147 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../pages/Navbar.jsx";
 import Card from "../components/Card";
 import Button from "../components/Button";
 import { Plus } from "lucide-react";
-import Navbar from '../pages/Navbar.jsx';
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { auth, db } from "./firebaseConfig";
 import "./GoalSetting.css";
 
-const categories = [
-  { title: "Cardio", goals: 4, color: "bg-pink" },
-  { title: "Strength Training", goals: 3, color: "bg-blue" },
-  { title: "Yoga", goals: 4, color: "bg-gray" },
-];
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 const GoalSetting = () => {
-  const [goalList, setGoalList] = useState(categories);
+  const [user, setUser] = useState(null);
+  const [goals, setGoals] = useState({});
+  const [editedGoals, setEditedGoals] = useState({});
+
+  useEffect(() => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribeAuth();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const docRef = doc(db, "userGoals", user.uid);
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setGoals(data.goals || data);
+      } else {
+        setGoals({});
+      }
+    });
+    return () => unsubscribe();
+  }, [user]);
+
+  const handleEdit = (goalKey, attributes) => {
+    setEditedGoals((prev) => ({ ...prev, [goalKey]: { ...attributes } }));
+  };
+
+  const handleSave = async (goalKey) => {
+    const newAttributes = editedGoals[goalKey];
+    try {
+      const docRef = doc(db, "userGoals", user.uid);await updateDoc(docRef, {
+        [`${goalKey}.attributes`]: newAttributes,
+      });
+      setEditedGoals((prev) => {
+        const newState = { ...prev };
+        delete newState[goalKey];
+        return newState;
+      });
+    } catch (error) {
+      console.error("Error updating goal:", goalKey, error);
+    }
+  };
+
+  const handleAttributeChange = (goalKey, attrKey, value) => {
+    setEditedGoals((prev) => ({
+      ...prev,
+      [goalKey]: { ...prev[goalKey], [attrKey]: value },
+    }));
+  };
 
   return (
     <div className="goal-setting-container">
       <Navbar />
       <div className="main-content">
-        {/* Sidebar */}
-        {/* <aside className="sidebar">
-          <h2 className="highlight-pink">NEXT-GEN</h2>
-          <h2 className="highlight-blue">WELLNESS</h2>
-          <nav>
-            <a href="#">DASHBOARD</a>
-            <a href="#">LOG NEW WORKOUT</a>
-            <a href="#">MOTIVATION</a>
-            <a href="#">PROFILE</a>
-            <a href="#" className="active">SET GOALS</a>
-          </nav>
-          <div className="profile">
-            <img src="/bob_ross.jpg" alt="Bob Ross" />
-            <span>BOB ROSS</span>
-          </div>
-        </aside> */}
-
-        {/* Main Content */}
         <main className="goal-main">
           <h1>FITNESS GOALS</h1>
-          {goalList.map((category) => (
-            <section key={category.title} className="category-section">
-              <h2>{category.title}</h2>
-              <div className="goal-grid">
-                {[...Array(category.goals)].map((_, index) => (
-                  <Card key={index} className={`goal-card ${category.color}`}>
+          <div className="goal-grid">
+            {Object.keys(goals).length === 0 ? (
+              <p>No goals available.</p>
+            ) : (
+              Object.entries(goals).map(([goalKey, goalData]) => {
+                if (goalKey === "userId") return null;
+
+                if (!goalKey.startsWith("goals.")) {
+                  return null;
+                }
+
+                const displayName = goalKey.slice("goals.".length);
+
+                const attributes = goalData.attributes || {};
+                const isEditing = editedGoals.hasOwnProperty(goalKey);
+
+                return (
+                  <Card key={goalKey} className="goal-card">
                     <div className="card-content">
-                      <h3>RUNNING GOAL</h3>
-                      <p>60 minutes</p>
-                      <p>5 mph</p>
-                      {index % 2 === 0 && (
-                        <Button variant="secondary" size="sm">EDIT</Button>
+                      <h3>{capitalize(displayName)}</h3>
+                      {Object.entries(attributes).map(([attrKey, attrValue]) =>
+                        isEditing ? (
+                          <p key={attrKey}>
+                            <strong>{capitalize(attrKey)}:</strong>{" "}
+                            <input
+                              type="text"
+                              value={editedGoals[goalKey][attrKey] || ""}
+                              onChange={(e) =>
+                                handleAttributeChange(
+                                  goalKey,
+                                  attrKey,
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </p>
+                        ) : (
+                          <p key={attrKey}>
+                            <strong>{capitalize(attrKey)}:</strong> {attrValue}
+                          </p>
+                        )
+                      )}
+                      {isEditing ? (
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handleSave(goalKey)}
+                        >
+                          SAVE
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => handleEdit(goalKey, attributes)}
+                        >
+                          EDIT
+                        </Button>
                       )}
                     </div>
                   </Card>
-                  // <Card category="cardio">
-                  //   <Card.Content>
-                  //     <h2 className="text-lg font-semibold">RUNNING GOAL</h2>
-                  //     <p>60 minutes</p>
-                  //     <p>5 mph</p>
-                  //     <Button>Edit</Button>
-                  //   </Card.Content>
-                  // </Card>
-                ))}
-                <Card className="add-goal-card">
-                  <Plus size={32} />
-                </Card>
-              </div>
-            </section>
-          ))}
+                );
+              })
+            )}
+            <Card className="add-goal-card">
+              <Plus size={32} />
+            </Card>
+          </div>
         </main>
       </div>
     </div>
