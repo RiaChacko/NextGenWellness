@@ -1,9 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
 .log-container {
     margin-top: 5rem;
     margin-left: 20rem;
+    color: #D2D2D2;
 }
 
-h1 {
-    color: white;
+.log-container h1 {
+    font-size: 1.5rem;
+    font-family: 'Lexend Mega', sans-serif;
+    margin-bottom: 2rem;
+}
+
+.log-container h2 {
+    font-size: 1rem;
+    font-family: 'Lexend Mega', sans-serif;
+}
+
+.log-container h3 {
+    font-size: 0.8rem;
+    font-family: 'Lexend Mega', sans-serif;
+}
+
+.log-workout {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.log-container button {
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 100;
+    background-color: rgba(210, 210, 210, 0.31);
+    padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+}
+
+.log-cardio button {
+    background-color: rgb(255, 93, 163, 0.33);
+}
+
+.log-cardio button:hover {
+    background-color: rgb(255, 93, 163);
+    color:black;
+}
+
+.log-strength button {
+    background-color: rgb(93, 128, 255, 0.33);
+}
+
+.log-strength button:hover {
+    background-color: rgb(93, 128, 255);
+    color:black;
+}
+
+.log-yoga button {
+    background-color: rgb(145, 93, 255, 0.33);
+}
+
+.log-yoga button:hover {
+    background-color: rgb(144, 93, 255);
+    color:black;
+}
+
+.log-other button {
+    background-color: rgba(67, 182, 94, 0.33);
+}
+
+.log-other button:hover {
+    background-color: rgb(67, 182, 94);
+    color:black;
+}
+
+.log-other-title {
+    margin-top: 2rem;
 }
 
