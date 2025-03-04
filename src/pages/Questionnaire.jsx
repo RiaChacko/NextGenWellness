@@ -255,7 +255,7 @@ function Questionnaire() {
                   {groupedWorkouts[category].map((workout) => (
                     <button
                       key={workout.id}
-                      className={`workout-btn ${workout.category.toLowerCase()} ${activeWorkout && activeWorkout.id === workout.id ? "active" : ""}`}
+                      className={`workout-btn ${workout.category.toLowerCase()} ${activeWorkout?.id === workout.id || workoutGoals[workout.id] ? "active" : ""}`}
                       onClick={() => handleWorkoutClick(workout)}
                     >
                       {workout.name}
