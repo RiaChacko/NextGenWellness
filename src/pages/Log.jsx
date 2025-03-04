@@ -1,5 +1,7 @@
 import "../pages/Log.css";
 import Navbar from "./Navbar";
+import footsteps from "../assets/footsteps-icon.svg";
+import scale from "../assets/scale-icon.svg";
 
 function Log() {
 
@@ -35,8 +37,14 @@ function Log() {
                 
                 <h2 className="log-other-title">LOG OTHER DATA</h2>
                 <div className="log-other">
-                    <button>STEPS</button>
-                    <button>WEIGHT</button>
+                    <button>
+                        <img className="footsteps-icon" src={footsteps}></img>
+                        STEPS
+                    </button>
+                    <button>
+                        <img className="scale-icon" src={scale}></img>
+                        WEIGHT
+                    </button>
                 </div>
                 
             </div>

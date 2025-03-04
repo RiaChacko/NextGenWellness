@@ -76,3 +76,16 @@
     margin-top: 2rem;
 }
 
+.footsteps-icon {
+    width: 1rem;
+}
+
+.scale-icon {
+    width: 1rem;
+}
+
+img {
+    display: inline;
+    margin-right: 0.5rem;
+}
+
