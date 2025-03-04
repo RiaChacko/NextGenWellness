@@ -31,7 +31,7 @@ function App() {
           <Route path='/questionnaire' element={<Questionnaire/>}/>
           <Route path='/navbar' element={<Navbar/>}/>
           <Route path='/motivation' element={<Motivation/>}/>
-          <Route path='/log' element={<Log/>}/>
+          <Route path='/log-new-workout' element={<Log/>}/>
         
         </Routes>
 
