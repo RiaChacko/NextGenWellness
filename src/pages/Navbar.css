@@ -42,6 +42,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 5rem;
+  /* gap: 6rem; */
   font-family: 'Lexend Mega', sans-serif;
   color: white;
   /* padding-left: 2rem; */
@@ -52,32 +53,27 @@
   font-size: 1rem;
   color: white;
   transition: color 0.3s ease;
-}
 
-
-a{
   width: 100%;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  padding-left: 1rem;
+  padding-left: 2rem;
 }
 
-/* .nav-links-dash  */
 
-a.active {
-  /* background-color: #413f57; 
+.nav-links-dash a.active {
+  background-color: #15151d; 
   color: white; 
-  padding: .5rem;
-  border-radius: 5px; */
-  width: 100%;
-  background-color: #15141c; 
-  color: white; 
+  /* padding: .5rem; */
   border-radius: 5px;
 }
 
 
-a:hover {
+.nav-links-dash a:hover {
+  width: 100%;
   background-color: #1C1B25; 
   color: white; 
   border-radius: 5px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
