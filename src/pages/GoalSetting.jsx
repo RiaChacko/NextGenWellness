@@ -4,7 +4,12 @@ import Card from "../components/Card";
 import Button from "../components/Button";
 import { Plus } from "lucide-react";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import "./GoalSetting.css";
 
@@ -28,7 +33,6 @@ const GoalSetting = () => {
 
   useEffect(() => {
     if (!user) return;
-
     const docRef = doc(db, "userGoals", user.uid);
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
@@ -41,16 +45,36 @@ const GoalSetting = () => {
     return () => unsubscribe();
   }, [user]);
 
-  const handleEdit = (goalKey, attributes) => {
-    setEditedGoals((prev) => ({ ...prev, [goalKey]: { ...attributes } }));
+  const handleEdit = (goalKey, goalData) => {
+    setEditedGoals((prev) => ({
+      ...prev,
+      [goalKey]: {
+        attributes: { ...(goalData.attributes || {}) },
+      },
+    }));
   };
 
   const handleSave = async (goalKey) => {
-    const newAttributes = editedGoals[goalKey];
+    const editedGoalData = editedGoals[goalKey];
+    if (!editedGoalData) return;
     try {
-      const docRef = doc(db, "userGoals", user.uid);await updateDoc(docRef, {
-        [`${goalKey}.attributes`]: newAttributes,
-      });
+      const docRef = doc(db, "userGoals", user.uid);
+      const docSnap = await getDoc(docRef);
+      const docData = docSnap.data() || {};
+
+      delete docData[goalKey];
+
+      const originalWorkout = goals[goalKey] || {};
+      const exerciseName = originalWorkout.exerciseName;
+
+      docData[goalKey] = {
+        attributes: editedGoalData.attributes,
+        exerciseName: exerciseName,
+        submittedAt: new Date().toISOString(),
+      };
+
+      await setDoc(docRef, docData);
+
       setEditedGoals((prev) => {
         const newState = { ...prev };
         delete newState[goalKey];
@@ -64,7 +88,13 @@ const GoalSetting = () => {
   const handleAttributeChange = (goalKey, attrKey, value) => {
     setEditedGoals((prev) => ({
       ...prev,
-      [goalKey]: { ...prev[goalKey], [attrKey]: value },
+      [goalKey]: {
+        ...prev[goalKey],
+        attributes: {
+          ...prev[goalKey].attributes,
+          [attrKey]: value,
+        },
+      },
     }));
   };
 
@@ -80,27 +110,26 @@ const GoalSetting = () => {
             ) : (
               Object.entries(goals).map(([goalKey, goalData]) => {
                 if (goalKey === "userId") return null;
-
-                if (!goalKey.startsWith("goals.")) {
-                  return null;
-                }
+                if (!goalKey.startsWith("goals.")) return null;
 
                 const displayName = goalKey.slice("goals.".length);
-
-                const attributes = goalData.attributes || {};
                 const isEditing = editedGoals.hasOwnProperty(goalKey);
+                const { attributes = {}, exerciseName } = goalData;
 
                 return (
                   <Card key={goalKey} className="goal-card">
                     <div className="card-content">
-                      <h3>{capitalize(displayName)}</h3>
-                      {Object.entries(attributes).map(([attrKey, attrValue]) =>
-                        isEditing ? (
+                      <h3>{capitalize(exerciseName || displayName)}</h3>
+                      {isEditing ? (
+                        Object.entries(attributes).map(([attrKey, attrValue]) => (
                           <p key={attrKey}>
                             <strong>{capitalize(attrKey)}:</strong>{" "}
                             <input
                               type="text"
-                              value={editedGoals[goalKey][attrKey] || ""}
+                              value={
+                                editedGoals[goalKey].attributes[attrKey] ||
+                                ""
+                              }
                               onChange={(e) =>
                                 handleAttributeChange(
                                   goalKey,
@@ -110,11 +139,13 @@ const GoalSetting = () => {
                               }
                             />
                           </p>
-                        ) : (
+                        ))
+                      ) : (
+                        Object.entries(attributes).map(([attrKey, attrValue]) => (
                           <p key={attrKey}>
                             <strong>{capitalize(attrKey)}:</strong> {attrValue}
                           </p>
-                        )
+                        ))
                       )}
                       {isEditing ? (
                         <Button
@@ -128,7 +159,7 @@ const GoalSetting = () => {
                         <Button
                           variant="secondary"
                           size="sm"
-                          onClick={() => handleEdit(goalKey, attributes)}
+                          onClick={() => handleEdit(goalKey, goalData)}
                         >
                           EDIT
                         </Button>
