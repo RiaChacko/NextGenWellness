@@ -128,32 +128,32 @@ function SignUp () {
 
     // Rendering display elements on page
     return(
-      <div className="entire-page">
-          <div className="center">
+      <div className="signup-page">
+          <div className="center-s">
             <img src={logo}></img>
           </div>
 
-          <div className="center title">
-            <h1 className="pink">NEXT-GEN&nbsp;</h1>
-            <h1 className="blue">WELLNESS</h1>
+          <div className="center-s title-s">
+            <h1 className="pink-s">NEXT-GEN&nbsp;</h1>
+            <h1 className="blue-s">WELLNESS</h1>
           </div>
 
-          <div className="center">
-            <button className="sign switch" type="button">SIGN UP</button>
+          <div className="center-s">
+            <button className="sign-s switch-s" type="button">SIGN UP</button>
             <a href="/login">
-              <button className="log switch" type="button" id="login">LOG IN</button>
+              <button className="log-s switch-s" type="button" id="login">LOG IN</button>
             </a>
             
           </div>
 
-          <div className="text-input center">
+          <div className="text-input-s center-s">
             <form onSubmit={handleSignupEmailPassword}>
 
-              <div className="center">
+              <div className="center-s">
                 <input type="name" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" size={40} required></input>
               </div>
 
-              <div className="center">
+              <div className="center-s">
                 <input type="email" name="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" size={40} required></input>
               </div>
 
@@ -162,9 +162,9 @@ function SignUp () {
                 <input type="password" name="password" id="confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password" size={17} required></input>
               </div>
 
-              <button type="submit" className="center create-account">CREATE ACCOUNT</button>
+              <button type="submit" className="center-s create-account-s">CREATE ACCOUNT</button>
               
-              <div className="center google-section-s">
+              <div className="center-s google-section-s">
                 <button onClick={handleGoogleSignUp} className="google-s">
                   <img id="google-img" src={google}  style={{ width: "2rem", height: "auto" }}></img> 
                   Sign up with Google</button> 

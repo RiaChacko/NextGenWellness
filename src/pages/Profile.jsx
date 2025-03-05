@@ -98,17 +98,17 @@ function Profile () {
                         <h2 className="edit-profile-title">EDIT PROFILE</h2>
                         <div className="input-group">
                             <label>NAME</label>
-                            <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} />
+                            <input className="profile-name" type="text" value={newName} onChange={(e) => setNewName(e.target.value)} />
                             <button className="change-button" onClick={handleChangeName}>CHANGE NAME</button>
                         </div>
                         <div className="input-group">
                             <label>EMAIL</label>
-                            <input type="email" value={email} readOnly />
+                            <input className="profile-email" type="email" value={email} readOnly />
                             <button className="change-button">CHANGE EMAIL</button>
                         </div>
                         <div className="input-group">
                             <label>PASSWORD</label>
-                            <input type="password" value="************" readOnly />
+                            <input className="profile-password" type="password" value="************" readOnly />
                         </div>
                         <div className="input-group">
                             <label>CONFIRM NEW PASSWORD</label>
