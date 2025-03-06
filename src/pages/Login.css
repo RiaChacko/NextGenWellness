@@ -133,3 +133,13 @@ input {
     width: 13.5rem;
 }
 
+.forgot {
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 70%;
+    margin-top: -0.5rem;
+    font-size: 0.6rem;
+}
+

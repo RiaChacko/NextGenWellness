@@ -106,17 +106,19 @@ function Login () {
               <input type="password" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" size={40} required></input>
               {/* <input type="password" name="password" id="confirm-password" placeholder="Confirm Password" size={17} required></input> */}
             </div>
-            <div className="flex space-x-4 mt-4">
-              <button type="submit" className="create-account-l flex-1">
-                LOGIN
-              </button>
-              <button
+            <button
                 type="button"
-                className="create-account-l flex-1"
+                className="forgot flex-1"
                 onClick={() => navigate("/forgot-password")}
               >
                 Forgot Password?
               </button>
+            <button type="submit" className="center create-account-l flex-1">
+                LOGIN
+              </button>
+            <div className="flex space-x-4 mt-4">
+              
+              
             </div>
             {/* <div className="sign-in-google">
               <img src={googlelogo}/>
@@ -127,7 +129,6 @@ function Login () {
               <img id="google-img" src={googlelogo}  style={{ width: "2rem", height: "auto" }}></img>
               Sign in with Google</button>
             </div>
-            
            
           </form>
 
