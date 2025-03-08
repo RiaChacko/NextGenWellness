@@ -2,8 +2,8 @@ import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-const StaticCircularProgress = () => {
-  const percentage = 57; 
+const StaticCircularProgress = ({ percent }) => {
+  const percentage = Math.min(percent, 100); 
 
   return (
     <div style={{ width: "200px", height: "200px", margin: "auto" }}>
