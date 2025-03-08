@@ -52,7 +52,7 @@ function Dashboard () {
                         );
                         const activitySnapshot = await getDocs(activityQuery);
                         if (activitySnapshot.empty) {
-                            setActivity({});
+                            setActivity([]);
                             setCaloriesBurned(0);
                         } else {
                             let activities = [];
