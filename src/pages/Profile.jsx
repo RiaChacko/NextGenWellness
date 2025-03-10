@@ -104,16 +104,13 @@ function Profile () {
                         <div className="input-group">
                             <label>EMAIL</label>
                             <input className="profile-email" type="email" value={email} readOnly />
-                            <button className="change-button">CHANGE EMAIL</button>
                         </div>
                         <div className="input-group">
                             <label>PASSWORD</label>
                             <input className="profile-password" type="password" value="************" readOnly />
                         </div>
                         <div className="input-group">
-                            <label>CONFIRM NEW PASSWORD</label>
-                            <input type="password" placeholder="New Password" />
-                            <button className="change-button">CHANGE PASSWORD</button>
+                            <button className="change-button">SEND PASSWORD RESET EMAIL</button>
                         </div>
                     </div>
                 </div>

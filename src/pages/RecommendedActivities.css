@@ -1,0 +1,11 @@
+.recommended-container {
+    padding: 1rem;
+    background-color: #f9f9f9;
+  }
+  
+  .recommended-container button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
