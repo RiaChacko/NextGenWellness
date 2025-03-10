@@ -110,9 +110,7 @@ function Profile () {
                             <input className="profile-password" type="password" value="************" readOnly />
                         </div>
                         <div className="input-group">
-                            <label>CONFIRM NEW PASSWORD</label>
-                            <input type="password" placeholder="New Password" />
-                            <button className="change-button">CHANGE PASSWORD</button>
+                            <button className="change-button">SEND PASSWORD RESET EMAIL</button>
                         </div>
                     </div>
                 </div>
