@@ -33,7 +33,7 @@ function Navbar() {
           onClick={() => handleTabSelect("log-new-workout")}
           className={activeTab === "log-new-workout" ? "active" : ""}
         >
-          LOG NEW WORKOUT
+          LOG A WORKOUT
         </a>
         </Link>
         <Link to="/motivation">
@@ -65,7 +65,7 @@ function Navbar() {
           onClick={() => handleTabSelect("activities")}
           className={activeTab === "activities" ? "active" : ""}
         >
-          RECOMMENDED ACTIVITIES
+          FITNESS PLAN
         </a>
         </Link>
       </div>
