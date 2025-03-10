@@ -173,11 +173,6 @@ const GoalSetting = () => {
                       )}
                     </div>
                   </Card>
-                  
-
-                  
-
-
                 );
               })
             )}
@@ -185,28 +180,12 @@ const GoalSetting = () => {
             <div className="add-goal-card">
                 <Card className="add-goal">
                   <div className = "add-new-goal" style={{ display: "flex", justifyContent: "center", cursor : "pointer" }}>
-                    <Button 
-                    variant="secondary"
-                    size="sm"
-                    onClick={handleNewGoal}>
+                    <Button onClick={handleNewGoal}>
                       <Plus size={16} />
                     </Button>
                   </div>
               </Card>
             </div>
-           
-            {/* <Card className="add-goal-card">
-                  <div className = "add-new-goal" style={{ display: "flex", justifyContent: "center", cursor : "pointer" }}>
-                    <Button 
-                    variant="secondary"
-                    size="md"
-                    onClick={handleNewGoal()}>
-                      <Plus size={16} />
-                    </Button>
-                </div>
-            </Card> */}
-
-
           </div>
         </main>
       </div>
