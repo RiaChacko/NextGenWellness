@@ -104,7 +104,6 @@ function Profile () {
                         <div className="input-group">
                             <label>EMAIL</label>
                             <input className="profile-email" type="email" value={email} readOnly />
-                            <button className="change-button">CHANGE EMAIL</button>
                         </div>
                         <div className="input-group">
                             <label>PASSWORD</label>
