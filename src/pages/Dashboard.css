@@ -133,6 +133,10 @@
   color: white;
 }
 
+.metrics-btn:hover{
+  cursor: pointer;
+}
+
 .steps-count-container{
   padding: 2rem;
   color: white;
