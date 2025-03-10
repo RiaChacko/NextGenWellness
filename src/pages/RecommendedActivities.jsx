@@ -4,9 +4,9 @@ import Navbar from "./Navbar";
 import "../pages/RecommendedActivities.css";
 
 function RecommendedActivities() {
-  // Create a configuration object using the imported module's properties
+  // Create a configuration object using Vite's environment variable
   const configuration = new OpenAI.Configuration({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+    apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   });
   const openai = new OpenAI.OpenAIApi(configuration);
 
