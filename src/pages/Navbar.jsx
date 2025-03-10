@@ -60,6 +60,14 @@ function Navbar() {
           GOAL-SETTING
         </a>
         </Link>
+        <Link to="/activities">
+        <a
+          onClick={() => handleTabSelect("activities")}
+          className={activeTab === "activities" ? "active" : ""}
+        >
+          RECOMMENDED ACTIVITIES
+        </a>
+        </Link>
       </div>
     </div>
   );
