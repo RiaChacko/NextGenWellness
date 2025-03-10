@@ -302,7 +302,7 @@ function Dashboard () {
                         </div>
                         
                     </div>
-                   <button className="metrics-btn">VIEW ALL ACTIVITIES</button>
+                  <Link to="/activities"><button className="metrics-btn">VIEW ALL ACTIVITIES</button></Link> 
                 </div>
               
             </div>
