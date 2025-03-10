@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, getAuth, sendPasswordResetEmail } from "firebase/auth";
 import "../pages/Profile.css";
 import Navbar from '../pages/Navbar.jsx';
 
@@ -10,6 +10,10 @@ function Profile () {
 
     const navigate = useNavigate();
 
+    const [user, setUser] = useState(null);
+    const [name, setName] = useState("");
+    const [newName, setNewName] = useState(""); 
+    const [email, setEmail] = useState("");
     const [deleteAccountConfirmMessage, setDeleteAccountConfirmMessage] = useState(false);
 
     const handleLogout = async () => {
@@ -29,10 +33,17 @@ function Profile () {
         setDeleteAccountConfirmMessage(false);
     }
 
-    const [user, setUser] = useState(null);
-    const [name, setName] = useState("");
-    const [newName, setNewName] = useState(""); 
-    const [email, setEmail] = useState("");
+    const handlePasswordReset = () => {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert("Password reset email has been sent! Please check your inbox.");
+        })
+        .catch((error) => {
+            console.error("There was an error sending password reset email:", error);
+        });
+
+    }
 
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
@@ -110,7 +121,7 @@ function Profile () {
                             <input className="profile-password" type="password" value="************" readOnly />
                         </div>
                         <div className="input-group">
-                            <button className="change-button">SEND PASSWORD RESET EMAIL</button>
+                            <button className="change-button " onClick={handlePasswordReset}>SEND PASSWORD RESET EMAIL</button>
                         </div>
                     </div>
                 </div>

@@ -51,29 +51,19 @@
     background-color: #444;
     border-radius: 8px;
     text-align: center;
-    
 }
 
 
 .add-goal-card {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
-    border: 2px dashed #888;
-    /* cursor: pointer; */
-    pointer-events: auto;
+    padding: 10px;
+    align-self: start;
 }
 
 .add-goal-card button {
-    z-index: 9999 !important;
-    pointer-events: auto !important;
-    position: relative;/* to help visualize */
-    /* cursor: pointer; */
     min-width: 2rem;
     min-height: 2rem;
     text-align: center;
-
 }
 
 .add-goal-card button:hover{cursor: pointer;}
