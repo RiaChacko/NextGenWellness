@@ -172,7 +172,6 @@ function Dashboard () {
                 </div>
                 <div className="fitness-goals-dashboard">
                     <h3>Fitness Goals</h3>
-
                     {goals.length > 0 ? (
                         goals.slice(0, 3).map((goal, index) => {
                             const matchingActivity = activity.find(act => act.activityType === goal.exerciseName);

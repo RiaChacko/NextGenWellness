@@ -12,6 +12,7 @@ import Navbar from './pages/Navbar.jsx';
 import Motivation from './pages/Motivation.jsx';
 import DeleteAccount from './pages/DeleteAccount.jsx';
 import Log from './pages/Log.jsx';
+import RecommendedActivities from './pages/RecommendedActivities.jsx';
 
 function App() {
   
@@ -32,6 +33,7 @@ function App() {
           <Route path='/navbar' element={<Navbar/>}/>
           <Route path='/motivation' element={<Motivation/>}/>
           <Route path='/log-new-workout' element={<Log/>}/>
+          <Route path='/activities' element={<RecommendedActivities/>}/>
         
         </Routes>
 
