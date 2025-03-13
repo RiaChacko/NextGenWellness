@@ -177,18 +177,10 @@ input[type="file"] {
     margin: 0;
 }
 
-button {
+.random-quote-container button{
     background-color: #5D80FF;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 1rem;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #4B70D1;
+.random-quote-container button:hover{
+    cursor: pointer;
 }
