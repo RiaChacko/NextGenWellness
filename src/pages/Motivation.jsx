@@ -43,7 +43,7 @@ function Motivation () {
                     <button>Add Motivational Quote</button>
                 </div>
             </div>
-            <div className="motivation-image-section">
+            {/* <div className="motivation-image-section">
                 <h2>Motivation Images & Videos</h2>
                 <p>Upload images and videos that motivate you that you can look back and reflect upon.</p>
                 <div className="upload-pics-motivation">
@@ -81,8 +81,8 @@ function Motivation () {
                         </label>
                     </div>
                 </div>
-            </div>
-            <button className="motivation-submit">SUBMIT</button>
+            </div> */}
+            {/* <button className="motivation-submit">SUBMIT</button> */}
         </div>
     );
 }
