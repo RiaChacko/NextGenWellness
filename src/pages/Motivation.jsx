@@ -27,6 +27,32 @@ function Motivation () {
         ));
     };
 
+    const [showWhyForm, setShowWhyForm] = useState(false);
+    const [showMotivationForm, setShowMotivationForm] = useState(false);
+    const [whyInput, setWhyInput] = useState("");
+    const [motivationalQuote, setMotivationalQuote] = useState("");
+
+    const toggleWhyForm = () => {
+        setShowWhyForm(!showWhyForm);
+    };
+
+    const toggleMotivationForm = () => {
+        setShowMotivationForm(!showMotivationForm);
+    };
+
+    const handleWhySubmit = (e) => {
+        e.preventDefault();
+        setShowWhyForm(false); 
+        setWhyInput(""); 
+    };
+
+
+    const handleMotivationSubmit = (e) => {
+        e.preventDefault();
+        setShowMotivationForm(false); 
+        setMotivationalQuote(""); 
+    };
+
     return(
         <div className="motivation-pg-container">
             <Navbar/>
@@ -35,12 +61,36 @@ function Motivation () {
                 <div className="why-container">
                     <h3>ADD YOUR WHY</h3>
                     <p>Why are you working out? What’s the passion behind it?</p>
-                    <button>Add Your Why</button>
+                    <button onClick={toggleWhyForm}>Add Your Why</button>
+                    {showWhyForm && (
+                        <form onSubmit={handleWhySubmit}>
+                            <input
+                                type="text"
+                                placeholder="Enter your reason..."
+                                value={whyInput}
+                                onChange={(e) => setWhyInput(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    )}
                 </div>
                 <div className="motivation-container">
                     <h3>ADD MOTIVATIONAL QUOTES</h3>
                     <p>What quotes pique your motivation to workout?</p>
-                    <button>Add Motivational Quote</button>
+                    <button onClick={toggleMotivationForm}>Add Motivational Quote</button>
+                    {showMotivationForm && (
+                        <form onSubmit={handleMotivationSubmit}>
+                            <input
+                                type="text"
+                                placeholder="Enter your motivational quote..."
+                                value={motivationalQuote}
+                                onChange={(e) => setMotivationalQuote(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    )}
                 </div>
             </div>
             {/* <div className="motivation-image-section">
