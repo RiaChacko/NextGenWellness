@@ -40,6 +40,10 @@
     background-color: #5D80FF;
 }
 
+.why-container button:hover{
+    cursor: pointer;
+}
+
 .motivation-container{
     padding: 1.2rem;
     background-color: #ff5da38e;
@@ -50,6 +54,10 @@
 
 .motivation-container button{
     background-color: #5D80FF;
+}
+
+.motivation-container button:hover{
+    cursor: pointer;
 }
 
 .motivation-image-section p{
