@@ -65,6 +65,14 @@
     left: 20rem;
 }
 
+.motivation-image-section button{
+    background-color: #5D80FF;
+}
+
+.motivation-image-section button:hover{
+    cursor: pointer;
+}
+
 .upload-pics-motivation {
     display: flex;
     flex-wrap: wrap;
@@ -133,4 +141,46 @@ input[type="file"] {
     color: white;
     padding: 1rem;
     margin-top: 3rem;
+}
+
+.random-quote-container {
+   
+    text-align: left;
+    max-width: 600px;
+    color: white;
+   position: relative;
+   left: 20rem;
+}
+
+.random-quote-container h2{
+    position: relative;
+    left: 0;
+}
+
+.quote-box {
+    background-color: rgba(255, 93, 163, 0.2);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-style: italic;
+    color: #FF5DA3;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quote-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 93, 163, 0.5);
+}
+
+.quote-box p {
+    margin: 0;
+}
+
+.random-quote-container button{
+    background-color: #5D80FF;
+}
+
+.random-quote-container button:hover{
+    cursor: pointer;
 }
