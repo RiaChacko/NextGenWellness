@@ -1,6 +1,7 @@
 .motivation-pg-container{
     background-color: #17161F;
     height: 100rem;
+    overflow-x: hidden;
 }
 
 .motivation-pg-container h2{
