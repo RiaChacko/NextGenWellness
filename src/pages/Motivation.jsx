@@ -3,29 +3,6 @@ import "../pages/Motivation.css";
 import Navbar from "./Navbar";
 
 function Motivation () {
-    const [images, setImages] = useState([]);
-    const [progressImages, setProgressImages] = useState([]);
-
-    // Handle file change for motivation images/videos
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages((prevImages) => [...prevImages, ...files]);
-    };
-
-    // Handle file change for progress images/videos
-    const handleProgressFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setProgressImages((prevImages) => [...prevImages, ...files]);
-    };
-
-    // Render uploaded images for motivation section
-    const renderImages = (imagesArray) => {
-        return imagesArray.map((file, index) => (
-            <div key={index} className="image-box">
-                <img src={URL.createObjectURL(file)} alt={`uploaded ${index}`} />
-            </div>
-        ));
-    };
 
     const [showWhyForm, setShowWhyForm] = useState(false);
     const [showMotivationForm, setShowMotivationForm] = useState(false);

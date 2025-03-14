@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../pages/Log.css";
 import Navbar from "./Navbar";
+import { 
+    doc, 
+    setDoc,
+    serverTimestamp,
+    increment
+  } from "firebase/firestore";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { db } from "./firebaseConfig";
 import footsteps from "../assets/footsteps-icon.svg";
 import scale from "../assets/scale-icon.svg";
 
@@ -28,6 +36,15 @@ function Log() {
     const [yoga2Data, setYoga2Data] = useState({ time: "" });  
     const [steps, setSteps] = useState("");
     const [weight, setWeight] = useState("");
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);
+        });
+        return () => unsubscribe();
+      }, []);
 
     const handleTreadmillChange = (e) => {
         const { name, value } = e.target;
@@ -81,14 +98,64 @@ function Log() {
         setYoga2Data({ time: e.target.value });
     };
 
-    const handleStepsChange = (e) => {
+    const handleStepsInputChange = (e) => {
         setSteps(e.target.value);
     };
-
-    const handleWeightChange = (e) => {
+    const handleWeightInputChange = (e) => {
         setWeight(e.target.value);
     };
 
+    const handleStepsSubmit = async (e) => {
+        e.preventDefault();
+        const newSteps = parseInt(steps, 10);
+
+        if (!user || isNaN(newSteps) || newSteps <= 0) {
+            console.error("Invalid input or no user logged in");
+            return;
+        }
+        const userId = user.uid;
+        const today = new Date().toISOString().split("T")[0]; 
+        const docId = `${userId}-${today}`;
+
+        try {
+              await setDoc(doc(db, "activities", docId), {
+                userId: user.uid,
+                activityType: "Steps",
+                timestamp: serverTimestamp(),
+                steps: increment(newSteps),
+              },
+              { merge: true }
+            );
+            setSteps("");
+            }
+            catch (error) {
+                console.error("Error saving steps: ", error);
+            }
+    };
+
+    const handleWeightSubmit = async (e) => {
+        e.preventDefault();
+
+        const newWeight = parseInt(weight, 10);
+
+        if (!user || isNaN(newWeight) || newWeight <= 0) {
+            console.error("Invalid input or no user logged in");
+            return;
+        }
+        const userId = user.uid;
+            try {
+              await setDoc(
+                doc(db, "users", userId),
+                { weight: newWeight },
+                { merge: true }
+              );
+              setWeight("");
+            }
+            catch (error) {
+                console.error("Error saving weight: ", error);
+                window.alert("Error saving your weight. Please try again.");
+              }
+    };
 
     const toggleTreadmillForm = () => setShowTreadmillForm(!showTreadmillForm);
     const toggleStairmasterForm = () => setShowStairmasterForm(!showStairmasterForm);
@@ -320,12 +387,12 @@ function Log() {
                 {showStepsForm && (
                     <div className="steps-form">
                         <h4>Log Steps</h4>
-                        <form>
+                        <form onSubmit={handleStepsSubmit}>
                             <label>Steps Taken:</label>
                             <input
                                 type="number"
                                 value={steps}
-                                onChange={handleStepsChange}
+                                onChange={handleStepsInputChange}
                                 required
                             />
                             <button type="submit">Submit</button>
@@ -336,12 +403,12 @@ function Log() {
                 {showWeightForm && (
                     <div className="weight-form">
                         <h4>Log Weight</h4>
-                        <form>
+                        <form onSubmit={handleWeightSubmit}>
                             <label>Weight (lbs):</label>
                             <input
                                 type="number"
                                 value={weight}
-                                onChange={handleWeightChange}
+                                onChange={handleWeightInputChange}
                                 required
                             />
                             <button type="submit">Submit</button>
