@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { 
     doc, 
     setDoc,
+    getDoc,
     serverTimestamp,
     increment
   } from "firebase/firestore";
@@ -118,11 +119,27 @@ function Log() {
         const docId = `${userId}-${today}`;
 
         try {
+
+            const userDocRef = doc(db, "users", userId);
+            const userSnap = await getDoc(userDocRef);
+
+            const userData = userSnap.data();
+            const heightMeters = (userData.height / 39.37).toFixed(2); 
+            const weightKgs = (userData.weight * 0.453592).toFixed(2);
+
+            const stride = (heightMeters * 0.414).toFixed(2);
+            const distance = stride * newSteps;
+
+            const time = (distance/1.4).toFixed(2);
+
+            const calories = (time * 3.8 * 3.5 * weightKgs/(200 * 60)).toFixed(2);
+
               await setDoc(doc(db, "activities", docId), {
                 userId: user.uid,
                 activityType: "Steps",
                 timestamp: serverTimestamp(),
                 steps: increment(newSteps),
+                caloriesBurned: increment(calories)
               },
               { merge: true }
             );
