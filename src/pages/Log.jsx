@@ -124,13 +124,13 @@ function Log() {
             const userSnap = await getDoc(userDocRef);
 
             const userData = userSnap.data();
-            const heightMeters = (userData.height / 39.37).toFixed(2); 
-            const weightKgs = (userData.weight * 0.453592).toFixed(2);
+            const heightMeters = (userData.height / 39.37); 
+            const weightKgs = (userData.weight * 0.453592);
 
-            const stride = (heightMeters * 0.414).toFixed(2);
+            const stride = (heightMeters * 0.414);
             const distance = stride * newSteps;
 
-            const time = (distance/1.4).toFixed(2);
+            const time = (distance/1.4);
 
             const calories = (time * 3.8 * 3.5 * weightKgs/(200 * 60)).toFixed(2);
 
