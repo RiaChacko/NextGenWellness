@@ -58,7 +58,7 @@ function Dashboard () {
                             let activities = [];
                             let totalCalories = 0;
                             activitySnapshot.forEach(doc => {
-                                totalCalories += doc.data().caloriesBurned || 0;
+                                totalCalories += doc.data().caloriesBurned.toFixed(2) || 0;
                                 activities.push(doc.data());
                             });
                             setActivity(activities);
@@ -151,7 +151,7 @@ function Dashboard () {
                     <div className="metric-content-inner">
                         {caloriesBurned==0 
                             ? <p>No activity tracked yet for today!</p> 
-                            : <p>Calories Burned : {caloriesBurned / 100 * 100}</p>}
+                            : <p>Calories Burned : {caloriesBurned/1}</p>}
                     </div>
                         {/* <div className="metric-content-inner">
                             <p>Carbs</p>

@@ -1,32 +1,80 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "../pages/Motivation.css";
 import Navbar from "./Navbar";
 
 function Motivation () {
-    const [images, setImages] = useState([]);
-    const [progressImages, setProgressImages] = useState([]);
 
-    // Handle file change for motivation images/videos
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages((prevImages) => [...prevImages, ...files]);
+    const [showWhyForm, setShowWhyForm] = useState(false);
+    const [showMotivationForm, setShowMotivationForm] = useState(false);
+    const [whyInput, setWhyInput] = useState("");
+    const [motivationalQuote, setMotivationalQuote] = useState("");
+
+    const toggleWhyForm = () => {
+        setShowWhyForm(!showWhyForm);
     };
 
-    // Handle file change for progress images/videos
-    const handleProgressFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setProgressImages((prevImages) => [...prevImages, ...files]);
+    const toggleMotivationForm = () => {
+        setShowMotivationForm(!showMotivationForm);
     };
 
-    // Render uploaded images for motivation section
-    const renderImages = (imagesArray) => {
-        return imagesArray.map((file, index) => (
-            <div key={index} className="image-box">
-                <img src={URL.createObjectURL(file)} alt={`uploaded ${index}`} />
-            </div>
-        ));
+    const handleWhySubmit = (e) => {
+        e.preventDefault();
+        setShowWhyForm(false); 
+        setWhyInput(""); 
     };
 
+
+    const handleMotivationSubmit = (e) => {
+        e.preventDefault();
+        setShowMotivationForm(false); 
+        setMotivationalQuote(""); 
+    };
+
+    const [streak, setStreak] = useState(0);
+    const [lastLoginDate, setLastLoginDate] = useState(null);
+
+    
+    useEffect(() => {
+        const savedStreak = localStorage.getItem("streak");
+        const savedLastLoginDate = localStorage.getItem("lastLoginDate");
+
+        if (savedStreak) {
+            setStreak(parseInt(savedStreak, 10));
+        }
+
+ 
+        if (savedLastLoginDate) {
+            const lastDate = new Date(savedLastLoginDate);
+            const today = new Date();
+
+
+            if (Math.floor((today - lastDate) / (1000 * 60 * 60 * 24)) > 1) {
+                setStreak(0); 
+            }
+        }
+
+        const currentDate = new Date().toISOString().split('T')[0]; 
+        setLastLoginDate(currentDate);
+        localStorage.setItem("lastLoginDate", currentDate);
+    }, []);
+
+    const handleLogMotivation = () => {
+        setStreak(streak + 1);
+        localStorage.setItem("streak", streak + 1); 
+    };
+    const [randomQuote, setRandomQuote] = useState("");
+    const quotes = [
+        "“The only bad workout is the one that didn’t happen.”",
+        "“Don’t stop when you’re tired. Stop when you’re done.”",
+        "“Your body can stand almost anything. It’s your mind that you have to convince.”",
+        "“Success is the sum of small efforts, repeated day in and day out.”",
+        "“Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.”"
+    ];
+
+    const generateRandomQuote = () => {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        setRandomQuote(quotes[randomIndex]);
+    };
     return(
         <div className="motivation-pg-container">
             <Navbar/>
@@ -35,18 +83,48 @@ function Motivation () {
                 <div className="why-container">
                     <h3>ADD YOUR WHY</h3>
                     <p>Why are you working out? What’s the passion behind it?</p>
-                    <button>Add Your Why</button>
+                    <button onClick={toggleWhyForm}>Add Your Why</button>
+                    {showWhyForm && (
+                        <form onSubmit={handleWhySubmit}>
+                            <input
+                                type="text"
+                                placeholder="Enter your reason..."
+                                value={whyInput}
+                                onChange={(e) => setWhyInput(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    )}
                 </div>
                 <div className="motivation-container">
                     <h3>ADD MOTIVATIONAL QUOTES</h3>
                     <p>What quotes pique your motivation to workout?</p>
-                    <button>Add Motivational Quote</button>
+                    <button onClick={toggleMotivationForm}>Add Motivational Quote</button>
+                    {showMotivationForm && (
+                        <form onSubmit={handleMotivationSubmit}>
+                            <input
+                                type="text"
+                                placeholder="Enter your motivational quote..."
+                                value={motivationalQuote}
+                                onChange={(e) => setMotivationalQuote(e.target.value)}
+                                required
+                            />
+                            <button type="submit">Submit</button>
+                        </form>
+                    )}
                 </div>
             </div>
-            <div className="motivation-image-section">
-                <h2>Motivation Images & Videos</h2>
-                <p>Upload images and videos that motivate you that you can look back and reflect upon.</p>
-                <div className="upload-pics-motivation">
+             <div className="motivation-image-section">
+                <h2>Daily Motivation Streak</h2>
+                <p> You've been consistent for <strong>{streak} days</strong>! 🔥</p>
+                {streak > 0 && streak % 5 === 0 && (
+                    <p className="motivational-message">Great job! Keep up the momentum!</p>
+                )}
+                <p>
+                    <button onClick={handleLogMotivation}>Log Motivation or Workout</button>
+                </p>
+                {/* <div className="upload-pics-motivation">
                     {renderImages(images)}
                     <div className="image-box">
                         <label className="upload-label">
@@ -60,10 +138,10 @@ function Motivation () {
                             <span className="plus-sign">+</span>
                         </label>
                     </div>
-                </div>
+                </div> */}
             </div>
 
-            <div className="progress-so-far-section">
+            {/* <div className="progress-so-far-section">
                 <h2>Your Progress So Far</h2>
                 <p>Upload images and videos of your progress so far.</p>
                 <div className="upload-pics-progress">
@@ -81,8 +159,15 @@ function Motivation () {
                         </label>
                     </div>
                 </div>
+            </div>  */}
+            {/* <button className="motivation-submit">SUBMIT</button> */}
+            <div className="random-quote-container">
+                <h2>Random Motivation:</h2>
+                <div className="quote-box">
+                    <p>{randomQuote || "Click below to get a motivational quote!"}</p>
+                </div>
+                <button onClick={generateRandomQuote}>Get a New Quote</button>
             </div>
-            <button className="motivation-submit">SUBMIT</button>
         </div>
     );
 }

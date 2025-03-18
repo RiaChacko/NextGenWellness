@@ -43,6 +43,7 @@
 .log-cardio button:hover {
     background-color: rgb(255, 93, 163);
     color:black;
+    cursor: pointer;
 }
 
 .log-strength button {
@@ -52,6 +53,7 @@
 .log-strength button:hover {
     background-color: rgb(93, 128, 255);
     color:black;
+    cursor: pointer;
 }
 
 .log-yoga button {
@@ -61,6 +63,7 @@
 .log-yoga button:hover {
     background-color: rgb(144, 93, 255);
     color:black;
+    cursor: pointer;
 }
 
 .log-other button {
@@ -70,6 +73,7 @@
 .log-other button:hover {
     background-color: rgb(67, 182, 94);
     color:black;
+    cursor: pointer;
 }
 
 .log-other-title {

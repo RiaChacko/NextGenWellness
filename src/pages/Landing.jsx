@@ -2,7 +2,7 @@
 import "./Landing.css";
 import { Link, useNavigate } from "react-router-dom";
 import svglogo from "../assets/Icon.svg";
-
+import heroPic from "../assets/landingpic2.png";
 function Landing() {
 
     const navigate = useNavigate();
@@ -31,7 +31,14 @@ function Landing() {
 
             </div>
 
-            <div className="main-content-l">
+            <div className="hero-section">
+                <h1>YOUR WELLNESS REIMAGINED</h1>
+                <h3>Next-gen tools for next-level fitness. Track progress, stay accountable, and push your limits.</h3>
+                <button>GET STARTED</button>
+            </div>
+
+
+            {/* <div className="main-content-l">
                 <h1>Links to pgs for developers temporarily:</h1>
                 <Link to="/login"><a>Login</a></Link>
                 <Link to="/signup"><a>Signup</a></Link>
@@ -43,45 +50,8 @@ function Landing() {
                 <Link to="/goals"><a>Goals</a></Link>
                 <Link to="/motivation"><a>Motivation</a></Link>
 
-            </div>
-            {/* <div className="text-3xl font-extrabold underline">
-                <h1>Landing Page</h1>
             </div> */}
-
-            {/* <button onClick={() => handleClick('/login')}>
-                Login
-            </button>
-
-            <button onClick={() => handleClick('/signup')}>
-                Signup
-            </button>
-
-            <button onClick={() => handleClick('/dashboard')}>
-                dashboard
-            </button>
-
-            <button onClick={() => handleClick('/profile')}>
-                Profile
-            </button>
-
-            <button onClick={() => handleClick('/goals')}>
-                Goal Setting
-            </button>
-
-            <button onClick={() => handleClick('/forgot-password')}>
-                Forgot Password
-            </button>
-
-            <button onClick={() => handleClick('/questionnaire')}>
-                Goals Questionnaire
-            </button>
-
-            <button onClick={() => handleClick('/navbar')}>
-                Navbar
-            </button>
-
-             */}
-
+            
         </div>
         
     );

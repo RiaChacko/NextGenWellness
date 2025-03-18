@@ -46,12 +46,17 @@ const GoalSetting = () => {
   }, [user]);
 
   const handleEdit = (goalKey, goalData) => {
+    console.log("Clicked!");
     setEditedGoals((prev) => ({
       ...prev,
       [goalKey]: {
         attributes: { ...(goalData.attributes || {}) },
       },
     }));
+  };
+
+  const handleNewGoal = () => {
+    console.log("New Goal button clicked!");
   };
 
   const handleSave = async (goalKey) => {
@@ -107,6 +112,7 @@ const GoalSetting = () => {
           <div className="goal-grid">
             {Object.keys(goals).length === 0 ? (
               <p>No goals available.</p>
+
             ) : (
               Object.entries(goals).map(([goalKey, goalData]) => {
                 if (goalKey === "userId") return null;
@@ -163,15 +169,23 @@ const GoalSetting = () => {
                         >
                           EDIT
                         </Button>
+                        
                       )}
                     </div>
                   </Card>
                 );
               })
             )}
-            <Card className="add-goal-card">
-              <Plus size={32} />
-            </Card>
+
+            <div className="add-goal-card">
+                <Card className="add-goal">
+                  <div className = "add-new-goal" style={{ display: "flex", justifyContent: "center", cursor : "pointer" }}>
+                    <Button onClick={handleNewGoal}>
+                      <Plus size={16} />
+                    </Button>
+                  </div>
+              </Card>
+            </div>
           </div>
         </main>
       </div>
