@@ -5,10 +5,12 @@ import Button from "../components/Button";
 import { Plus } from "lucide-react";
 import { onAuthStateChanged } from "firebase/auth";
 import {
+  collection,
   doc,
   onSnapshot,
   getDoc,
   setDoc,
+  getDocs
 } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import "./GoalSetting.css";
@@ -19,6 +21,14 @@ const GoalSetting = () => {
   const [user, setUser] = useState(null);
   const [goals, setGoals] = useState({});
   const [editedGoals, setEditedGoals] = useState({});
+  const [showNewGoalUI, setShowNewGoalUI] = useState(false);
+  // const [availableWorkouts, setAvailableWorkouts] = useState([]);
+  // const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [newGoalAttributes, setNewGoalAttributes] = useState({});
+  const [showGoalModal, setShowGoalModal] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [availableWorkouts, setAvailableWorkouts] = useState([]);
+  
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
@@ -30,6 +40,34 @@ const GoalSetting = () => {
     });
     return () => unsubscribeAuth();
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchWorkouts = async () => {
+      // const snapshot = await getDoc(doc(db, "meta", "workouts"));
+      const all = [];
+      // const collectionSnap = await getDocs(collection(db, "workouts"));
+      // collectionSnap.forEach(doc => {
+      //   all.push({ id: doc.id, ...doc.data() });
+      // });
+      // setAvailableWorkouts(all);
+      try {
+        // const all = [];
+        console.log("Inside try")
+        const collectionSnap = await getDocs(collection(db, "workouts"));
+        collectionSnap.forEach(doc => {
+          all.push({ id: doc.id, ...doc.data() });
+        });
+        console.log("Fetched workouts:", all);
+        setAvailableWorkouts(all);
+      } catch (error) {
+        console.log("Workouts:", all);
+        console.error("Error fetching workouts:", error);
+      }
+
+    };
+    fetchWorkouts();
+  }, [user]);
 
   useEffect(() => {
     if (!user) return;
@@ -56,8 +94,41 @@ const GoalSetting = () => {
   };
 
   const handleNewGoal = () => {
-    console.log("New Goal button clicked!");
+    // setShowNewGoalUI(true);
+    console.log("Create new goal clicked");
+    setShowGoalModal(true);
   };
+
+  const handleSaveNewGoal = async (workoutId) => {
+    if (!user || !availableWorkouts) return;
+  
+    const workout = availableWorkouts.find((w) => w.id === workoutId);
+    if (!workout) return;
+  
+    const goalKey = `goals.${workoutId.replace("workouts.", "")}`;
+    const goalData = {
+      attributes: { ...(workout.attributes || {}) },
+      exerciseName: workout.exerciseName,
+      submittedAt: new Date().toISOString(),
+    };
+  
+    try {
+      const docRef = doc(db, "userGoals", user.uid);
+      const docSnap = await getDoc(docRef);
+      const currentData = docSnap.exists() ? docSnap.data() : {};
+  
+      const updatedData = {
+        ...currentData,
+        [goalKey]: goalData,
+      };
+  
+      await setDoc(docRef, updatedData);
+    } catch (err) {
+      console.error("Failed to save new goal:", err);
+    }
+  };
+  
+  
 
   const handleSave = async (goalKey) => {
     const editedGoalData = editedGoals[goalKey];
@@ -194,21 +265,55 @@ const GoalSetting = () => {
                   </div>
               </Card>
             </div>
-           
-            {/* <Card className="add-goal-card">
-                  <div className = "add-new-goal" style={{ display: "flex", justifyContent: "center", cursor : "pointer" }}>
-                    <Button 
-                    variant="secondary"
-                    size="md"
-                    onClick={handleNewGoal()}>
-                      <Plus size={16} />
-                    </Button>
-                </div>
-            </Card> */}
+      
 
 
           </div>
         </main>
+        {showGoalModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+            <h2 style={{ fontSize: "1.5rem", fontFamily: "'Lexend Mega', sans-serif", marginBottom: "1rem" }}>
+          Create New Goal
+        </h2>
+              <label>Select a workout:</label>
+              <select
+                value={selectedWorkout}
+                onChange={(e) => setSelectedWorkout(e.target.value)}
+              >
+                <option value="">-</option>
+                {availableWorkouts.map((workout) => (
+                  <option key={workout.id} value={workout.id}>
+                    {workout.name}
+                  </option>
+                ))}
+              </select>
+
+              <div className="modal-buttons">
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    if (!selectedWorkout) return alert("Please select a workout");
+                    handleSaveNewGoal(selectedWorkout);
+                    setShowGoalModal(false);
+                    setSelectedWorkout(null);
+                  }}
+                >
+                  Save Goal
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowGoalModal(false);
+                    setSelectedWorkout(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
