@@ -44,23 +44,23 @@ const GoalSetting = () => {
   useEffect(() => {
     if (!user) return;
     const fetchWorkouts = async () => {
-      // const snapshot = await getDoc(doc(db, "meta", "workouts"));
       const all = [];
-      // const collectionSnap = await getDocs(collection(db, "workouts"));
-      // collectionSnap.forEach(doc => {
-      //   all.push({ id: doc.id, ...doc.data() });
-      // });
-      // setAvailableWorkouts(all);
       try {
-        // const all = [];
         console.log("Inside try")
         const collectionSnap = await getDocs(collection(db, "workouts"));
-        collectionSnap.forEach(doc => {
-          all.push({ id: doc.id, ...doc.data() });
-        });
+        // collectionSnap.forEach(doc => {
+        //   all.push({ id: doc.id, ...doc.data() });
+        // });
+        const all = collectionSnap.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAvailableWorkouts(all);
         console.log("Fetched workouts:", all);
         setAvailableWorkouts(all);
-      } catch (error) {
+      } 
+      
+      catch (error) {
         console.log("Workouts:", all);
         console.error("Error fetching workouts:", error);
       }
@@ -128,6 +128,36 @@ const GoalSetting = () => {
     }
   };
   
+  const handleAddGoal = async () => {
+    if (!selectedWorkout || !user) return;
+  
+    const docRef = doc(db, "userGoals", user.uid);
+    const goalId = `goals.${selectedWorkout.id}`; // Consistent key naming
+  
+    const newGoal = {
+      exerciseName: selectedWorkout.name,
+      attributes: selectedWorkout.trackingAttributes.reduce((acc, attr) => {
+        acc[attr.key] = attr.placeholder || "";
+        return acc;
+      }, {}),
+      submittedAt: new Date().toISOString(),
+    };
+  
+    try {
+      const existingDoc = await getDoc(docRef);
+      const data = existingDoc.exists() ? existingDoc.data() : {};
+      const updatedData = {
+        ...data,
+        [goalId]: newGoal,
+      };
+  
+      await setDoc(docRef, updatedData);
+      setShowGoalModal(false);
+      setSelectedWorkout(null);
+    } catch (error) {
+      console.error("Error adding new goal:", error);
+    }
+  };
   
 
   const handleSave = async (goalKey) => {
@@ -297,6 +327,7 @@ const GoalSetting = () => {
                   onClick={() => {
                     if (!selectedWorkout) return alert("Please select a workout");
                     handleSaveNewGoal(selectedWorkout);
+                    handleAddGoal(selectedWorkout);
                     setShowGoalModal(false);
                     setSelectedWorkout(null);
                   }}
