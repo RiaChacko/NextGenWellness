@@ -175,7 +175,7 @@ function Dashboard () {
                         <button className="metrics-btn">VIEW ALL METRICS</button>
                     </div>
                     <div className="progress-bar-dashboard">
-                        <CircularProgress percent={(caloriesBurned/100 * 100)}/>
+                        <CircularProgress percent={(caloriesBurned/1)}/>
                     </div>
                 </div>
                 <div className="steps-count-container">
