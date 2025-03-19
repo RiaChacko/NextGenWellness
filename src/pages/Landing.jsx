@@ -34,7 +34,7 @@ function Landing() {
             <div className="hero-section">
                 <h1>YOUR WELLNESS REIMAGINED</h1>
                 <h3>Next-gen tools for next-level fitness. Track progress, stay accountable, and push your limits.</h3>
-                <button>GET STARTED</button>
+                <Link to="/signup"><button>GET STARTED</button></Link>
             </div>
 
 

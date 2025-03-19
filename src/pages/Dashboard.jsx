@@ -40,29 +40,40 @@ function Dashboard () {
                             console.error("The user's document does not exist in the database.");
                         }
                         
-                        //getting user data to show cals burnt
-                        const today = new Date();
-                        today.setHours(0, 0, 0, 0);
-                        const activityQuery = query(
-                            collection(db, "activities"),
-                            where("userId", "==", currentUser.uid),
-                            where("timestamp", ">=", today),
-                            orderBy("userId"),
-                            orderBy("timestamp")
-                        );
-                        const activitySnapshot = await getDocs(activityQuery);
-                        if (activitySnapshot.empty) {
-                            setActivity([]);
-                            setCaloriesBurned(0);
-                        } else {
-                            let activities = [];
-                            let totalCalories = 0;
-                            activitySnapshot.forEach(doc => {
-                                totalCalories += doc.data().caloriesBurned.toFixed(2) || 0;
-                                activities.push(doc.data());
-                            });
-                            setActivity(activities);
-                            setCaloriesBurned(totalCalories);
+                        //getting user data to show cals burnt & activity logged
+                        const userId = currentUser.uid;
+                        const today = new Date().toISOString().split("T")[0]; 
+                        const docId = `${userId}-${today}`;
+                
+                        try {
+                            const userDocRef = doc(db, "activities", docId);
+                            const userSnap = await getDoc(userDocRef);
+                            const userData = userSnap.data().activities;
+                            if (userData.empty) {
+                                setActivity([]);
+                                setCaloriesBurned(0);
+                            } else {
+                                const activityArray = Object.values(userData);
+                                let activities = [];
+                                let totalCalories = 0;
+                                activityArray.forEach((active) => {
+
+                                    if (active.activityType=='Steps') {
+                                        
+                                        let activityCalorie = active.caloriesBurned;
+
+                                        totalCalories+= activityCalorie/1;
+                                    }
+                                    activities.push(active);
+                                });
+                                setActivity(activities);
+                                setCaloriesBurned(totalCalories.toFixed(2));
+                            }
+
+                        }
+                        catch(error)
+                        {
+                            console.error("Error: ",error)
                         }
 
                         //getting user data to show goals
@@ -174,48 +185,47 @@ function Dashboard () {
                     <h3>Fitness Goals</h3>
                     {goals.length > 0 ? (
                         goals.slice(0, 3).map((goal, index) => {
-                            const matchingActivity = activity.find(act => act.activityType === goal.exerciseName);
+                            const matchingActivities = activity.filter(act => act.activityType === goal.exerciseName);
+
+                            let totalValue = 0;
+                            let unit = "";
+                            
+                            if (matchingActivities.length > 0) {
+                                matchingActivities.forEach(act => {
+                                    const actAttributes = act.attributes;
+
+                                    const value =
+                                        actAttributes.Time || actAttributes.Duration || actAttributes.Reps ||
+                                        actAttributes.Distance || actAttributes?.["Number of Rounds"];
+
+                                    if (value) totalValue += Number(value);
+                                });
+                                
+                            }
+                            unit = goal.attributes?.Time || goal.attributes?.Duration ? "min" :
+                                goal.attributes?.Reps ? "reps" :
+                                goal.attributes?.Distance ? "miles" :
+                                goal.attributes?.["Number of Rounds"] ? "rounds" : "";
+
+                            const goalValue = goal.attributes?.Time || goal.attributes?.Duration ||
+                                goal.attributes?.Reps || goal.attributes?.Distance || 
+                                goal.attributes?.["Number of Rounds"];
 
                             let progress = 0;
-                            if (matchingActivity) {
-                                const activityValue = matchingActivity.Time || matchingActivity.Duration || matchingActivity.Reps 
-                                || matchingActivity.Distance || matchingActivity?.["Number of Rounds"];
-                                const goalValue = goal.attributes?.Time || goal.attributes?.Duration || goal.attributes?.Reps || 
-                                goal.attributes?.Distance || goal.attributes?.["Number of Rounds"];
-
-                                if (goalValue && activityValue) {
-                                    progress = ((activityValue / goalValue) * 100).toFixed(2);
-                                }
+                            if (goalValue && totalValue) {
+                                progress = ((totalValue / goalValue) * 100).toFixed(2);
                             }
+
                             
                             return (
                                 <div key={index} className="fitness-goals-individual">
                                     <div className="time-card">
-                                        <span>
-                                            {matchingActivity
-                                                ? matchingActivity.Time || matchingActivity.Duration || matchingActivity.Reps || 
-                                                matchingActivity.Distance || matchingActivity?.["Number of Rounds"] || "N/A"
-                                                : 0
-                                            }
-                                        </span>
-                                        <span>
-                                            {matchingActivity?.Time || matchingActivity?.Duration || 
-                                            goal.attributes?.Time || goal.attributes?.Duration
-                                                ? "min"
-                                                : matchingActivity?.Reps || goal.attributes?.Reps
-                                                ? "reps"
-                                                : matchingActivity?.Distance || goal.attributes?.Distance 
-                                                ? "miles"
-                                                : matchingActivity?.["Number of Rounds"] || goal.attributes?.["Number of Rounds"]
-                                                ? "rounds"
-                                                : ""}
-                                        </span>
+                                        <span>{totalValue || 0}</span>
+                                        <span>{unit}</span>
                                     </div>
                                     <div className="goal-name-log">
                                         <h4>{goal.exerciseName}</h4>
-                                        <span>{goal.attributes?.Time || goal.attributes?.Duration || 
-                                        goal.attributes?.Reps || goal.attributes?.Distance || 
-                                        goal.attributes?.["Number of Rounds"] || "N/A"}</span>
+                                        <span>{goalValue || "N/A"}</span>
                                         <span>
                                             {goal.attributes?.Time 
                                                 ? " min/day"

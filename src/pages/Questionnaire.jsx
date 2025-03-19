@@ -83,6 +83,7 @@ function Questionnaire() {
 
       const goal = {
         exerciseName: activeWorkout.name,
+        category: activeWorkout.category,
         attributes: tempGoals,
         submittedAt: new Date().toISOString()
       };
