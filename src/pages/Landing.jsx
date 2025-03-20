@@ -37,6 +37,10 @@ function Landing() {
                 <button>GET STARTED</button>
             </div>
 
+            <div className="features">
+                <h2>Our Features</h2>
+            </div>
+
 
             {/* <div className="main-content-l">
                 <h1>Links to pgs for developers temporarily:</h1>
