@@ -94,11 +94,9 @@ function Profile () {
             <div className={`profile-page ${deleteAccountConfirmMessage ? 'blur-background' : ''}`}>
                 <div className="profile-content">
                     <div className="profile-card">
-                        <img 
-                            src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRoHDdcekKSGl-5gzbOJNeVbtgpqdwhljlrkYDIw9I58UA2r81dnE_Pof4_E5IQhzLpM5PMKsKP5OIR4aAZwz8zpg" 
-                            alt="Profile" 
-                            className="profile-image" 
-                        />
+                    <div className="profile-image-container">
+                        <div className="profile-initials">{name[0]}{name.split(" ")[1]?.[0]}</div> 
+                    </div>
                         <h2>{name}</h2> 
                         <p>{email}</p>
                         <button className="logout-button" onClick={handleLogout}>LOG OUT</button>
