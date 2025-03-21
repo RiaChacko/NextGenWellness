@@ -1,6 +1,7 @@
 
 import "./Landing.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { useState } from "react";
 import svglogo from "../assets/Icon.svg";
 import heroPic from "../assets/landingpic2.png";
 import dashboard from "../assets/dashboard.png";
@@ -13,6 +14,18 @@ function Landing() {
 
     const handleClick = (path) => {
         navigate(path); 
+    };
+
+    const [email, setEmail] = useState("");
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    const handleEmailSubmit = (e) => {
+        e.preventDefault();
+        alert(`Thank you for subscribing!`);
+        setEmail(""); 
     };
 
     return(
@@ -30,7 +43,7 @@ function Landing() {
                     <a href="#features">Our Features</a>
                    <Link to="/signup"><a>Sign up</a></Link> 
                    <Link to="/login"><a>Login</a></Link> 
-                    <a>Contact Us</a>
+                    <a href="#contact-us">Contact Us</a>
                 </div>
 
             </div>
@@ -78,20 +91,26 @@ function Landing() {
                 </div>
             </div>
 
+            <div className="contact-us-wrapper">
+    <div className="contact-us" id="contact-us">
+        <h2>Contact Us</h2>
+        <p>If you have any questions or need assistance, reach out to us. We're here to help you on your fitness journey!</p>
+        <div className="contact-form">
+            <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={handleEmailChange}
+            />
+            <button onClick={handleEmailSubmit}>Subscribe</button>
+        </div>
+    </div>
 
-            {/* <div className="main-content-l">
-                <h1>Links to pgs for developers temporarily:</h1>
-                <Link to="/login"><a>Login</a></Link>
-                <Link to="/signup"><a>Signup</a></Link>
-                <Link to="/forgot-password"><a>Forgot Password</a></Link>
-                <Link to="/dashboard"><a>Dashboard</a></Link>
-                <Link to="/questionnaire"><a>Questionnaire</a></Link>
-                <Link to="/profile"><a>Profile</a></Link>
-                <Link to="/navbar"><a>Navbar</a></Link>
-                <Link to="/goals"><a>Goals</a></Link>
-                <Link to="/motivation"><a>Motivation</a></Link>
-
-            </div> */}
+    <div className="footer">
+        <p>© 2025 Next-Gen Wellness. All rights reserved.</p>
+        <p><Link to="/terms">Terms & Conditions</Link> | <Link to="/privacy">Privacy Policy</Link></p>
+    </div>
+</div>
             
         </div>
         
