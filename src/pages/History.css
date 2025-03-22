@@ -40,6 +40,10 @@
 .filter-buttons button#selected{
     background-color: #FF5DA3;
 } 
+
+.filter-buttons button:hover{
+  cursor: pointer;
+}
 /* 
 .history-layout-headings{
     display: flex;
@@ -109,6 +113,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: all 1s;
   }
   
   .user-history-table td button:hover {

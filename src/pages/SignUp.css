@@ -57,6 +57,7 @@
     border-width: 3px;
     color: #FF5DA3;
     font-weight: bold;
+    transition: all 1s;
 }
 
 .log-s:hover {
@@ -75,6 +76,7 @@
     margin-top: 2rem;
     padding-left: 3rem;
     padding-right: 3rem;
+    transition: all 1s;
 }
 
 .create-account-s:hover {
@@ -86,6 +88,7 @@
     padding-right: 4rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
+    cursor: pointer;
 }
 
 input {
@@ -104,10 +107,12 @@ input {
 .google-section-s {
     margin: 0px;
     padding: 0px;
+    transition: all 1s;
 }
 
 .google-section-s:hover {
     color: rgb(133, 133, 133);
+    
 }
 
 .google-s {
@@ -116,6 +121,7 @@ input {
     display: flex;
     align-items: center;
     background-color: #17161F;
+    cursor: pointer;
 }
 
 #google-img {

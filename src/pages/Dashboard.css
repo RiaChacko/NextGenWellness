@@ -4,7 +4,8 @@
 
 .dashboard-container {
   background-color: #17161F;
-  height: 200rem;
+  height: 105rem;
+  overflow: hidden;
 }
 
 .top-header-dashboard {
@@ -98,6 +99,10 @@
   position: relative;
   left: 42rem;
   background-color: #FF5DA3;
+}
+
+.top-header-dashboard button:hover{
+  cursor: pointer;
 }
 .dashboard-content-space {
   display: flex;
