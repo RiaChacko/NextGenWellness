@@ -109,6 +109,7 @@ const GoalSetting = () => {
     const goalData = {
       attributes: { ...(workout.attributes || {}) },
       exerciseName: workout.exerciseName,
+      category: workout.category,
       submittedAt: new Date().toISOString(),
     };
   
@@ -136,6 +137,7 @@ const GoalSetting = () => {
   
     const newGoal = {
       exerciseName: selectedWorkout.name,
+      category: selectedWorkout.category,
       attributes: selectedWorkout.trackingAttributes.reduce((acc, attr) => {
         acc[attr.key] = attr.placeholder || "";
         return acc;
@@ -176,6 +178,7 @@ const GoalSetting = () => {
       docData[goalKey] = {
         attributes: editedGoalData.attributes,
         exerciseName: exerciseName,
+        category: originalWorkout.category,
         submittedAt: new Date().toISOString(),
       };
 
