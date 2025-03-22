@@ -68,6 +68,14 @@ function Navbar() {
           FITNESS PLAN
         </a>
         </Link>
+        <Link to="/history">
+        <a
+          onClick={() => handleTabSelect("history")}
+          className={activeTab === "history" ? "active" : ""}
+        >
+          USER HISTORY
+        </a>
+        </Link>
       </div>
     </div>
   );
