@@ -1,0 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
+.user-history-container{
+    display: flex;
+    height: 100vh;
+    background-color: #242330;
+    overflow: hidden;
+}
