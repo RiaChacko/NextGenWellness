@@ -20,7 +20,15 @@ function Dashboard () {
     const [activity, setActivity] = useState([]);
     const [caloriesBurned, setCaloriesBurned] = useState(0);
     const [goals, setGoals] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false); 
 
+    const openModal = () => {
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false); 
+    };
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -172,11 +180,20 @@ function Dashboard () {
                             <p>Proteins</p>
                             <span>11.9%</span>
                         </div> */}
-                        <button className="metrics-btn">VIEW ALL METRICS</button>
+                        <button className="metrics-btn" onClick={openModal}>VIEW ALL METRICS</button>
                     </div>
                     <div className="progress-bar-dashboard">
                         <CircularProgress percent={(caloriesBurned/1)}/>
                     </div>
+                    {isModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>All Metrics</h3>
+              <p>Details about all metrics...</p>
+              <button onClick={closeModal}>Close</button>
+            </div>
+          </div>
+        )}
                 </div>
                 <div className="steps-count-container">
                     <StepsChart/>
