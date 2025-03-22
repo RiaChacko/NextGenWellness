@@ -16,77 +16,6 @@ function Profile () {
     const [email, setEmail] = useState("");
     const [deleteAccountConfirmMessage, setDeleteAccountConfirmMessage] = useState(false);
 
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            navigate("/login");
-        } catch (error) {
-            console.error("There was an error signing the user out:", error);
-        }
-    };
-
-    const handleDeleteClick = () => {
-        setDeleteAccountConfirmMessage(true);
-    }
-
-    const handleDelete = async () => {
-
-        try {
-
-            const activitiesRef = collection(db, "activities");
-            const activityQuery = query(activitiesRef, where("__name__", ">=", user.uid), where("__name__", "<=", user.uid + "\uf8ff"));
-            const activitySnapshot = await getDocs(activityQuery);
-
-            const usersRef = collection(db, "users");
-            const usersQuery = query(usersRef, where("__name__", "==", user.uid));
-            const usersSnapshot = await getDocs(usersQuery);
-
-            const goalsRef = collection(db, "userGoals");
-            const goalsQuery = query(goalsRef, where("__name__", "==", user.uid));
-            const goalsSnapshot = await getDocs(goalsQuery);
-            
-            const batch = writeBatch(db);
-            activitySnapshot.forEach((docSnap) => {
-                batch.delete(doc(activitiesRef, docSnap.id));
-            });
-            usersSnapshot.forEach((docSnap) => {
-                batch.delete(doc(usersRef, docSnap.id));
-            });
-            goalsSnapshot.forEach((docSnap) => {
-                batch.delete(doc(goalsRef, docSnap.id));
-            });
-            await batch.commit();
-
-        }
-        catch (error) {
-            console.error("Error:", error)
-
-        }
-
-        deleteUser(user).then(() => {
-            navigate("/signup");
-        }).catch((error) => {
-            alert("Session timed out. Please log in again to delete your account!")
-            navigate("/login");
-        });
-    }
-
-    const handleCancelClick = () => {
-        setDeleteAccountConfirmMessage(false);
-    }
-
-    const handlePasswordReset = () => {
-        const auth = getAuth();
-        sendPasswordResetEmail(auth, email)
-        .then(() => {
-            alert("Password reset email has been sent! Please check your inbox.");
-        })
-        .catch((error) => {
-            console.error("There was an error sending password reset email:", error);
-        });
-
-    }
-
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
             if (currentUser) {
@@ -111,6 +40,82 @@ function Profile () {
 
         return () => getData();
     }, []);
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/login");
+        } catch (error) {
+            console.error("There was an error signing the user out:", error);
+        }
+    };
+
+    const handleDeleteClick = () => {
+        setDeleteAccountConfirmMessage(true);
+    }
+
+    const handleDelete = async () => {
+
+        try {
+
+            const activitiesRef = collection(db, "activities");
+            const activityQuery = query(activitiesRef, where("__name__", ">=", user.uid), where("__name__", "<=", user.uid + "\uf8ff"));
+            const activitySnapshot = await getDocs(activityQuery);
+
+            const goalsRef = collection(db, "userGoals");
+            const goalsQuery = query(goalsRef, where("__name__", "==", user.uid));
+            const goalsSnapshot = await getDocs(goalsQuery);
+            
+            const batch = writeBatch(db);
+            activitySnapshot.forEach((docSnap) => {
+                batch.delete(doc(activitiesRef, docSnap.id));
+            });
+            
+            goalsSnapshot.forEach((docSnap) => {
+                batch.delete(doc(goalsRef, docSnap.id));
+            });
+            await batch.commit();
+
+        }
+        catch (error) {
+            console.error("Error:", error)
+
+        }
+
+        deleteUser(user).then(async () => {
+            const batch = writeBatch(db);
+            const usersRef = collection(db, "users");
+            const usersQuery = query(usersRef, where("__name__", "==", user.uid));
+            const usersSnapshot = await getDocs(usersQuery);
+            usersSnapshot.forEach((docSnap) => {
+                batch.delete(doc(usersRef, docSnap.id));
+            });
+            await batch.commit();
+            navigate("/signup");
+        }).catch((error) => {
+            console.error(error);
+            alert("Session timed out. Please log in again to delete your account!")
+            navigate("/login");
+        });
+    }
+
+    const handleCancelClick = () => {
+        setDeleteAccountConfirmMessage(false);
+    }
+
+    const handlePasswordReset = () => {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert("Password reset email has been sent! Please check your inbox.");
+        })
+        .catch((error) => {
+            console.error("There was an error sending password reset email:", error);
+        });
+
+    }
+
+    
 
     const handleChangeName = async () => {
         if (!newName || newName === name) return; 
