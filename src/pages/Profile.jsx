@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged, signOut, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { doc, getDoc, getDocs, updateDoc, collection, query, where, writeBatch } from "firebase/firestore";
+import { onAuthStateChanged, signOut, getAuth, sendPasswordResetEmail, deleteUser, reauthenticateWithCredential } from "firebase/auth";
 import "../pages/Profile.css";
 import Navbar from '../pages/Navbar.jsx';
 
@@ -27,6 +27,48 @@ function Profile () {
 
     const handleDeleteClick = () => {
         setDeleteAccountConfirmMessage(true);
+    }
+
+    const handleDelete = async () => {
+
+        try {
+
+            const activitiesRef = collection(db, "activities");
+            const activityQuery = query(activitiesRef, where("__name__", ">=", user.uid), where("__name__", "<=", user.uid + "\uf8ff"));
+            const activitySnapshot = await getDocs(activityQuery);
+
+            const usersRef = collection(db, "users");
+            const usersQuery = query(usersRef, where("__name__", "==", user.uid));
+            const usersSnapshot = await getDocs(usersQuery);
+
+            const goalsRef = collection(db, "userGoals");
+            const goalsQuery = query(goalsRef, where("__name__", "==", user.uid));
+            const goalsSnapshot = await getDocs(goalsQuery);
+            
+            const batch = writeBatch(db);
+            activitySnapshot.forEach((docSnap) => {
+                batch.delete(doc(activitiesRef, docSnap.id));
+            });
+            usersSnapshot.forEach((docSnap) => {
+                batch.delete(doc(usersRef, docSnap.id));
+            });
+            goalsSnapshot.forEach((docSnap) => {
+                batch.delete(doc(goalsRef, docSnap.id));
+            });
+            await batch.commit();
+
+        }
+        catch (error) {
+            console.error("Error:", error)
+
+        }
+
+        deleteUser(user).then(() => {
+            navigate("/signup");
+        }).catch((error) => {
+            alert("Session timed out. Please log in again to delete your account!")
+            navigate("/login");
+        });
     }
 
     const handleCancelClick = () => {
@@ -129,7 +171,7 @@ function Profile () {
                     <div className="popup">
                         <p>ARE YOU SURE YOU WANT TO <span className="delete-text">DELETE</span> YOUR ACCOUNT?</p>
                         <div className="popup-buttons">
-                            <button className="delete-button" onClick={handleDeleteClick}>DELETE ACCOUNT</button>
+                            <button className="delete-button" onClick={handleDelete}>DELETE ACCOUNT</button>
                             <button className="cancel-button" onClick={handleCancelClick}>CANCEL</button>
                         </div>
                     </div>
