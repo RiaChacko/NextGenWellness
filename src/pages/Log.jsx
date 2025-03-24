@@ -6,7 +6,8 @@ import {
     setDoc,
     getDoc,
     updateDoc,
-    arrayUnion
+    arrayUnion,
+    Timestamp
   } from "firebase/firestore";
   import { onAuthStateChanged } from "firebase/auth";
   import { auth, db } from "./firebaseConfig";
@@ -39,7 +40,6 @@ function Log() {
                                             return obj;
                                         }, {});
                                     const goalsArray = Object.values(goalsObject);
-                                    console.log(goalsArray)
                                      
                                     const organizedGoals = { cardio: [], strength: [], yoga: [] };
 
@@ -50,7 +50,6 @@ function Log() {
                                     });
 
                                     setUserGoals(organizedGoals);
-                                    console.log(userGoals)
                                 }
 
                             } catch (error) {
@@ -79,8 +78,10 @@ function Log() {
             return;
         }
         const userId = user.uid;
-        const today = new Date().toISOString().split("T")[0]; 
-        const docId = `${userId}-${today}`;
+        const now = new Date();
+        const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const todayISO = localDate.toISOString().split("T")[0]; 
+        const docId = `${userId}-${todayISO}`;
 
         try {
 
@@ -99,7 +100,7 @@ function Log() {
 
             const newActivity = {
                 activityType: "Steps",
-                timestamp: new Date(), 
+                timestamp: Timestamp.now(),
                 steps: newSteps,
                 caloriesBurned: calories
             };
@@ -164,19 +165,22 @@ function Log() {
             return;
         }
         const userId = user.uid;
-        const today = new Date().toISOString().split("T")[0]; 
-        const docId = `${userId}-${today}`;
+        const now = new Date();
+        const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const todayISO = localDate.toISOString().split("T")[0];
+        const docId = `${userId}-${todayISO}`;
 
         const attributes = formValues[goal.exerciseName] || goal.attributes;
 
-        const hasEmptyFields = Object.values(attributes).some(value => !value.trim());
+        const hasEmptyFields = Object.values(attributes).some(value => !value || value.trim() === "");
+
         if (hasEmptyFields) {
             alert("Please fill in all fields before submitting.");
             return;
         }
 
         try {
-            const timestamp = new Date();
+            const timestamp = Timestamp.now();
             const docRef = doc(db, "activities", docId);
             const docSnap = await getDoc(docRef);
     
