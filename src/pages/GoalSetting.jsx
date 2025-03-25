@@ -28,6 +28,7 @@ const GoalSetting = () => {
   const [showGoalModal, setShowGoalModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [availableWorkouts, setAvailableWorkouts] = useState([]);
+  const [tempGoals, setTempGoals] = useState({});
   
 
   useEffect(() => {
@@ -99,16 +100,13 @@ const GoalSetting = () => {
     setShowGoalModal(true);
   };
 
-  const handleSaveNewGoal = async (workoutId) => {
-    if (!user || !availableWorkouts) return;
+  const handleSaveNewGoal = async () => {
+    if (!user || !selectedWorkout) return;
   
-    const workout = availableWorkouts.find((w) => w.id === workoutId);
-    if (!workout) return;
-  
-    const goalKey = `goals.${workoutId.replace("workouts.", "")}`;
+    const goalKey = `goals.${selectedWorkout.id}`;
     const goalData = {
-      attributes: { ...(workout.attributes || {}) },
-      exerciseName: workout.exerciseName,
+      attributes: { ...tempGoals }, // Use user-defined values
+      exerciseName: selectedWorkout.name,
       submittedAt: new Date().toISOString(),
     };
   
@@ -123,10 +121,14 @@ const GoalSetting = () => {
       };
   
       await setDoc(docRef, updatedData);
+      setShowGoalModal(false);
+      setSelectedWorkout(null);
+      setTempGoals({}); // Reset form after save
     } catch (err) {
       console.error("Failed to save new goal:", err);
     }
   };
+  
   
   const handleAddGoal = async () => {
     if (!selectedWorkout || !user) return;
@@ -203,6 +205,39 @@ const GoalSetting = () => {
       },
     }));
   };
+
+  const GoalForm = ({ activeWorkout, handleSave }) => {
+    const fields = activeWorkout.trackingAttributes;
+    if (!fields) return null;
+  
+    return (
+      <div className="form-container">
+        <h2 className="goals-header">SET GOALS FOR {activeWorkout.name}</h2>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSave();
+          }}
+        >
+          {fields.map((field) => (
+            <div key={field.key} className="form-field">
+              <label>{field.label}</label>
+              <input
+                type={field.type}
+                placeholder={field.placeholder}
+                value={tempGoals[field.key] || ""}
+                onChange={(e) =>
+                  setTempGoals({ ...tempGoals, [field.key]: e.target.value })
+                }
+              />
+            </div>
+          ))}
+          <button type="submit" className="save-button">SUBMIT</button>
+        </form>
+      </div>
+    );
+  };
+  
 
   return (
     <div className="goal-setting-container">
@@ -287,19 +322,6 @@ const GoalSetting = () => {
                   </div>
               </Card>
             </div>
-           
-            {/* <Card className="add-goal-card">
-                  <div className = "add-new-goal" style={{ display: "flex", justifyContent: "center", cursor : "pointer" }}>
-                    <Button 
-                    variant="secondary"
-                    size="md"
-                    onClick={handleNewGoal()}>
-                      <Plus size={16} />
-                    </Button>
-                </div>
-            </Card> */}
-
-
           </div>
         </main>
         {showGoalModal && (
@@ -310,16 +332,21 @@ const GoalSetting = () => {
         </h2>
               <label>Select a workout:</label>
               <select
-                value={selectedWorkout}
-                onChange={(e) => setSelectedWorkout(e.target.value)}
-              >
-                <option value="">-</option>
-                {availableWorkouts.map((workout) => (
-                  <option key={workout.id} value={workout.id}>
-                    {workout.name}
-                  </option>
-                ))}
-              </select>
+              value={selectedWorkout?.id || ""}
+              onChange={(e) => {
+                const workout = availableWorkouts.find(w => w.id === e.target.value);
+                setSelectedWorkout(workout);
+                setShowGoalFormModal(true); // Open the second modal
+              }}
+            >
+              <option value="">-</option>
+              {availableWorkouts.map((workout) => (
+                <option key={workout.id} value={workout.id}>
+                  {workout.name}
+                </option>
+              ))}
+            </select>
+
 
               <div className="modal-buttons">
                 <Button
@@ -347,6 +374,28 @@ const GoalSetting = () => {
             </div>
           </div>
         )}
+              {showGoalModal && selectedWorkout && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <GoalForm
+              activeWorkout={selectedWorkout}
+              handleSave={handleSaveNewGoal}
+            />
+            <div className="modal-buttons">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowGoalModal(false);
+                  setSelectedWorkout(null);
+                  setTempGoals({});
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
