@@ -1,16 +1,24 @@
 import "../pages/Navbar.css";
 import svglogod from "../assets/Icon.svg";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 function Navbar() {
- 
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
 
- 
-  const handleTabSelect = (tab) => {
-    setActiveTab(tab);
-  };
+  // Sync active tab based on current path
+  useEffect(() => {
+    const path = location.pathname;
+
+    if (path.includes("dashboard")) setActiveTab("dashboard");
+    else if (path.includes("log-new-workout")) setActiveTab("log-new-workout");
+    else if (path.includes("motivation")) setActiveTab("motivation");
+    else if (path.includes("profile")) setActiveTab("profile");
+    else if (path.includes("goals")) setActiveTab("goals");
+    else if (path.includes("activities")) setActiveTab("activities");
+    else if (path.includes("history")) setActiveTab("history");
+  }, [location]);
 
   return (
     <div className="n-background">
@@ -22,51 +30,47 @@ function Navbar() {
         </div>
       </div>
       <div className="nav-links-dash">
-        <a
-          href="/dashboard"
-          onClick={() => handleTabSelect("dashboard")}
+        <Link
+          to="/dashboard"
           className={activeTab === "dashboard" ? "active" : ""}
         >
           DASHBOARD
-        </a>
-        <Link to="/log-new-workout"><a
-          onClick={() => handleTabSelect("log-new-workout")}
+        </Link>
+        <Link
+          to="/log-new-workout"
           className={activeTab === "log-new-workout" ? "active" : ""}
         >
           LOG A WORKOUT
-        </a>
         </Link>
-        <Link to="/motivation">
-        <a
-          onClick={() => handleTabSelect("motivation")}
+        <Link
+          to="/motivation"
           className={activeTab === "motivation" ? "active" : ""}
         >
           MOTIVATION
-        </a>
         </Link>
-        <Link to="/profile">
-        <a
-          onClick={() => handleTabSelect("profile")}
+        <Link
+          to="/profile"
           className={activeTab === "profile" ? "active" : ""}
         >
           PROFILE
-        </a>
         </Link>
-        <Link to="/goals">
-        <a
-          onClick={() => handleTabSelect("goals")}
+        <Link
+          to="/goals"
           className={activeTab === "goals" ? "active" : ""}
         >
           GOAL-SETTING
-        </a>
         </Link>
-        <Link to="/activities">
-        <a
-          onClick={() => handleTabSelect("activities")}
+        <Link
+          to="/activities"
           className={activeTab === "activities" ? "active" : ""}
         >
           FITNESS PLAN
-        </a>
+        </Link>
+        <Link
+          to="/history"
+          className={activeTab === "history" ? "active" : ""}
+        >
+          USER HISTORY
         </Link>
       </div>
     </div>

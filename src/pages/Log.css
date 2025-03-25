@@ -93,3 +93,14 @@ img {
     margin-right: 0.5rem;
 }
 
+.goal-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

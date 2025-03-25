@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@400;700&display=swap');
+
+.user-history-container{
+    display: flex;
+    height: 160vh;
+    background-color: #242330;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.user-history-container h2{
+    color: white;
+    font-family: 'Lexend Mega', sans-serif;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    margin-left: 20rem; 
+    text-align: left;
+}
+
+/* .filter-buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: start;
+    justify-content: start;
+    margin: 0;
+} */
+
+  .filter-buttons button{
+    align-items: start;
+    justify-content: start;
+    margin-left: 0;
+    background-color: transparent;
+    width: max-content;
+    margin-bottom: 2rem;
+} 
+
+.filter-buttons button#selected{
+    background-color: #FF5DA3;
+} 
+
+.filter-buttons button:hover{
+  cursor: pointer;
+}
+/* 
+.history-layout-headings{
+    display: flex;
+    flex-direction: row;
+    gap: 10rem;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+} */
+
+/* .history-layout-headings, .user-history-table{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+   
+}
+.user-history-table{
+    display: flex;
+    flex-direction: row;
+    gap: 5.5rem;
+    align-items: center;
+    justify-content: center;
+} */
+
+.history-table-container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin-left: 20rem;
+    margin-top: 1rem;
+    
+}
+
+.user-history-table {
+    width: 90%;
+    border-collapse: collapse;
+    text-align: left;
+    
+  }
+  
+  .user-history-table th, .user-history-table td {
+    padding: 1rem;
+    
+  }
+  
+  .user-history-table th {
+    background-color: #FF5DA3;
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  .user-history-table td {
+    /* background-color: rgba(255, 93, 163, 0.5); */
+    color: white;
+    
+  }
+
+  .user-history-table tr{
+    border: .3rem solid #5d80ff8b;
+  }
+  
+  .user-history-table td button {
+    background-color: #5D80FF;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 1s;
+  }
+  
+  .user-history-table td button:hover {
+    background-color: #FF5DA3;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .pagination-controls button {
+    padding: 0.5rem 1rem;
+    background-color: #FF5DA3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 1rem;
+  }
+  
+  .pagination-controls button:disabled {
+    background-color: #5D80FF;
+    cursor: not-allowed;
+  }
+  
+  .pagination-controls span {
+    font-size: 1rem;
+    color: white;
+  }
+  

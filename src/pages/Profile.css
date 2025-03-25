@@ -34,11 +34,27 @@
   color: white;
 }
 
-.profile-image {
-  width: 100%;
-  border-radius: 20px;
-  margin-bottom: 20px;
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.profile-initials {
+  width: 300px; 
+  height: 250px; 
+  background-color: #5d5dfc; 
+  color: white;
+  font-size: 5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%; 
+  text-transform: uppercase;
+}
+
+
 
 .profile-card h2 {
   font-size: 24px;
@@ -70,6 +86,7 @@
   margin-top: 14rem;
   margin-bottom: 10px;
   width: 100%;
+  transition: all 1s;
 }
 
 
@@ -77,6 +94,7 @@
 .logout-button:hover {
   background-color: #5D80FF;
   color: white;
+  cursor: pointer;
 }
 
 .delete-button {
@@ -84,11 +102,13 @@
   border: 2px solid #FF5D5D;
   color: #FF5D5D;
   width: 100%;
+  transition: all 1s;
 }
 
 .delete-button:hover {
   background-color: #FF5D5D;
   color: white;
+  cursor: pointer;
 }
 
 .edit-profile-card {

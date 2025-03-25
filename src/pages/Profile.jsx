@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "./firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { onAuthStateChanged, signOut, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { doc, getDoc, getDocs, updateDoc, collection, query, where, writeBatch } from "firebase/firestore";
+import { onAuthStateChanged, signOut, getAuth, sendPasswordResetEmail, deleteUser, reauthenticateWithCredential } from "firebase/auth";
 import "../pages/Profile.css";
 import Navbar from '../pages/Navbar.jsx';
 
@@ -15,35 +15,6 @@ function Profile () {
     const [newName, setNewName] = useState(""); 
     const [email, setEmail] = useState("");
     const [deleteAccountConfirmMessage, setDeleteAccountConfirmMessage] = useState(false);
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            navigate("/login");
-        } catch (error) {
-            console.error("There was an error signing the user out:", error);
-        }
-    };
-
-    const handleDeleteClick = () => {
-        setDeleteAccountConfirmMessage(true);
-    }
-
-    const handleCancelClick = () => {
-        setDeleteAccountConfirmMessage(false);
-    }
-
-    const handlePasswordReset = () => {
-        const auth = getAuth();
-        sendPasswordResetEmail(auth, email)
-        .then(() => {
-            alert("Password reset email has been sent! Please check your inbox.");
-        })
-        .catch((error) => {
-            console.error("There was an error sending password reset email:", error);
-        });
-
-    }
 
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
@@ -70,6 +41,82 @@ function Profile () {
         return () => getData();
     }, []);
 
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            navigate("/login");
+        } catch (error) {
+            console.error("There was an error signing the user out:", error);
+        }
+    };
+
+    const handleDeleteClick = () => {
+        setDeleteAccountConfirmMessage(true);
+    }
+
+    const handleDelete = async () => {
+
+        try {
+
+            const activitiesRef = collection(db, "activities");
+            const activityQuery = query(activitiesRef, where("__name__", ">=", user.uid), where("__name__", "<=", user.uid + "\uf8ff"));
+            const activitySnapshot = await getDocs(activityQuery);
+
+            const goalsRef = collection(db, "userGoals");
+            const goalsQuery = query(goalsRef, where("__name__", "==", user.uid));
+            const goalsSnapshot = await getDocs(goalsQuery);
+            
+            const batch = writeBatch(db);
+            activitySnapshot.forEach((docSnap) => {
+                batch.delete(doc(activitiesRef, docSnap.id));
+            });
+            
+            goalsSnapshot.forEach((docSnap) => {
+                batch.delete(doc(goalsRef, docSnap.id));
+            });
+            await batch.commit();
+
+        }
+        catch (error) {
+            console.error("Error:", error)
+
+        }
+
+        deleteUser(user).then(async () => {
+            const batch = writeBatch(db);
+            const usersRef = collection(db, "users");
+            const usersQuery = query(usersRef, where("__name__", "==", user.uid));
+            const usersSnapshot = await getDocs(usersQuery);
+            usersSnapshot.forEach((docSnap) => {
+                batch.delete(doc(usersRef, docSnap.id));
+            });
+            await batch.commit();
+            navigate("/signup");
+        }).catch((error) => {
+            console.error(error);
+            alert("Session timed out. Please log in again to delete your account!")
+            navigate("/login");
+        });
+    }
+
+    const handleCancelClick = () => {
+        setDeleteAccountConfirmMessage(false);
+    }
+
+    const handlePasswordReset = () => {
+        const auth = getAuth();
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert("Password reset email has been sent! Please check your inbox.");
+        })
+        .catch((error) => {
+            console.error("There was an error sending password reset email:", error);
+        });
+
+    }
+
+    
+
     const handleChangeName = async () => {
         if (!newName || newName === name) return; 
         const user = auth.currentUser;
@@ -94,11 +141,9 @@ function Profile () {
             <div className={`profile-page ${deleteAccountConfirmMessage ? 'blur-background' : ''}`}>
                 <div className="profile-content">
                     <div className="profile-card">
-                        <img 
-                            src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRoHDdcekKSGl-5gzbOJNeVbtgpqdwhljlrkYDIw9I58UA2r81dnE_Pof4_E5IQhzLpM5PMKsKP5OIR4aAZwz8zpg" 
-                            alt="Profile" 
-                            className="profile-image" 
-                        />
+                    <div className="profile-image-container">
+                        <div className="profile-initials">{name[0]}{name.split(" ")[1]?.[0]}</div> 
+                    </div>
                         <h2>{name}</h2> 
                         <p>{email}</p>
                         <button className="logout-button" onClick={handleLogout}>LOG OUT</button>
@@ -131,7 +176,7 @@ function Profile () {
                     <div className="popup">
                         <p>ARE YOU SURE YOU WANT TO <span className="delete-text">DELETE</span> YOUR ACCOUNT?</p>
                         <div className="popup-buttons">
-                            <button className="delete-button" onClick={handleDeleteClick}>DELETE ACCOUNT</button>
+                            <button className="delete-button" onClick={handleDelete}>DELETE ACCOUNT</button>
                             <button className="cancel-button" onClick={handleCancelClick}>CANCEL</button>
                         </div>
                     </div>

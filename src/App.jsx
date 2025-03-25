@@ -13,7 +13,7 @@ import Motivation from './pages/Motivation.jsx';
 import DeleteAccount from './pages/DeleteAccount.jsx';
 import Log from './pages/Log.jsx';
 import RecommendedActivities from './pages/RecommendedActivities.jsx';
-
+import History from './pages/History.jsx';
 function App() {
   
 
@@ -34,7 +34,7 @@ function App() {
           <Route path='/motivation' element={<Motivation/>}/>
           <Route path='/log-new-workout' element={<Log/>}/>
           <Route path='/activities' element={<RecommendedActivities/>}/>
-        
+          <Route path='/history' element={<History/>}/>
         </Routes>
 
       </Router>

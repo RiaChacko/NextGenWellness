@@ -5,99 +5,62 @@ import {
     doc, 
     setDoc,
     getDoc,
-    serverTimestamp,
-    increment
+    updateDoc,
+    arrayUnion,
+    Timestamp
   } from "firebase/firestore";
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import { db } from "./firebaseConfig";
+  import { onAuthStateChanged } from "firebase/auth";
+  import { auth, db } from "./firebaseConfig";
 import footsteps from "../assets/footsteps-icon.svg";
 import scale from "../assets/scale-icon.svg";
 
 function Log() {
-
-    const [showTreadmillForm, setShowTreadmillForm] = useState(false);
-    const [showStairmasterForm, setShowStairmasterForm] = useState(false);
-    const [showSquatsForm, setShowSquatsForm] = useState(false);
-    const [showLatPulldownsForm, setShowLatPulldownsForm] = useState(false);
-    const [showBicepCurlsForm, setShowBicepCurlsForm] = useState(false);
-    const [showSitUpsForm, setShowSitUpsForm] = useState(false);
-    const [showYoga1Form, setShowYoga1Form] = useState(false); 
-    const [showYoga2Form, setShowYoga2Form] = useState(false); 
     const [showStepsForm, setShowStepsForm] = useState(false);
     const [showWeightForm, setShowWeightForm] = useState(false);
-
-    
-    const [treadmillData, setTreadmillData] = useState({ duration: "", calories: "" });
-    const [stairmasterData, setStairmasterData] = useState({ duration: "", calories: "" });
-    const [squatsData, setSquatsData] = useState({ reps: "", weight: "" });
-    const [latPulldownsData, setLatPulldownsData] = useState({ reps: "", weight: "" });
-    const [bicepCurlsData, setBicepCurlsData] = useState({ reps: "", weight: "" });
-    const [sitUpsData, setSitUpsData] = useState({ reps: "" });
-    const [yoga1Data, setYoga1Data] = useState({ time: "" });  
-    const [yoga2Data, setYoga2Data] = useState({ time: "" });  
+    const [userGoals, setUserGoals] = useState({ cardio: [], strength: [], yoga: [] });
+    const [formValues, setFormValues] = useState({});
     const [steps, setSteps] = useState("");
     const [weight, setWeight] = useState("");
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const auth = getAuth();
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-          setUser(currentUser);
-        });
-        return () => unsubscribe();
+        const getData = onAuthStateChanged(auth, async (currentUser) => {
+                        if (currentUser) {
+                            setUser(currentUser);
+                            try {
+
+                                //get goals by category
+                                const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
+                                if (goalDoc.exists()) {
+                                    const goalData = goalDoc.data();
+                                    const goalsObject = Object.keys(goalData)
+                                        .filter(key => key.startsWith("goals."))
+                                        .reduce((obj, key) => {
+                                            obj[key] = goalData[key];
+                                            return obj;
+                                        }, {});
+                                    const goalsArray = Object.values(goalsObject);
+                                     
+                                    const organizedGoals = { cardio: [], strength: [], yoga: [] };
+
+                                    goalsArray.forEach((goal) => {
+                                        if (goal.category && organizedGoals[goal.category]) {
+                                            organizedGoals[goal.category].push(goal);
+                                        }
+                                    });
+
+                                    setUserGoals(organizedGoals);
+                                }
+
+                            } catch (error) {
+                                console.error("There was an error fetching user data:", error);
+                            }
+                        } else {
+                            console.error("No authenticated user found.");
+                        }
+                    });
+        return () => getData();
       }, []);
-
-    const handleTreadmillChange = (e) => {
-        const { name, value } = e.target;
-        setTreadmillData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleStairmasterChange = (e) => {
-        const { name, value } = e.target;
-        setStairmasterData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSquatsChange = (e) => {
-        const { name, value } = e.target;
-        setSquatsData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleLatPulldownsChange = (e) => {
-        const { name, value } = e.target;
-        setLatPulldownsData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleBicepCurlsChange = (e) => {
-        const { name, value } = e.target;
-        setBicepCurlsData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSitUpsChange = (e) => {
-        setSitUpsData({ reps: e.target.value });
-    };
-
-    const handleYoga1Change = (e) => {
-        setYoga1Data({ time: e.target.value });
-    };
-
-    const handleYoga2Change = (e) => {
-        setYoga2Data({ time: e.target.value });
-    };
 
     const handleStepsInputChange = (e) => {
         setSteps(e.target.value);
@@ -115,34 +78,44 @@ function Log() {
             return;
         }
         const userId = user.uid;
-        const today = new Date().toISOString().split("T")[0]; 
-        const docId = `${userId}-${today}`;
+        const now = new Date();
+        const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const todayISO = localDate.toISOString().split("T")[0]; 
+        const docId = `${userId}-${todayISO}`;
 
         try {
 
             const userDocRef = doc(db, "users", userId);
             const userSnap = await getDoc(userDocRef);
-
             const userData = userSnap.data();
+
             const heightMeters = (userData.height / 39.37); 
             const weightKgs = (userData.weight * 0.453592);
-
             const stride = (heightMeters * 0.414);
             const distance = stride * newSteps;
-
             const time = (distance/1.4);
-
             const calories = (time * 3.8 * 3.5 * weightKgs/(200 * 60)).toFixed(2);
+            const docRef = doc(db, "activities", docId);
+            const docSnap = await getDoc(docRef);
 
-              await setDoc(doc(db, "activities", docId), {
-                userId: user.uid,
+            const newActivity = {
                 activityType: "Steps",
-                timestamp: serverTimestamp(),
-                steps: increment(newSteps),
-                caloriesBurned: increment(calories)
-              },
-              { merge: true }
-            );
+                timestamp: Timestamp.now(),
+                steps: newSteps,
+                caloriesBurned: calories
+            };
+
+            if (docSnap.exists()) {
+                await updateDoc(docRef, {
+                    activities: arrayUnion(newActivity)
+                });
+            } else {
+                await setDoc(docRef, {
+                    userId: user.uid,
+                    activities: [newActivity] 
+                });
+            }
+
             setSteps("");
             }
             catch (error) {
@@ -174,16 +147,87 @@ function Log() {
               }
     };
 
-    const toggleTreadmillForm = () => setShowTreadmillForm(!showTreadmillForm);
-    const toggleStairmasterForm = () => setShowStairmasterForm(!showStairmasterForm);
-    const toggleSquatsForm = () => setShowSquatsForm(!showSquatsForm);
-    const toggleLatPulldownsForm = () => setShowLatPulldownsForm(!showLatPulldownsForm);
-    const toggleBicepCurlsForm = () => setShowBicepCurlsForm(!showBicepCurlsForm);
-    const toggleSitUpsForm = () => setShowSitUpsForm(!showSitUpsForm);
-    const toggleYoga1Form = () => setShowYoga1Form(!showYoga1Form);
-    const toggleYoga2Form = () => setShowYoga2Form(!showYoga2Form);  
+    const handleInputChange = (exerciseName, key, value) => {
+        setFormValues((prev) => ({
+            ...prev,
+            [exerciseName]: {
+                ...prev[exerciseName],
+                [key]: value
+            }
+        }));
+    };
+
+    const handleSubmit = async (e, goal) => {
+        e.preventDefault();
+
+        if (!user) {
+            console.error("No user logged in");
+            return;
+        }
+        const userId = user.uid;
+        const now = new Date();
+        const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const todayISO = localDate.toISOString().split("T")[0];
+        const docId = `${userId}-${todayISO}`;
+
+        const attributes = formValues[goal.exerciseName] || goal.attributes;
+
+        const hasEmptyFields = Object.values(attributes).some(value => !value || value.trim() === "");
+
+        if (hasEmptyFields) {
+            alert("Please fill in all fields before submitting.");
+            return;
+        }
+
+        try {
+            const timestamp = Timestamp.now();
+            const docRef = doc(db, "activities", docId);
+            const docSnap = await getDoc(docRef);
+    
+            if (docSnap.exists()) {
+                const newActivity = {
+                    activityType: goal.exerciseName,
+                    timestamp,
+                    attributes,
+                };
+    
+                await updateDoc(docRef, {
+                    activities: arrayUnion(newActivity) 
+                });
+            } else {
+                await setDoc(docRef, {
+                    userId: user.uid,
+                    activities: [
+                        {
+                            activityType: goal.exerciseName,
+                            timestamp,
+                            attributes,
+                        }
+                    ]
+                });
+            }
+            setFormValues(prev => ({
+                ...prev,
+                [goal.exerciseName]: Object.fromEntries(
+                    Object.keys(attributes).map(key => [key, ""]) 
+                )
+            }));
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+    };
+ 
     const toggleStepsForm = () => setShowStepsForm(!showStepsForm);
     const toggleWeightForm = () => setShowWeightForm(!showWeightForm);
+
+    const [expanded, setExpanded] = useState({});
+
+    const toggleExpand = (exerciseName) => {
+        setExpanded((prev) => ({
+            ...prev,
+            [exerciseName]: !prev[exerciseName],
+        }));
+    };
 
     return (
         <div>
@@ -193,200 +237,43 @@ function Log() {
 
                 <h2 className="log-workout-title">LOG A WORKOUT</h2>
                 <div className="log-workout">
-                    <div className="log-cardio">
-                        <h3>CARDIO</h3>
-                        <button onClick={toggleTreadmillForm}>TREADMILL</button>
-                        <button onClick={toggleStairmasterForm}>STAIRMASTER</button>
-                    </div>
+                    
+                {userGoals ? "" : <h3>Add goals to log progress!</h3>}
 
-                    {showTreadmillForm && (
-                        <div className="treadmill-form">
-                            <h4>Log Treadmill Data</h4>
-                            <form>
-                                <label>Duration (in minutes):</label>
-                                <input
-                                    type="number"
-                                    name="duration"
-                                    value={treadmillData.duration}
-                                    onChange={handleTreadmillChange}
-                                    required
-                                />
-                                <label>Calories Burned:</label>
-                                <input
-                                    type="number"
-                                    name="calories"
-                                    value={treadmillData.calories}
-                                    onChange={handleTreadmillChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
+                {Object.entries(userGoals).map(([category, exercises]) => (
+                    exercises.length > 0 && (
+                        <div key={category} className={`log-${category}`}>
+                            <h3>{category.toUpperCase()}</h3>
+                            {exercises.map((goal, index) => (
+                                <div key={index} className="goal-item">
+                                    <button
+                                        className="expand-btn"
+                                        onClick={() => toggleExpand(goal.exerciseName)}
+                                    >
+                                        {goal.exerciseName.toUpperCase()}
+                                    </button>
+
+                                    {expanded[goal.exerciseName] && (
+                                        <form className="goal-form" onSubmit={(e) => handleSubmit(e, goal)}>
+                                            {Object.entries(goal.attributes).map(([key, value]) => (
+                                                <div key={key} className="form-group">
+                                                    <label>{key}:</label>
+                                                    <input 
+                                                        type="text" 
+                                                        value={formValues[goal.exerciseName]?.[key] || ""}
+                                                        onChange={(e) => handleInputChange(goal.exerciseName, key, e.target.value)}
+                                                    />
+
+                                                </div>
+                                            ))}
+
+                                            <button type="submit">Submit</button>
+                                        </form>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                    )}
-
-                    {showStairmasterForm && (
-                        <div className="stairmaster-form">
-                            <h4>Log Stairmaster Data</h4>
-                            <form>
-                                <label>Duration (in minutes):</label>
-                                <input
-                                    type="number"
-                                    name="duration"
-                                    value={stairmasterData.duration}
-                                    onChange={handleStairmasterChange}
-                                    required
-                                />
-                                <label>Calories Burned:</label>
-                                <input
-                                    type="number"
-                                    name="calories"
-                                    value={stairmasterData.calories}
-                                    onChange={handleStairmasterChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    <div className="log-strength">
-                        <h3>STRENGTH TRAINING</h3>
-                        <button onClick={toggleSquatsForm}>SQUATS</button>
-                        <button onClick={toggleLatPulldownsForm}>LAT PULLDOWNS</button>
-                        <button onClick={toggleBicepCurlsForm}>BICEP CURLS</button>
-                        <button onClick={toggleSitUpsForm}>SIT UPS</button>
-                    </div>
-
-                    {showSquatsForm && (
-                        <div className="squats-form">
-                            <h4>Log Squats Data</h4>
-                            <form>
-                                <label>Reps:</label>
-                                <input
-                                    type="number"
-                                    name="reps"
-                                    value={squatsData.reps}
-                                    onChange={handleSquatsChange}
-                                    required
-                                />
-                                <label>Weight (lbs):</label>
-                                <input
-                                    type="number"
-                                    name="weight"
-                                    value={squatsData.weight}
-                                    onChange={handleSquatsChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    {showLatPulldownsForm && (
-                        <div className="lat-pulldowns-form">
-                            <h4>Log Lat Pulldowns Data</h4>
-                            <form>
-                                <label>Reps:</label>
-                                <input
-                                    type="number"
-                                    name="reps"
-                                    value={latPulldownsData.reps}
-                                    onChange={handleLatPulldownsChange}
-                                    required
-                                />
-                                <label>Weight (lbs):</label>
-                                <input
-                                    type="number"
-                                    name="weight"
-                                    value={latPulldownsData.weight}
-                                    onChange={handleLatPulldownsChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    {showBicepCurlsForm && (
-                        <div className="bicep-curls-form">
-                            <h4>Log Bicep Curls Data</h4>
-                            <form>
-                                <label>Reps:</label>
-                                <input
-                                    type="number"
-                                    name="reps"
-                                    value={bicepCurlsData.reps}
-                                    onChange={handleBicepCurlsChange}
-                                    required
-                                />
-                                <label>Weight (lbs):</label>
-                                <input
-                                    type="number"
-                                    name="weight"
-                                    value={bicepCurlsData.weight}
-                                    onChange={handleBicepCurlsChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    {showSitUpsForm && (
-                        <div className="sit-ups-form">
-                            <h4>Log Sit-Ups Data</h4>
-                            <form>
-                                <label>Reps:</label>
-                                <input
-                                    type="number"
-                                    value={sitUpsData.reps}
-                                    onChange={handleSitUpsChange}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    <div className="log-yoga">
-                        <h3>YOGA</h3>
-                        <button onClick={toggleYoga1Form}>YOGA1</button>
-                        <button onClick={toggleYoga2Form}>YOGA2</button>
-                    </div>
-
-                    {showYoga1Form && (
-                        <div className="yoga1-form">
-                            <h4>Log Yoga1 Data</h4>
-                            <form>
-                                <label>Duration (in minutes):</label>
-                                <input
-                                    type="number"
-                                    name="time"
-                                    value={yoga1Data.time}
-                                    onChange={handleYoga1Change}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
-
-                    {showYoga2Form && (
-                        <div className="yoga2-form">
-                            <h4>Log Yoga2 Data</h4>
-                            <form>
-                                <label>Duration (in minutes):</label>
-                                <input
-                                    type="number"
-                                    name="time"
-                                    value={yoga2Data.time}
-                                    onChange={handleYoga2Change}
-                                    required
-                                />
-                                <button type="submit">Submit</button>
-                            </form>
-                        </div>
-                    )}
+                    )))}
                 </div>
 
                 <h2 className="log-other-title">LOG OTHER DATA</h2>
