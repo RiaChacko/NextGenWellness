@@ -116,6 +116,28 @@ function Log() {
                 });
             }
 
+            const historyDocRef = doc(db, "userHistory", userId);
+            const historyDocSnap = await getDoc(historyDocRef);
+
+            const newHistory = {
+                item: "Steps Count",
+                type: "Step",
+                user: userData.name,
+                date: new Date().toISOString(),
+                details: `Steps: ${newSteps}, Calories burned: ${calories}`
+            }
+
+            if (historyDocSnap.exists()) {
+                await updateDoc(historyDocRef, {
+                    history: arrayUnion(newHistory)
+                });
+            } else {
+                await setDoc(historyDocRef, {
+                    userId: user.uid,
+                    history: [newHistory] 
+                });
+            }
+
             setSteps("");
             }
             catch (error) {
@@ -125,20 +147,52 @@ function Log() {
 
     const handleWeightSubmit = async (e) => {
         e.preventDefault();
-
         const newWeight = parseInt(weight, 10);
 
         if (!user || isNaN(newWeight) || newWeight <= 0) {
             console.error("Invalid input or no user logged in");
             return;
         }
+
         const userId = user.uid;
+        const userDocRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userDocRef);
+        const userData = userSnap.data();
+        const prevWeight = userData.weight;
+
+        let weightChange = newWeight - prevWeight;
+        const weightDescriptor = weightChange >= 0 ?  "up" : "down";
+        weightChange = Math.abs(weightChange);
+        
             try {
               await setDoc(
                 doc(db, "users", userId),
                 { weight: newWeight },
                 { merge: true }
               );
+
+            const historyDocRef = doc(db, "userHistory", userId);
+            const historyDocSnap = await getDoc(historyDocRef);
+
+            const newHistory = {
+                item: "Recorded Weight",
+                type: "Weight",
+                user: userData.name,
+                date: new Date().toISOString(),
+                details: `Logged new weight of ${newWeight}lb, ${weightDescriptor} ${weightChange}lb from last log`
+            }
+
+            if (historyDocSnap.exists()) {
+                await updateDoc(historyDocRef, {
+                    history: arrayUnion(newHistory)
+                });
+            } else {
+                await setDoc(historyDocRef, {
+                    userId: user.uid,
+                    history: [newHistory] 
+                });
+            }
+
               setWeight("");
             }
             catch (error) {
@@ -165,6 +219,10 @@ function Log() {
             return;
         }
         const userId = user.uid;
+        const userDocRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userDocRef);
+        const userData = userSnap.data();
+
         const now = new Date();
         const localDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         const todayISO = localDate.toISOString().split("T")[0];
@@ -206,6 +264,33 @@ function Log() {
                     ]
                 });
             }
+            
+            const historyDocRef = doc(db, "userHistory", userId);
+            const historyDocSnap = await getDoc(historyDocRef);
+            const attributeDetails = Object.entries(attributes)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join(", "); 
+
+            const newHistory = {
+                item: `Recorded ${goal.category.charAt(0).toUpperCase() + goal.category.slice(1)} Workout`,
+
+                type: "Workout",
+                user: userData.name,
+                date: new Date().toISOString(),
+                details: `Logged ${goal.exerciseName} with ${attributeDetails}`
+            }
+
+            if (historyDocSnap.exists()) {
+                await updateDoc(historyDocRef, {
+                    history: arrayUnion(newHistory)
+                });
+            } else {
+                await setDoc(historyDocRef, {
+                    userId: user.uid,
+                    history: [newHistory] 
+                });
+            }
+
             setFormValues(prev => ({
                 ...prev,
                 [goal.exerciseName]: Object.fromEntries(
