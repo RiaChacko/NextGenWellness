@@ -12,6 +12,14 @@ function History() {
   const [selectedFilter, setSelectedFilter] = useState("All"); 
   const itemsPerPage = 5;
   const totalPages = Math.ceil(historyData.length / itemsPerPage);
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); 
+  };
 
   useEffect(() => {
     const getData = onAuthStateChanged(auth, async (currentUser) => {
@@ -146,10 +154,20 @@ function History() {
                   <td>{entry.user}</td>
                   <td>{entry.date}</td>
                   <td>
-                    <button className="more-details-btn">View Details</button>
+                    <button className="more-details-btn" onClick={openModal}>View Details</button>
                   </td>
+                  {isModalOpen && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>View Details</h3>
+              <p>Details about user history</p>
+              <button onClick={closeModal}>Close</button>
+            </div>
+          </div>
+        )}
                 </tr>
               ))
+              
             ) : (
               <tr>
                 <td colSpan="5" style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}>
