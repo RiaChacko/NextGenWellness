@@ -157,8 +157,8 @@ function History() {
                     <button className="more-details-btn" onClick={openModal}>View Details</button>
                   </td>
                   {isModalOpen && (
-          <div className="modal-overlay">
-            <div className="modal-content">
+          <div className="modal-overlay-history">
+            <div className="modal-content-history">
               <h3>View Details</h3>
               <p>Details about user history</p>
               <button onClick={closeModal}>Close</button>
