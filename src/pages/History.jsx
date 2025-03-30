@@ -12,13 +12,17 @@ function History() {
   const [selectedFilter, setSelectedFilter] = useState("All"); 
   const itemsPerPage = 5;
   const totalPages = Math.ceil(historyData.length / itemsPerPage);
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const openModal = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDetails, setSelectedDetails] = useState("");
+
+  const openModal = (details) => {
+    setSelectedDetails(details);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setIsModalOpen(false); 
+    setIsModalOpen(false);
+    setSelectedDetails("");
   };
 
   useEffect(() => {
@@ -49,15 +53,18 @@ function History() {
                     type: entry.type,
                     user: entry.user,
                     date: new Date(entry.date).toLocaleString("en-US", {
-                        weekday: 'long', 
-                        hour: '2-digit', 
-                        minute: '2-digit', 
-                        hour12: true
+                      weekday: "long",
+                      year: "numeric",   
+                      month: "2-digit",  
+                      day: "2-digit",    
+                      hour: "2-digit", 
+                      minute: "2-digit", 
+                      hour12: true      
                     }),
                     details: entry.details
                 }));
         
-                setHistoryData([...formattedData]);
+                setHistoryData([...formattedData.reverse()]);
                 
                 
             } else {
@@ -154,20 +161,12 @@ function History() {
                   <td>{entry.user}</td>
                   <td>{entry.date}</td>
                   <td>
-                    <button className="more-details-btn" onClick={openModal}>View Details</button>
+                    <button className="more-details-btn" onClick={() => openModal(entry.details)}>
+                      View Details
+                    </button>
                   </td>
-                  {isModalOpen && (
-          <div className="modal-overlay-history">
-            <div className="modal-content-history">
-              <h3>View Details</h3>
-              <p>Details about user history</p>
-              <button onClick={closeModal}>Close</button>
-            </div>
-          </div>
-        )}
                 </tr>
               ))
-              
             ) : (
               <tr>
                 <td colSpan="5" style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}>
@@ -190,6 +189,14 @@ function History() {
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="modal-overlay-history">
+          <div className="modal-content-history">
+            <p>{selectedDetails}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
