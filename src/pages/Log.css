@@ -104,3 +104,18 @@ img {
     align-items: center;
     gap: 5px;
 }
+.steps-form button{
+    background-color:  rgba(67, 182, 94, 0.33);
+}
+
+.steps-form button:hover{
+    cursor: pointer;
+}
+
+.weight-form button{
+    background-color:  rgba(67, 182, 94, 0.33);
+}
+
+.weight-form button:hover{
+    cursor: pointer;
+}
