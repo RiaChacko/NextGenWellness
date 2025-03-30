@@ -148,7 +148,7 @@
   }
   
 
-  .modal-overlay {
+  .modal-overlay-history {
     position: fixed;
     top: 0;
     left: 0;
@@ -161,7 +161,7 @@
     z-index: 1000; 
   }
   
-  .modal-content {
+  .modal-content-history {
     background-color: #2b2939;
     padding: 2rem;
     border-radius: 10px;
@@ -169,7 +169,7 @@
     text-align: center;
   }
   
-  .modal-content button {
+  .modal-content-history button {
     margin-top: 1rem;
     background-color: #FF5DA3;
     color: white;
@@ -179,7 +179,7 @@
     cursor: pointer;
   }
   
-  .modal-content button:hover {
+  .modal-content-history button:hover {
     background-color: #5D80FF;
   }
   
