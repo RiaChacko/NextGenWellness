@@ -100,34 +100,45 @@ const GoalSetting = () => {
     setShowGoalModal(true);
   };
 
-  const handleSaveNewGoal = async () => {
-    if (!user || !selectedWorkout) return;
+  // const handleSaveNewGoal = async () => {
+  //   if (!user || !selectedWorkout) return;
   
-    const goalKey = `goals.${selectedWorkout.id}`;
-    const goalData = {
-      attributes: { ...(workout.attributes || {}) },
-      exerciseName: workout.exerciseName,
-      submittedAt: new Date().toISOString(),
-    };
+  //   const goalKey = `goals.${selectedWorkout.id}`;
+  //   const goalData = {
+  //     attributes: { ...(selectedWorkout.attributes || {}) },
+  //     exerciseName: selectedWorkout.exerciseName,
+  //     submittedAt: new Date().toISOString(),
+    
+  //   };
   
-    try {
-      const docRef = doc(db, "userGoals", user.uid);
-      const docSnap = await getDoc(docRef);
-      const currentData = docSnap.exists() ? docSnap.data() : {};
+  //   try {
+  //     const docRef = doc(db, "userGoals", user.uid);
+  //     const docSnap = await getDoc(docRef);
+  //     const currentData = docSnap.exists() ? docSnap.data() : {};
   
-      const updatedData = {
-        ...currentData,
-        [goalKey]: goalData,
-      };
+  //     // const updatedData = {
+  //     //   ...currentData,
+  //     //   [goalKey]: goalData,
+  //     // };
+
+  //     const updatedData = {
+  //       ...currentData,
+  //       goals: {
+  //          ...(currentData.goals || {}),
+  //          [selectedWorkout.id]: goalData,
+  //       },
+  //    };
+     
+   
   
-      await setDoc(docRef, updatedData);
-      setShowGoalModal(false);
-      setSelectedWorkout(null);
-      setTempGoals({}); // Reset form after save
-    } catch (err) {
-      console.error("Failed to save new goal:", err);
-    }
-  };
+  //     await setDoc(docRef, updatedData);
+  //     setShowGoalModal(false);
+  //     setSelectedWorkout(null);
+  //     setTempGoals({}); // Reset form after save
+  //   } catch (err) {
+  //     console.error("Failed to save new goal:", err);
+  //   }
+  // };
   
   
   const handleAddGoal = async () => {
@@ -162,6 +173,92 @@ const GoalSetting = () => {
     }
   };
   
+//   const handleSaveNewGoal = async () => {
+//     if (!user || !selectedWorkout) return;
+  
+//     // const goalKey = `goals.${selectedWorkout.id}`;
+//     // const goalData = {
+//     //     attributes: { ...(selectedWorkout.attributes || {}) },
+//     //     name: selectedWorkout.name || "Unnamed Workout",  // Ensure no undefined value
+//     //     submittedAt: new Date().toISOString(),
+//     // };
+
+//     const updatedData = {
+//       ...currentData,
+//       goals: {
+//          ...(currentData.goals || {}),
+//          [selectedWorkout.id]: goalData,
+//       },
+//    };
+
+//     try {
+//         const docRef = doc(db, "userGoals", user.uid);
+//         const docSnap = await getDoc(docRef);
+//         const currentData = docSnap.exists() ? docSnap.data() : {};
+
+//         const updatedData = {
+//             ...currentData,
+//             goals: {
+//                 ...(currentData.goals || {}),
+//                 [selectedWorkout.id]: goalData,
+//             },
+//         };
+
+//         await setDoc(docRef, updatedData);
+//         setShowGoalModal(false);
+//         setSelectedWorkout(null);
+//         setTempGoals({}); // Reset form after save
+//     } catch (err) {
+//         console.error("Failed to save new goal:", err);
+//     }
+// };
+
+const handleSaveNewGoal = async () => {
+  if (!user || !selectedWorkout) return;
+
+  try {
+      const docRef = doc(db, "userGoals", user.uid);
+      const docSnap = await getDoc(docRef);
+      const currentData = docSnap.exists() ? docSnap.data() : {}; // ✅ Define `currentData` first
+
+      const goalData = {
+          attributes: selectedWorkout.trackingAttributes.reduce((acc, attr) => {
+              acc[attr.key] = attr.placeholder || "";
+              return acc;
+          }, {}),
+          exerciseName: selectedWorkout.name || "Unnamed Workout", // ✅ Ensure valid value
+          category: selectedWorkout.category || "Uncategorized",
+          submittedAt: new Date().toISOString(),
+      };
+
+      const goalKey = `goals.${selectedWorkout.id}`;
+      const updatedData = {
+          ...currentData,
+          goals: {
+              ...(currentData.goals || {}),
+              // [selectedWorkout.id]: goalData,
+              [goalKey]: goalData,
+          },
+      };
+
+    //   const goalKey = `goals.${selectedWorkout.id}`;
+    // const updatedData = {
+    //     attributes: { ...(selectedWorkout.attributes || {}) },
+    //     name: selectedWorkout.name || "Unnamed Workout",  // Ensure no undefined value
+    //     submittedAt: new Date().toISOString(),
+    // };
+
+      
+
+      await setDoc(docRef, updatedData);
+      setShowGoalModal(false);
+      setSelectedWorkout(null);
+      setTempGoals({}); // Reset form after save
+  } catch (err) {
+      console.error("Failed to save new goal:", err);
+  }
+};
+
 
   const handleSave = async (goalKey) => {
     const editedGoalData = editedGoals[goalKey];
@@ -174,11 +271,11 @@ const GoalSetting = () => {
       delete docData[goalKey];
 
       const originalWorkout = goals[goalKey] || {};
-      const exerciseName = originalWorkout.exerciseName;
+      const name = originalWorkout.name;
 
       docData[goalKey] = {
         attributes: editedGoalData.attributes,
-        exerciseName: exerciseName,
+        name: name,
         category: originalWorkout.category,
         submittedAt: new Date().toISOString(),
       };
@@ -258,12 +355,12 @@ const GoalSetting = () => {
 
                 const displayName = goalKey.slice("goals.".length);
                 const isEditing = editedGoals.hasOwnProperty(goalKey);
-                const { attributes = {}, exerciseName } = goalData;
+                const { attributes = {}, name } = goalData;
 
                 return (
                   <Card key={goalKey} className="goal-card">
                     <div className="card-content">
-                      <h3>{capitalize(exerciseName || displayName)}</h3>
+                      <h3>{capitalize(name || displayName)}</h3>
                       {isEditing ? (
                         Object.entries(attributes).map(([attrKey, attrValue]) => (
                           <p key={attrKey}>
@@ -338,7 +435,7 @@ const GoalSetting = () => {
               onChange={(e) => {
                 const workout = availableWorkouts.find(w => w.id === e.target.value);
                 setSelectedWorkout(workout);
-                setShowGoalFormModal(true); // Open the second modal
+                setShowGoalModal(true); // Open the second modal
               }}
             >
               <option value="">-</option>
