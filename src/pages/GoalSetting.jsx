@@ -99,46 +99,6 @@ const GoalSetting = () => {
     console.log("Create new goal clicked");
     setShowGoalModal(true);
   };
-
-  // const handleSaveNewGoal = async () => {
-  //   if (!user || !selectedWorkout) return;
-  
-  //   const goalKey = `goals.${selectedWorkout.id}`;
-  //   const goalData = {
-  //     attributes: { ...(selectedWorkout.attributes || {}) },
-  //     exerciseName: selectedWorkout.exerciseName,
-  //     submittedAt: new Date().toISOString(),
-    
-  //   };
-  
-  //   try {
-  //     const docRef = doc(db, "userGoals", user.uid);
-  //     const docSnap = await getDoc(docRef);
-  //     const currentData = docSnap.exists() ? docSnap.data() : {};
-  
-  //     // const updatedData = {
-  //     //   ...currentData,
-  //     //   [goalKey]: goalData,
-  //     // };
-
-  //     const updatedData = {
-  //       ...currentData,
-  //       goals: {
-  //          ...(currentData.goals || {}),
-  //          [selectedWorkout.id]: goalData,
-  //       },
-  //    };
-     
-   
-  
-  //     await setDoc(docRef, updatedData);
-  //     setShowGoalModal(false);
-  //     setSelectedWorkout(null);
-  //     setTempGoals({}); // Reset form after save
-  //   } catch (err) {
-  //     console.error("Failed to save new goal:", err);
-  //   }
-  // };
   
   
   const handleAddGoal = async () => {
@@ -173,45 +133,6 @@ const GoalSetting = () => {
     }
   };
   
-//   const handleSaveNewGoal = async () => {
-//     if (!user || !selectedWorkout) return;
-  
-//     // const goalKey = `goals.${selectedWorkout.id}`;
-//     // const goalData = {
-//     //     attributes: { ...(selectedWorkout.attributes || {}) },
-//     //     name: selectedWorkout.name || "Unnamed Workout",  // Ensure no undefined value
-//     //     submittedAt: new Date().toISOString(),
-//     // };
-
-//     const updatedData = {
-//       ...currentData,
-//       goals: {
-//          ...(currentData.goals || {}),
-//          [selectedWorkout.id]: goalData,
-//       },
-//    };
-
-//     try {
-//         const docRef = doc(db, "userGoals", user.uid);
-//         const docSnap = await getDoc(docRef);
-//         const currentData = docSnap.exists() ? docSnap.data() : {};
-
-//         const updatedData = {
-//             ...currentData,
-//             goals: {
-//                 ...(currentData.goals || {}),
-//                 [selectedWorkout.id]: goalData,
-//             },
-//         };
-
-//         await setDoc(docRef, updatedData);
-//         setShowGoalModal(false);
-//         setSelectedWorkout(null);
-//         setTempGoals({}); // Reset form after save
-//     } catch (err) {
-//         console.error("Failed to save new goal:", err);
-//     }
-// };
 
 const handleSaveNewGoal = async () => {
   if (!user || !selectedWorkout) return;
@@ -240,15 +161,6 @@ const handleSaveNewGoal = async () => {
               [goalKey]: goalData,
           },
       };
-
-    //   const goalKey = `goals.${selectedWorkout.id}`;
-    // const updatedData = {
-    //     attributes: { ...(selectedWorkout.attributes || {}) },
-    //     name: selectedWorkout.name || "Unnamed Workout",  // Ensure no undefined value
-    //     submittedAt: new Date().toISOString(),
-    // };
-
-      
 
       await setDoc(docRef, updatedData);
       setShowGoalModal(false);
