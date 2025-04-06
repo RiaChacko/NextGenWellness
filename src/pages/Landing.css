@@ -249,6 +249,15 @@
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
+.message-box {
+    width: 100%;
+    padding: 10px;
+    min-height: 100px;
+    border: .2rem, solid, #FF5DA3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
 
 .contact-form button {
     padding: 1rem 2rem;

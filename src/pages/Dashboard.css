@@ -181,6 +181,7 @@
   flex-direction: row;
   padding: 1.5rem;
   height: min-content;
+  width: auto;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;

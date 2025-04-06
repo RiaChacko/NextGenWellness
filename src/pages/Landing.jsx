@@ -8,6 +8,9 @@ import dashboard from "../assets/dashboard.png";
 import motivation from "../assets/motivation.png";
 import fitnessplan from "../assets/fitnessplan.png";
 import goalsetting from "../assets/goalsetting.png";
+import { db } from "./firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
+
 function Landing() {
 
     const navigate = useNavigate();
@@ -17,15 +20,37 @@ function Landing() {
     };
 
     const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
-    const handleEmailSubmit = (e) => {
+    const handleMessageChange = (e) => {
+        setMessage(e.target.value);
+    };
+
+    const handleEmailSubmit = async (e) => {
         e.preventDefault();
-        alert(`Thank you for subscribing!`);
-        setEmail(""); 
+        if (!email.trim() || !message.trim()) {
+            alert("Please enter both email and message.");
+            return;
+        }
+    
+        try {
+            await addDoc(collection(db, "contactEmails"), {
+                email: email,
+                message: message,
+                timestamp: new Date()
+            });
+    
+            alert("Thank you for subscribing!");
+            setEmail("");
+            setMessage(""); 
+        } catch (error) {
+            console.error("Error adding document: ", error);
+            alert("Something went wrong. Please try again.");
+        }
     };
 
     return(
@@ -101,6 +126,13 @@ function Landing() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={handleEmailChange}
+            />
+            <textarea
+                placeholder="Let us know your thoughts..."
+                value={message}
+                onChange={handleMessageChange}
+                rows={4}
+                className="message-box"
             />
             <button onClick={handleEmailSubmit}>Subscribe</button>
         </div>

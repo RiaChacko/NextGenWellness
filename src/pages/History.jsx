@@ -1,24 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
+import { collection, query, where, getDocs, getDoc, doc } from "firebase/firestore";
+import { auth, db } from "./firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 import "./History.css";
 
 function History() {
-  const historyData = [
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Recorded Weight", type: "Weight", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Recorded Yoga Workout", type: "Workout", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-    { item: "Steps Count", type: "Step", user: "user4", date: "Today, 5:41 AM" },
-  ];
-
+  const [historyData, setHistoryData] = useState([]);
+  const [user, setUser] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState("All"); 
   const itemsPerPage = 5;
   const totalPages = Math.ceil(historyData.length / itemsPerPage);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDetails, setSelectedDetails] = useState("");
+
+  const openModal = (details) => {
+    setSelectedDetails(details);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedDetails("");
+  };
+
+  useEffect(() => {
+    const getData = onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+            setUser(currentUser);
+        } else {
+            console.error("No authenticated user found.");
+        }
+    });
+
+    return () => getData();
+  }, []);
+
+  useEffect(() => {
+    const fetchHistoryData = async () => {
+      if (!user) return; 
+  
+      try {
+          const historyDoc = await getDoc(doc(db, "userHistory", user.uid));
+          
+          if (historyDoc.exists()) {
+              const fetchedData = historyDoc.data();
+              
+              if (Array.isArray(fetchedData.history)) {
+                const formattedData = fetchedData.history.map(entry => ({
+                    item: entry.item,
+                    type: entry.type,
+                    user: entry.user,
+                    date: new Date(entry.date).toLocaleString("en-US", {
+                      weekday: "long",
+                      year: "numeric",   
+                      month: "2-digit",  
+                      day: "2-digit",    
+                      hour: "2-digit", 
+                      minute: "2-digit", 
+                      hour12: true      
+                    }),
+                    details: entry.details
+                }));
+        
+                setHistoryData([...formattedData.reverse()]);
+                
+                
+            } else {
+                setHistoryData([]); 
+            }
+
+          }
+      } catch (error) {
+          console.error("Error fetching history data:", error);
+      }
+  };
+
+    if (user) {
+        fetchHistoryData(); 
+    }
+}, [user]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -91,17 +153,27 @@ function History() {
             </tr>
           </thead>
           <tbody>
-            {currentPageData.map((entry, index) => (
-              <tr key={index}>
-                <td>{entry.item}</td>
-                <td>{entry.type}</td>
-                <td>{entry.user}</td>
-                <td>{entry.date}</td>
-                <td>
-                  <button className="more-details-btn">View Details</button>
+            {currentPageData.length > 0 ? (
+              currentPageData.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.item}</td>
+                  <td>{entry.type}</td>
+                  <td>{entry.user}</td>
+                  <td>{entry.date}</td>
+                  <td>
+                    <button className="more-details-btn" onClick={() => openModal(entry.details)}>
+                      View Details
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center", fontWeight: "bold", padding: "10px" }}>
+                  No history yet!
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
 
@@ -117,6 +189,14 @@ function History() {
           </button>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="modal-overlay-history">
+          <div className="modal-content-history">
+            <p>{selectedDetails}</p>
+            <button onClick={closeModal}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
