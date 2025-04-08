@@ -175,7 +175,7 @@ function Dashboard () {
           onClick={toggleMailColor}
         ></i>
         <p style={{color: "white", fontSize: "1rem", display: "flex", flexDirection: "column"}}>
-                      {isMailClicked ? "Email notifications ON" : "Turn on email notifications"}
+                      {isMailClicked ? "Email notifications ON" : "Email notifications OFF"}
                     </p>
                     {/* <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i> */}
                 </div>
