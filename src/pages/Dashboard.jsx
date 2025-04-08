@@ -21,7 +21,7 @@ function Dashboard () {
     const [caloriesBurned, setCaloriesBurned] = useState(0);
     const [goals, setGoals] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false); 
-
+    const [isMailClicked, setIsMailClicked] = useState(false);
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -29,6 +29,13 @@ function Dashboard () {
     const closeModal = () => {
       setIsModalOpen(false); 
     };
+
+
+
+    const toggleMailColor = () => {
+      setIsMailClicked(!isMailClicked);
+    };
+ 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -158,8 +165,19 @@ function Dashboard () {
                     
                 </div>
                 <div className="icons-dashboard">
-                    <i className="fa-solid fa-bell" style={{ color: "white", fontSize: "1.5rem" }}></i>
-                    <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i>
+                <i
+          className="fa-solid fa-envelope"
+          style={{
+            color: isMailClicked ? "#FF5DA3" : "white", 
+            fontSize: "1.5rem",
+            cursor: "pointer",
+          }}
+          onClick={toggleMailColor}
+        ></i>
+        <p style={{color: "white", fontSize: "1rem", display: "flex", flexDirection: "column"}}>
+                      {isMailClicked ? "Email notifications ON" : "Turn on email notifications"}
+                    </p>
+                    {/* <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i> */}
                 </div>
                 <button onClick={handleLogout}>LOG OUT</button>
             </div>

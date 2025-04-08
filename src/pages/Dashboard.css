@@ -95,6 +95,11 @@
   left: 37rem;
   gap: 2rem;
 }
+
+.icons-dashboard i:hover{
+  color: #FF5DA3;
+  cursor: pointer;
+}
 .top-header-dashboard button{
   position: relative;
   left: 42rem;
