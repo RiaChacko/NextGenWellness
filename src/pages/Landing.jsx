@@ -140,7 +140,6 @@ function Landing() {
 
     <div className="footer">
         <p>© 2025 Next-Gen Wellness. All rights reserved.</p>
-        <p><Link to="/terms">Terms & Conditions</Link> | <Link to="/privacy">Privacy Policy</Link></p>
     </div>
 </div>
             
