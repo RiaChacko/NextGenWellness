@@ -42,7 +42,6 @@ function Dashboard () {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
                 if (currentUser) {
                     try {
-                        //getting user data for top bar
                         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                         if (userDoc.exists()) {
                             const userData = userDoc.data();
@@ -55,7 +54,6 @@ function Dashboard () {
                             console.error("The user's document does not exist in the database.");
                         }
                         
-                        //getting user data to show cals burnt & activity logged
                         const userId = currentUser.uid;
                         const today = new Date().toISOString().split("T")[0]; 
                         const docId = `${userId}-${today}`;
@@ -90,8 +88,6 @@ function Dashboard () {
                         {
                             console.error("Error: ",error)
                         }
-
-                        //getting user data to show goals
                         const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                         if (goalDoc.exists()) {
                             const goalData = goalDoc.data();
@@ -177,7 +173,6 @@ function Dashboard () {
         <p style={{color: "white", fontSize: "1rem", display: "flex", flexDirection: "column"}}>
                       {isMailClicked ? "Email notifications ON" : "Email notifications OFF"}
                     </p>
-                    {/* <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i> */}
                 </div>
                 <button onClick={handleLogout}>LOG OUT</button>
             </div>
@@ -190,14 +185,6 @@ function Dashboard () {
                             ? <p>No activity tracked yet for today!</p> 
                             : <p>Calories Burned : {caloriesBurned/1}</p>}
                     </div>
-                        {/* <div className="metric-content-inner">
-                            <p>Carbs</p>
-                            <span>23.2%</span>
-                        </div>
-                        <div className="metric-content-inner">
-                            <p>Proteins</p>
-                            <span>11.9%</span>
-                        </div> */}
                         <button className="metrics-btn" onClick={openModal}>VIEW ALL METRICS</button>
                     </div>
                     <div className="progress-bar-dashboard">

@@ -1,4 +1,3 @@
-// Importing necessary libraries and functionality  
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "./firebaseConfig";
@@ -9,19 +8,14 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
-
-// Importing logos
 import logo from "../assets/welcome-to.svg";;
 import googleLogo from "../assets/google-lg.png";
 
 import "../pages/SignUp.css";
 import google from "../assets/google-lg.png";
 
-// Implements signup functionality 
 function SignUp () {
 
-
-  // Setting variable to store input values onclick
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,7 +30,6 @@ function SignUp () {
     setShowAlert(false);
     setErrorMessage("");
 
-    // Checks the email/password/name fields for valid input
     if (!name && !email && !password && !confirmPassword) {
       setErrorMessage("Please fill in all fields.");
       setShowAlert(true);
@@ -63,15 +56,12 @@ function SignUp () {
       return;
     }
 
-    // Checks if password input matches actual password
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       setShowAlert(true);
       return;
     }
 
-
-    // Configuration of firebase database
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -79,10 +69,8 @@ function SignUp () {
         password,
       );
 
-      // Firebase sends email to user based on input
       await sendEmailVerification(userCredential.user);
 
-      // Adding credentials to ‘users’ doc w/ standard signin
       await setDoc(doc(db, "users", userCredential.user.uid), {
         userId: userCredential.user.uid,
         name: name,
@@ -91,7 +79,6 @@ function SignUp () {
         createdAt: serverTimestamp(),
       });
 
-      // Redirects user to dashboard page
       navigate("/questionnaire");
     } catch (error) {
       setErrorMessage(error.message);
@@ -103,12 +90,9 @@ function SignUp () {
     setShowAlert(false);
     setErrorMessage("");
 
-    // Implementing ‘signup with google’ feature for simplicity
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-
-      // Adding credentials to ‘users’ doc w/ google signin
       await setDoc(doc(db, "users", user.uid), {
         userId: user.uid,
         name: user.displayName || "",
@@ -117,7 +101,6 @@ function SignUp () {
         createdAt: serverTimestamp(),
       });
 
-      // Redirects user to dashboard page
       navigate("/questionnaire");
     } catch (error) {
       setErrorMessage(error.message);
@@ -125,8 +108,6 @@ function SignUp () {
     }
   };
 
-
-    // Rendering display elements on page
     return(
       <div className="signup-page">
           <div className="center-s">
@@ -172,8 +153,6 @@ function SignUp () {
                       
             </form>
             
-           
-
           </div>
 
       </div>

@@ -124,43 +124,8 @@ function Motivation () {
                 <p>
                     <button onClick={handleLogMotivation}>Log Motivation or Workout</button>
                 </p>
-                {/* <div className="upload-pics-motivation">
-                    {renderImages(images)}
-                    <div className="image-box">
-                        <label className="upload-label">
-                            <input
-                                type="file"
-                                accept="image/*,video/*"
-                                onChange={handleFileChange}
-                                multiple
-                                hidden
-                            />
-                            <span className="plus-sign">+</span>
-                        </label>
-                    </div>
-                </div> */}
             </div>
 
-            {/* <div className="progress-so-far-section">
-                <h2>Your Progress So Far</h2>
-                <p>Upload images and videos of your progress so far.</p>
-                <div className="upload-pics-progress">
-                    {renderImages(progressImages)}
-                    <div className="image-box">
-                        <label className="upload-label">
-                            <input
-                                type="file"
-                                accept="image/*,video/*"
-                                onChange={handleProgressFileChange}
-                                multiple
-                                hidden
-                            />
-                            <span className="plus-sign">+</span>
-                        </label>
-                    </div>
-                </div>
-            </div>  */}
-            {/* <button className="motivation-submit">SUBMIT</button> */}
             <div className="random-quote-container">
                 <h2>Random Motivation:</h2>
                 <div className="quote-box">

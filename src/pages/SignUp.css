@@ -33,21 +33,11 @@
     margin-bottom: 2rem;
 }
 
-/* button {
-    background-color: rgb(255, 104, 104);
-    padding: 0.5rem;
-    margin: 1rem;
-    font-family: 'Lexend Mega', sans-serif;
-    border-radius: 12px;
-} */
-
 .sign-s {
     background-color: rgb(93, 128, 255, 1);
-    /* background-color:#5D80FF; */
     border-color:#5D80FF;
     border-width: 3px;
     color: #17161F;
-    /* color: #5D80FF; */
     font-weight: bold;
 }
 

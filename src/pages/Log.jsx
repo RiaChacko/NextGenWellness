@@ -28,8 +28,6 @@ function Log() {
                         if (currentUser) {
                             setUser(currentUser);
                             try {
-
-                                //get goals by category
                                 const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                                 if (goalDoc.exists()) {
                                     const goalData = goalDoc.data();

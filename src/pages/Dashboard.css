@@ -1,6 +1,3 @@
-/* *{
-  overflow-x: hidden;
-} */
 
 .dashboard-container {
   background-color: #17161F;
@@ -76,7 +73,6 @@
   align-items: center;
   width: 100%;
   font-family: 'Lexend Mega', sans-serif;
-  /* gap: 2rem; */
   text-align: center;
 }
 
