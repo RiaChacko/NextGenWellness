@@ -183,7 +183,7 @@ function Dashboard () {
                     <div className="metric-content-inner">
                         {caloriesBurned==0 
                             ? <p>No activity tracked yet for today!</p> 
-                            : <p>Calories Burned : {caloriesBurned/1}</p>}
+                            : <p>Calories Burned : {caloriesBurned/1}%</p>}
                     </div>
                         <button className="metrics-btn" onClick={openModal}>VIEW ALL METRICS</button>
                     </div>
@@ -194,7 +194,7 @@ function Dashboard () {
           <div className="modal-overlay">
             <div className="modal-content">
               <h3>All Metrics</h3>
-              <p>Details about all metrics...</p>
+              <p>Calories Burned: {caloriesBurned/1}%</p>
               <button onClick={closeModal}>Close</button>
             </div>
           </div>
