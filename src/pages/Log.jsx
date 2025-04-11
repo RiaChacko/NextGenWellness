@@ -30,9 +30,9 @@ function Log() {
                             try {
                                 const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                                 if (goalDoc.exists()) {
-                                    const goalData = goalDoc.data();
+                                    const goalData = goalDoc.data()["goals"];
                                     const goalsObject = Object.keys(goalData)
-                                        .filter(key => key.startsWith("goals."))
+                                    .filter(key => key.startsWith("goals."))
                                         .reduce((obj, key) => {
                                             obj[key] = goalData[key];
                                             return obj;

@@ -55,8 +55,9 @@ function Dashboard () {
                         }
                         
                         const userId = currentUser.uid;
-                        const today = new Date().toISOString().split("T")[0]; 
-                        const docId = `${userId}-${today}`;
+                        const today = new Date();
+                        const localDate = today.toLocaleDateString('en-CA');
+                        const docId = `${userId}-${localDate}`;
                 
                         try {
                             const userDocRef = doc(db, "activities", docId);
@@ -90,7 +91,7 @@ function Dashboard () {
                         }
                         const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                         if (goalDoc.exists()) {
-                            const goalData = goalDoc.data();
+                            const goalData = goalDoc.data()["goals"];
                             const goalsObject = Object.keys(goalData)
                                 .filter(key => key.startsWith("goals."))
                                 .reduce((obj, key) => {

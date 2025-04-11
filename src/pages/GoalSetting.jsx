@@ -45,19 +45,16 @@ const GoalSetting = () => {
     const fetchWorkouts = async () => {
       const all = [];
       try {
-        console.log("Inside try")
         const collectionSnap = await getDocs(collection(db, "workouts"));
         const all = collectionSnap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
         setAvailableWorkouts(all);
-        console.log("Fetched workouts:", all);
         setAvailableWorkouts(all);
       } 
       
       catch (error) {
-        console.log("Workouts:", all);
         console.error("Error fetching workouts:", error);
       }
 
@@ -80,7 +77,6 @@ const GoalSetting = () => {
   }, [user]);
 
   const handleEdit = (goalKey, goalData) => {
-    console.log("Clicked!");
     setEditedGoals((prev) => ({
       ...prev,
       [goalKey]: {
@@ -90,103 +86,70 @@ const GoalSetting = () => {
   };
 
   const handleNewGoal = () => {
-    console.log("Create new goal clicked");
     setShowGoalModal(true);
   };
-  
-  
-  const handleAddGoal = async () => {
-    if (!selectedWorkout || !user) return;
-  
-    const docRef = doc(db, "userGoals", user.uid);
-    const goalId = `goals.${selectedWorkout.id}`; 
-  
-    const newGoal = {
-      exerciseName: selectedWorkout.name,
-      category: selectedWorkout.category,
-      attributes: selectedWorkout.trackingAttributes.reduce((acc, attr) => {
-        acc[attr.key] = attr.placeholder || "";
-        return acc;
-      }, {}),
-      submittedAt: new Date().toISOString(),
-    };
+
+  const handleSaveNewGoal = async () => {
+    if (!user || !selectedWorkout) return;
   
     try {
-      const existingDoc = await getDoc(docRef);
-      const data = existingDoc.exists() ? existingDoc.data() : {};
-      const updatedData = {
-        ...data,
-        [goalId]: newGoal,
-      };
-  
-      await setDoc(docRef, updatedData);
-      setShowGoalModal(false);
-      setSelectedWorkout(null);
-    } catch (error) {
-      console.error("Error adding new goal:", error);
-    }
-  };
-  
-
-const handleSaveNewGoal = async () => {
-  if (!user || !selectedWorkout) return;
-
-  try {
       const docRef = doc(db, "userGoals", user.uid);
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.exists() ? docSnap.data() : {}; 
-
+  
       const goalData = {
-          attributes: selectedWorkout.trackingAttributes.reduce((acc, attr) => {
-              acc[attr.key] = attr.placeholder || "";
-              return acc;
-          }, {}),
-          exerciseName: selectedWorkout.name || "Unnamed Workout", 
-          category: selectedWorkout.category || "Uncategorized",
-          submittedAt: new Date().toISOString(),
+        attributes: tempGoals,
+        exerciseName: selectedWorkout.name || "Unnamed Workout", 
+        category: selectedWorkout.category || "Uncategorized",
+        submittedAt: new Date().toISOString(),
       };
-
+  
       const goalKey = `goals.${selectedWorkout.id}`;
       const updatedData = {
-          ...currentData,
-          goals: {
-              ...(currentData.goals || {}),
-              [goalKey]: goalData,
-          },
+        ...currentData,
+        goals: {
+          ...(currentData.goals || {}),
+          [goalKey]: goalData,
+        },
       };
-
+  
       await setDoc(docRef, updatedData);
       setShowGoalModal(false);
       setSelectedWorkout(null);
       setTempGoals({}); 
-  } catch (err) {
+    } catch (err) {
       console.error("Failed to save new goal:", err);
-  }
-};
-
-
+    }
+  };
+  
   const handleSave = async (goalKey) => {
     const editedGoalData = editedGoals[goalKey];
     if (!editedGoalData) return;
     try {
       const docRef = doc(db, "userGoals", user.uid);
       const docSnap = await getDoc(docRef);
-      const docData = docSnap.data() || {};
-
-      delete docData[goalKey];
-
+      const docData = docSnap.exists() ? docSnap.data() : {};
+  
       const originalWorkout = goals[goalKey] || {};
-      const name = originalWorkout.name;
-
-      docData[goalKey] = {
+      const exerciseName = originalWorkout.exerciseName;
+  
+      const updatedGoal = {
         attributes: editedGoalData.attributes,
-        name: name,
+        exerciseName,
         category: originalWorkout.category,
         submittedAt: new Date().toISOString(),
       };
-
-      await setDoc(docRef, docData);
-
+  
+      const updatedData = {
+        ...docData,
+        goals: {
+          ...(docData.goals || {}),
+          [goalKey]: updatedGoal,
+        },
+      };
+  
+      await setDoc(docRef, updatedData);
+  
       setEditedGoals((prev) => {
         const newState = { ...prev };
         delete newState[goalKey];
@@ -353,18 +316,18 @@ const handleSaveNewGoal = async () => {
 
 
               <div className="modal-buttons">
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    if (!selectedWorkout) return alert("Please select a workout");
-                    handleSaveNewGoal(selectedWorkout);
-                    handleAddGoal(selectedWorkout);
-                    setShowGoalModal(false);
-                    setSelectedWorkout(null);
-                  }}
-                >
-                  Save Goal
-                </Button>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  if (!selectedWorkout) return alert("Please select a workout");
+                  handleSaveNewGoal();
+                  setShowGoalModal(false);
+                  setSelectedWorkout(null);
+                }}
+              >
+                Save Goal
+              </Button>
+
                 <Button
                   variant="outline"
                   onClick={() => {
