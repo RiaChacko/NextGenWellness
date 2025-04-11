@@ -72,11 +72,8 @@ function Dashboard () {
                                 let totalCalories = 0;
                                 activityArray.forEach((active) => {
 
-                                    if (active.activityType=='Steps') {
-                                        
-                                        let activityCalorie = active.caloriesBurned;
-
-                                        totalCalories+= activityCalorie/1;
+                                    if (active.caloriesBurned !== undefined && typeof active.caloriesBurned === 'number') {
+                                        totalCalories += active.caloriesBurned;
                                     }
                                     activities.push(active);
                                 });
