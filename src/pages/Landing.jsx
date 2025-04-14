@@ -65,7 +65,7 @@ function Landing() {
                 </div>
                 <div className="nav-links">
                     <a>Home</a>
-                    <a href="#features">Our Features</a>
+                    <a href="#features">Features</a>
                    <Link to="/signup"><a>Sign up</a></Link> 
                    <Link to="/login"><a>Login</a></Link>
                     <a href="#our-team">Our Team</a>
@@ -81,7 +81,7 @@ function Landing() {
             </div>
 
             <div className="features">
-                <h2 id="features">Our Features</h2>
+                <h2 id="features">FEATURES</h2>
                 <p>Discover the powerful features that make our interactive dashboard the ultimate tool for your fitness journey. Designed to help you stay motivated, track your progress, and achieve your goals, our dashboard brings all your fitness needs into one easy-to-use platform.</p>
                 <div className="features-list">
                     <div className="individual-feature">
