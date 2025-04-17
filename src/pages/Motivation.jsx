@@ -86,33 +86,55 @@ function Motivation () {
         }
     };
 
-    const [streak, setStreak] = useState(0);
-    const [lastLoginDate, setLastLoginDate] = useState(null);
-
-    
-    useEffect(() => {
-        const savedStreak = localStorage.getItem("streak");
-        const savedLastLoginDate = localStorage.getItem("lastLoginDate");
-
-        if (savedStreak) {
-            setStreak(parseInt(savedStreak, 10));
+    async function calculateStreak(userId) {
+        const activitiesRef = collection(db, "users", userId, "activities");
+        const q = query(activitiesRef, orderBy("timestamp", "desc"));
+        const snapshot = await getDocs(q);
+        const docs = snapshot.docs;
+      
+        if (docs.length === 0) return 0;
+      
+        // Optional: check if the latest activity is within 24h
+        const now = new Date();
+        const latest = docs[0].data().timestamp.toDate();
+        if ((now - latest) / (1000 * 60 * 60) > 24) return 0;
+      
+        let streak = 1;
+      
+        for (let i = 0; i < docs.length - 1; i++) {
+          const current = docs[i].data().timestamp.toDate();
+          const next = docs[i + 1].data().timestamp.toDate();
+          const diffInHours = (current - next) / (1000 * 60 * 60);
+      
+          if (diffInHours <= 24) {
+            streak++;
+          } else {
+            break;
+          }
         }
+      
+        return streak;
+      }
 
- 
-        if (savedLastLoginDate) {
-            const lastDate = new Date(savedLastLoginDate);
-            const today = new Date();
-
-
-            if (Math.floor((today - lastDate) / (1000 * 60 * 60 * 24)) > 1) {
-                setStreak(0); 
-            }
+      const [streak, setStreak] = useState(0);
+      
+      
+      useEffect(() => {
+        async function fetchStreak() {
+          const auth = getAuth();
+          const user = auth.currentUser;
+      
+          if (!user) {
+            console.warn("User not authenticated");
+            return;
+          }
+      
+          const currentStreak = await calculateStreak(user.uid);
+          setStreak(currentStreak);
         }
-
-        const currentDate = new Date().toISOString().split('T')[0]; 
-        setLastLoginDate(currentDate);
-        localStorage.setItem("lastLoginDate", currentDate);
-    }, []);
+      
+        fetchStreak();
+      }, []);
 
     const handleLogMotivation = () => {
         setStreak(streak + 1);
@@ -177,9 +199,9 @@ function Motivation () {
                 {streak > 0 && streak % 5 === 0 && (
                     <p className="motivational-message">Great job! Keep up the momentum!</p>
                 )}
-                <p>
+                {/* <p>
                     <button onClick={handleLogMotivation}>Log Motivation or Workout</button>
-                </p>
+                </p> */}
             </div>
 
             <MotivationGallery />
