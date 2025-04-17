@@ -241,7 +241,7 @@ function Dashboard() {
               {caloriesBurned == 0 ? (
                 <p>No activity tracked yet for today!</p>
               ) : (
-                <p>Calories Burned: {caloriesBurned / 1}%</p>
+                <p>Calories Burned: {caloriesBurned / 1}kcal</p>
               )}
             </div>
             <button className="metrics-btn" onClick={openModal}>
@@ -255,7 +255,7 @@ function Dashboard() {
             <div className="modal-overlay">
               <div className="modal-content">
                 <h3>All Metrics</h3>
-                <p>Calories Burned: {caloriesBurned / 1}%</p>
+                <p>Calories Burned: {caloriesBurned / 1}kcal</p>
                 <button onClick={closeModal}>Close</button>
               </div>
             </div>
