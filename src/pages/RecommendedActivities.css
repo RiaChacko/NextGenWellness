@@ -53,6 +53,8 @@
   gap: 2rem;
   width: 100%;
   max-width: 1200px;
+  position: relative;
+  left: 3rem;
 }
 
 .workout-day-container {
@@ -90,7 +92,7 @@
 }
 
 .exercise-name {
-  color: #FF5DA3;
+  color: white;
   font-family: 'Lexend Mega', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;

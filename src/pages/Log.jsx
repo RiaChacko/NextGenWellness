@@ -28,13 +28,11 @@ function Log() {
                         if (currentUser) {
                             setUser(currentUser);
                             try {
-
-                                //get goals by category
                                 const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                                 if (goalDoc.exists()) {
-                                    const goalData = goalDoc.data();
+                                    const goalData = goalDoc.data()["goals"];
                                     const goalsObject = Object.keys(goalData)
-                                        .filter(key => key.startsWith("goals."))
+                                    .filter(key => key.startsWith("goals."))
                                         .reduce((obj, key) => {
                                             obj[key] = goalData[key];
                                             return obj;
@@ -102,7 +100,7 @@ function Log() {
                 activityType: "Steps",
                 timestamp: Timestamp.now(),
                 steps: newSteps,
-                caloriesBurned: calories
+                caloriesBurned: Number(calories)
             };
 
             if (docSnap.exists()) {
@@ -211,6 +209,47 @@ function Log() {
         }));
     };
 
+    const calculateCalories = (category, attributes, weightKg) => {
+        const MET_VALUES = {
+            cardio: 8.0,
+            yoga: 3.0,
+            strength: 2.5,
+        };
+    
+        const met = MET_VALUES[category.toLowerCase()] || 1.0;
+        let durationMins = 0;
+    
+        const timeFields = ["duration", "time", "Duration", "Time"];
+        for (const field of timeFields) {
+            if (attributes[field]) {
+                durationMins = parseFloat(attributes[field]);
+                break;
+            }
+        }
+    
+        if ((!durationMins || isNaN(durationMins)) && attributes.Distance) {
+            const distance = parseFloat(attributes.Distance);
+            const distanceUnit = (attributes["Distance Unit"] || "km").toLowerCase(); 
+    
+            const distanceKm = distanceUnit === "miles" ? distance * 1.60934 : distance;
+    
+            durationMins = distanceKm * 6;
+        }
+
+        if (!durationMins || isNaN(durationMins)) {
+            if (attributes.Reps) {
+                durationMins = parseFloat(attributes.Reps) * 0.5;
+            } else if (attributes["Number of Rounds"]) {
+                durationMins = parseFloat(attributes["Number of Rounds"]) * 5;
+            } else {
+                durationMins = 15; 
+            }
+        }
+    
+        const durationHours = durationMins / 60;
+        return Math.round(met * weightKg * durationHours);
+    };
+    
     const handleSubmit = async (e, goal) => {
         e.preventDefault();
 
@@ -241,12 +280,19 @@ function Log() {
             const timestamp = Timestamp.now();
             const docRef = doc(db, "activities", docId);
             const docSnap = await getDoc(docRef);
+
+            const duration = parseFloat(attributes.duration);
+            const weightKg = parseFloat(userData?.weight); 
+
+            const caloriesBurned = calculateCalories(goal.category, duration, weightKg);
+
     
             if (docSnap.exists()) {
                 const newActivity = {
                     activityType: goal.exerciseName,
                     timestamp,
                     attributes,
+                    caloriesBurned,
                 };
     
                 await updateDoc(docRef, {
@@ -260,6 +306,7 @@ function Log() {
                             activityType: goal.exerciseName,
                             timestamp,
                             attributes,
+                            caloriesBurned,
                         }
                     ]
                 });

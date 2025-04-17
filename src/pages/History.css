@@ -19,14 +19,6 @@
     text-align: left;
 }
 
-/* .filter-buttons{
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: start;
-    justify-content: start;
-    margin: 0;
-} */
 
   .filter-buttons button{
     align-items: start;
@@ -44,29 +36,6 @@
 .filter-buttons button:hover{
   cursor: pointer;
 }
-/* 
-.history-layout-headings{
-    display: flex;
-    flex-direction: row;
-    gap: 10rem;
-    text-transform: uppercase;
-    align-items: center;
-    justify-content: center;
-} */
-
-/* .history-layout-headings, .user-history-table{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-   
-}
-.user-history-table{
-    display: flex;
-    flex-direction: row;
-    gap: 5.5rem;
-    align-items: center;
-    justify-content: center;
-} */
 
 .history-table-container{
     display: flex;
@@ -97,7 +66,6 @@
   }
   
   .user-history-table td {
-    /* background-color: rgba(255, 93, 163, 0.5); */
     color: white;
     
   }

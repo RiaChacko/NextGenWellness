@@ -1,6 +1,3 @@
-/* *{
-  overflow-x: hidden;
-} */
 
 .dashboard-container {
   background-color: #17161F;
@@ -76,7 +73,6 @@
   align-items: center;
   width: 100%;
   font-family: 'Lexend Mega', sans-serif;
-  /* gap: 2rem; */
   text-align: center;
 }
 
@@ -88,16 +84,21 @@
 
 .icons-dashboard {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  left: 37rem;
-  gap: 2rem;
+  left: 35rem;
+  gap: .3rem;
+}
+
+.icons-dashboard i:hover{
+  color: #FF5DA3;
+  cursor: pointer;
 }
 .top-header-dashboard button{
   position: relative;
-  left: 42rem;
+  left: 40rem;
   background-color: #FF5DA3;
 }
 

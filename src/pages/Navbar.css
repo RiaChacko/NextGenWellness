@@ -42,10 +42,8 @@
   flex-direction: column;
   align-items: flex-start;
   margin-top: 5rem;
-  /* gap: 6rem; */
   font-family: 'Lexend Mega', sans-serif;
   color: white;
-  /* padding-left: 2rem; */
 }
 
 .nav-links-dash a {
@@ -64,7 +62,6 @@
 .nav-links-dash a.active {
   background-color: #15151d; 
   color: white; 
-  /* padding: .5rem; */
   border-radius: 5px;
 }
 

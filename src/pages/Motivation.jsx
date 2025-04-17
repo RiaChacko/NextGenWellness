@@ -180,21 +180,6 @@ function Motivation () {
                 <p>
                     <button onClick={handleLogMotivation}>Log Motivation or Workout</button>
                 </p>
-                {/* <div className="upload-pics-motivation">
-                    {renderImages(images)}
-                    <div className="image-box">
-                        <label className="upload-label">
-                            <input
-                                type="file"
-                                accept="image/*,video/*"
-                                onChange={handleFileChange}
-                                multiple
-                                hidden
-                            />
-                            <span className="plus-sign">+</span>
-                        </label>
-                    </div>
-                </div> */}
             </div>
 
             <MotivationGallery />

@@ -7,7 +7,6 @@ function Navbar() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState("dashboard");
 
-  // Sync active tab based on current path
   useEffect(() => {
     const path = location.pathname;
 

@@ -21,7 +21,7 @@ function Dashboard () {
     const [caloriesBurned, setCaloriesBurned] = useState(0);
     const [goals, setGoals] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false); 
-
+    const [isMailClicked, setIsMailClicked] = useState(false);
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -29,13 +29,19 @@ function Dashboard () {
     const closeModal = () => {
       setIsModalOpen(false); 
     };
+
+
+
+    const toggleMailColor = () => {
+      setIsMailClicked(!isMailClicked);
+    };
+ 
     const navigate = useNavigate();
 
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
                 if (currentUser) {
                     try {
-                        //getting user data for top bar
                         const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                         if (userDoc.exists()) {
                             const userData = userDoc.data();
@@ -48,10 +54,10 @@ function Dashboard () {
                             console.error("The user's document does not exist in the database.");
                         }
                         
-                        //getting user data to show cals burnt & activity logged
                         const userId = currentUser.uid;
-                        const today = new Date().toISOString().split("T")[0]; 
-                        const docId = `${userId}-${today}`;
+                        const today = new Date();
+                        const localDate = today.toLocaleDateString('en-CA');
+                        const docId = `${userId}-${localDate}`;
                 
                         try {
                             const userDocRef = doc(db, "activities", docId);
@@ -66,11 +72,8 @@ function Dashboard () {
                                 let totalCalories = 0;
                                 activityArray.forEach((active) => {
 
-                                    if (active.activityType=='Steps') {
-                                        
-                                        let activityCalorie = active.caloriesBurned;
-
-                                        totalCalories+= activityCalorie/1;
+                                    if (active.caloriesBurned !== undefined && typeof active.caloriesBurned === 'number') {
+                                        totalCalories += active.caloriesBurned;
                                     }
                                     activities.push(active);
                                 });
@@ -83,11 +86,9 @@ function Dashboard () {
                         {
                             console.error("Error: ",error)
                         }
-
-                        //getting user data to show goals
                         const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                         if (goalDoc.exists()) {
-                            const goalData = goalDoc.data();
+                            const goalData = goalDoc.data()["goals"];
                             const goalsObject = Object.keys(goalData)
                                 .filter(key => key.startsWith("goals."))
                                 .reduce((obj, key) => {
@@ -158,8 +159,18 @@ function Dashboard () {
                     
                 </div>
                 <div className="icons-dashboard">
-                    <i className="fa-solid fa-bell" style={{ color: "white", fontSize: "1.5rem" }}></i>
-                    <i className="fa-solid fa-search" style={{ color: "white", fontSize: "1.5rem" }}></i>
+                <i
+          className="fa-solid fa-envelope"
+          style={{
+            color: isMailClicked ? "#FF5DA3" : "white", 
+            fontSize: "1.5rem",
+            cursor: "pointer",
+          }}
+          onClick={toggleMailColor}
+        ></i>
+        <p style={{color: "white", fontSize: "1rem", display: "flex", flexDirection: "column"}}>
+                      {isMailClicked ? "Email notifications ON" : "Email notifications OFF"}
+                    </p>
                 </div>
                 <button onClick={handleLogout}>LOG OUT</button>
             </div>
@@ -170,16 +181,8 @@ function Dashboard () {
                     <div className="metric-content-inner">
                         {caloriesBurned==0 
                             ? <p>No activity tracked yet for today!</p> 
-                            : <p>Calories Burned : {caloriesBurned/1}</p>}
+                            : <p>Calories Burned: {caloriesBurned/1}kcal</p>}
                     </div>
-                        {/* <div className="metric-content-inner">
-                            <p>Carbs</p>
-                            <span>23.2%</span>
-                        </div>
-                        <div className="metric-content-inner">
-                            <p>Proteins</p>
-                            <span>11.9%</span>
-                        </div> */}
                         <button className="metrics-btn" onClick={openModal}>VIEW ALL METRICS</button>
                     </div>
                     <div className="progress-bar-dashboard">
@@ -189,7 +192,7 @@ function Dashboard () {
           <div className="modal-overlay">
             <div className="modal-content">
               <h3>All Metrics</h3>
-              <p>Details about all metrics...</p>
+              <p>Calories Burned: {caloriesBurned/1}kcal</p>
               <button onClick={closeModal}>Close</button>
             </div>
           </div>

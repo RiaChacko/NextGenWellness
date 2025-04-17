@@ -188,7 +188,6 @@ function Questionnaire() {
       <div className="left-panel">
         <h1 className="main-title">CONTINUE SETTING UP YOUR PROFILE</h1>
 
-        {/* Required Section */}
         <div className="bio-section">
           <h3>
             ENTER YOUR INFORMATION: <span className="field-required">(Required)</span>
@@ -215,7 +214,6 @@ function Questionnaire() {
           </div>
         </div>
 
-        {/* Optional Section: Gender */}
         <div className="gender-section">
           <h3>
             SELECT YOUR GENDER: <span className="field-optional">(Optional)</span>
@@ -242,7 +240,6 @@ function Questionnaire() {
           </div>
         </div>
 
-        {/* Optional Section: Workouts */}
         <div className="workouts-section">
           <h3>
             SELECT YOUR WORKOUTS: <span className="field-optional">(Optional)</span>

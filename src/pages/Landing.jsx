@@ -65,9 +65,10 @@ function Landing() {
                 </div>
                 <div className="nav-links">
                     <a>Home</a>
-                    <a href="#features">Our Features</a>
+                    <a href="#features">Features</a>
                    <Link to="/signup"><a>Sign up</a></Link> 
-                   <Link to="/login"><a>Login</a></Link> 
+                   <Link to="/login"><a>Login</a></Link>
+                    <a href="#our-team">Our Team</a>
                     <a href="#contact-us">Contact Us</a>
                 </div>
 
@@ -80,7 +81,7 @@ function Landing() {
             </div>
 
             <div className="features">
-                <h2 id="features">Our Features</h2>
+                <h2 id="features">FEATURES</h2>
                 <p>Discover the powerful features that make our interactive dashboard the ultimate tool for your fitness journey. Designed to help you stay motivated, track your progress, and achieve your goals, our dashboard brings all your fitness needs into one easy-to-use platform.</p>
                 <div className="features-list">
                     <div className="individual-feature">
@@ -116,6 +117,43 @@ function Landing() {
                 </div>
             </div>
 
+
+            <div className="features">
+                <h2 id="our-team">OUR TEAM</h2>
+                <div class="row">
+                    <div class="profile">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQHnsxOrsa7btg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1725896993624?e=1750291200&v=beta&t=T-LtmzKNFomf-bEnnMwaxlTNuLkrAAXF1ITl8tACAps" alt="Person 1" class="headshot"></img>
+                        <div class="name">Anushka Lakum</div>
+                        <div class="role">Backend Developer</div>
+                    </div>
+                    <div class="profile">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQFaSpceEhmHNA/profile-displayphoto-shrink_800_800/B4EZSaM5CWGYAo-/0/1737753859085?e=1750291200&v=beta&t=m39h-ThibVduWOQKtv8v9Gl-5-OcsuXc7hFiVnuTMQw" alt="Person 2" class="headshot"></img>
+                        <div class="name">Akshat Rastogi</div>
+                        <div class="role">Backend Develoepr</div>
+                    </div>
+                    <div class="profile">
+                        <img src="https://media.discordapp.net/attachments/1309296703505043458/1336467682756661318/image.jpg?ex=67fe38c5&is=67fce745&hm=32fa30cf32a140eceb27502420b846d69e51d71762797de57bfc83e71dc0a6e5&=&format=webp&width=1451&height=1670" alt="Person 3" class="headshot"></img>
+                        <div class="name">Anisha Paul</div>
+                        <div class="role">Backend Developer</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="profile">
+                        <img src="https://media.licdn.com/dms/image/v2/C4D03AQEFEN71BS9bPg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1651459684380?e=1750291200&v=beta&t=QcQlwTdIhBFqW13fdoQuOYaTRmrZtzDEWwN0MbuNHh0" alt="Person 4" class="headshot"></img>
+                        <div class="name">Aneesha Acharya</div>
+                        <div class="role">Frontend Developer</div>
+                    </div>
+                    <div class="profile">
+                        <img src="https://media.licdn.com/dms/image/v2/D4E03AQEPhtXAFkhdcA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1726113846459?e=1750291200&v=beta&t=0Jv6iiiqtEJtUKxUhS4gD6Uo8vS-46G7JuNK761Knx4" alt="Person 5" class="headshot"></img>
+                        <div class="name">Ria Chacko</div>
+                        <div class="role">Frontend Developer</div>
+                    </div>
+                </div>
+            </div>
+
+            
+
             <div className="contact-us-wrapper">
     <div className="contact-us" id="contact-us">
         <h2>Contact Us</h2>
@@ -140,7 +178,6 @@ function Landing() {
 
     <div className="footer">
         <p>© 2025 Next-Gen Wellness. All rights reserved.</p>
-        <p><Link to="/terms">Terms & Conditions</Link> | <Link to="/privacy">Privacy Policy</Link></p>
     </div>
 </div>
             
