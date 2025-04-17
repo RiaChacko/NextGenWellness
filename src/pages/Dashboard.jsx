@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "../pages/Dashboard.css";
 import CircularProgress from "./CircularProgressBar";
-import bell from "../assets/bell.svg";
+import { FaBell, FaTimes } from "react-icons/fa";
 import StepsChart from "./StepsGraph";
 import activityImg from "../assets/activity1.svg";
 import { auth, db } from "./firebaseConfig";
@@ -20,13 +20,13 @@ function Dashboard() {
   const [caloriesBurned, setCaloriesBurned] = useState(0);
   const [goals, setGoals] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMailClicked, setIsMailClicked] = useState(false);
+  const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [workoutPlan, setWorkoutPlan] = useState(null);
   const navigate = useNavigate();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const toggleMailColor = () => setIsMailClicked(!isMailClicked);
+  const toggleNotificationModal = () => setIsNotificationModalOpen(!isNotificationModalOpen);
 
   useEffect(() => {
     const getData = onAuthStateChanged(auth, async (currentUser) => {
@@ -90,7 +90,6 @@ function Dashboard() {
           const day = weekStart.getDate();
           const year = weekStart.getFullYear();
           const formattedDate = `${month < 10 ? "0" + month : month}/${day < 10 ? "0" + day : day}/${year}`;
-          const formattedDateForDocId = `${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day}-${year}`;
 
           try {
             const plansCollection = collection(db, "workoutPlans");
@@ -198,6 +197,37 @@ function Dashboard() {
     return activities;
   };
 
+  const NotificationModal = ({ onClose }) => {
+    const placeholderNotifications = [
+      { id: 1, title: "Workout Reminder", message: "Don't forget your workout today!", date: new Date() },
+      { id: 2, title: "Goal Progress", message: "You're 50% towards your weekly goal!", date: new Date() },
+    ];
+
+    const formatDate = (date) => {
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    };
+
+    return (
+      <div className="notification-modal">
+        <button className="notification-modal-close" onClick={onClose}>
+          <FaTimes />
+        </button>
+        <h1>Notifications</h1>
+        {placeholderNotifications.length === 0 ? (
+          <p>No notifications.</p>
+        ) : (
+          placeholderNotifications.map((notification) => (
+            <div key={notification.id} className="notification-item">
+              <h3>{notification.title}</h3>
+              <p className="notification-date">{formatDate(notification.date)}</p>
+              <p>{notification.message}</p>
+            </div>
+          ))
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -216,20 +246,11 @@ function Dashboard() {
             <h4>Age</h4>
             <p>{age} years</p>
           </div>
-        </div>
-        <div className="icons-dashboard">
-          <i
-            className="fa-solid fa-envelope"
-            style={{
-              color: isMailClicked ? "#FF5DA3" : "white",
-              fontSize: "1.5rem",
-              cursor: "pointer",
-            }}
-            onClick={toggleMailColor}
-          ></i>
-          <p style={{ color: "white", fontSize: "1rem", display: "flex", flexDirection: "column" }}>
-            {isMailClicked ? "Email notifications ON" : "Email notifications OFF"}
-          </p>
+          <div className="icons-dashboard">
+            <button className="notification-button" onClick={toggleNotificationModal}>
+              <FaBell size={20} />
+            </button>
+          </div>
         </div>
         <button onClick={handleLogout}>LOG OUT</button>
       </div>
@@ -274,7 +295,6 @@ function Dashboard() {
               if (matchingActivities.length > 0) {
                 matchingActivities.forEach((act) => {
                   const actAttributes = act.attributes;
-                 s
                   const value =
                     actAttributes.Time ||
                     actAttributes.Duration ||
@@ -367,6 +387,7 @@ function Dashboard() {
           </Link>
         </div>
       </div>
+      {isNotificationModalOpen && <NotificationModal onClose={toggleNotificationModal} />}
     </div>
   );
 }
