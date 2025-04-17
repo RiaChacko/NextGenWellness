@@ -181,7 +181,7 @@ function Dashboard () {
                     <div className="metric-content-inner">
                         {caloriesBurned==0 
                             ? <p>No activity tracked yet for today!</p> 
-                            : <p>Calories Burned : {caloriesBurned/1}%</p>}
+                            : <p>Calories Burned: {caloriesBurned/1}kcal</p>}
                     </div>
                         <button className="metrics-btn" onClick={openModal}>VIEW ALL METRICS</button>
                     </div>

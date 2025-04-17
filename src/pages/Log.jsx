@@ -100,7 +100,7 @@ function Log() {
                 activityType: "Steps",
                 timestamp: Timestamp.now(),
                 steps: newSteps,
-                caloriesBurned: calories
+                caloriesBurned: Number(calories)
             };
 
             if (docSnap.exists()) {
