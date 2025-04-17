@@ -196,43 +196,9 @@ function Motivation () {
                     </div>
                 </div> */}
             </div>
+
             <MotivationGallery />
 
-            {/* <div className="progress-so-far-section">
-                <h2>Your Progress So Far</h2>
-                <p>Upload images and videos of your progress so far.</p>
-                <div className="upload-pics-progress">
-                    {renderImages(progressImages)}
-                    <div className="image-box">
-                        <label className="upload-label">
-                            <input
-                                type="file"
-                                accept="image/*,video/*"
-                                onChange={handleProgressFileChange}
-                                multiple
-                                hidden
-                            />
-                            <span className="plus-sign">+</span>
-                        </label>
-                    </div>
-                </div>
-            </div>  */}
-
-
-            {/* <button className="motivation-submit">SUBMIT</button> */}
-            {/* <h3 className="text-xl font-semibold mb-4">Motivation Images & Videos</h3>
-            <div className="grid grid-cols-3 gap-4 mb-12">
-                {Array(3).fill(0).map((_, i) => (
-                    <div key={i} className="border-2 border-pink-400 rounded-lg aspect-video flex items-center justify-center text-4xl text-pink-400">+</div>
-                ))}
-            </div>
-
-            <h3 className="text-xl font-semibold mb-4">Your Progress So Far</h3>
-            <div className="grid grid-cols-3 gap-4">
-                {Array(3).fill(0).map((_, i) => (
-                    <div key={i} className="border-2 border-pink-400 rounded-lg aspect-video flex items-center justify-center text-4xl text-pink-400">+</div>
-                ))}
-            </div> */}
             <div className="random-quote-container">
                 <h2>Random Motivation:</h2>
                 <div className="quote-box">
