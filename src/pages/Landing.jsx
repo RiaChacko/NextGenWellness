@@ -129,7 +129,7 @@ function Landing() {
                     <div class="profile">
                         <img src="https://media.licdn.com/dms/image/v2/D4E03AQFaSpceEhmHNA/profile-displayphoto-shrink_800_800/B4EZSaM5CWGYAo-/0/1737753859085?e=1750291200&v=beta&t=m39h-ThibVduWOQKtv8v9Gl-5-OcsuXc7hFiVnuTMQw" alt="Person 2" class="headshot"></img>
                         <div class="name">Akshat Rastogi</div>
-                        <div class="role">Backend Develoepr</div>
+                        <div class="role">Backend Developer</div>
                     </div>
                     <div class="profile">
                         <img src="https://media.discordapp.net/attachments/1309296703505043458/1336467682756661318/image.jpg?ex=68022d45&is=6800dbc5&hm=2ca67c7bbdf2e759df16bff4d141d224ffd444e5e331509acb7043c59bd4a21f&=&format=webp&width=1451&height=1670" alt="Person 3" class="headshot"></img>
