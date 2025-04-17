@@ -132,7 +132,7 @@ function Landing() {
                         <div class="role">Backend Develoepr</div>
                     </div>
                     <div class="profile">
-                        <img src="https://media.discordapp.net/attachments/1309296703505043458/1336467682756661318/image.jpg?ex=67fe38c5&is=67fce745&hm=32fa30cf32a140eceb27502420b846d69e51d71762797de57bfc83e71dc0a6e5&=&format=webp&width=1451&height=1670" alt="Person 3" class="headshot"></img>
+                        <img src="https://media.discordapp.net/attachments/1309296703505043458/1336467682756661318/image.jpg?ex=68022d45&is=6800dbc5&hm=2ca67c7bbdf2e759df16bff4d141d224ffd444e5e331509acb7043c59bd4a21f&=&format=webp&width=1451&height=1670" alt="Person 3" class="headshot"></img>
                         <div class="name">Anisha Paul</div>
                         <div class="role">Backend Developer</div>
                     </div>
