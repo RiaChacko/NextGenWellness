@@ -5,7 +5,8 @@ import {
   collection, 
   getDocs, 
   doc, 
-  setDoc
+  setDoc,
+  getDoc
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebaseConfig";
@@ -68,45 +69,49 @@ function Questionnaire() {
   };
 
   const handleSave = async () => {
-    if (activeWorkout) {
-      setWorkoutGoals((prev) => ({
-        ...prev,
-        [activeWorkout.id]: tempGoals,
-      }));
+    if (!activeWorkout || !user) {
+      console.error("Workout or user missing");
+      return;
+    }
 
-      if (!user) {
-        console.error("User is not signed in");
-        return;
-      }
-
-      const userId = user.uid;
-
-      const goal = {
-        exerciseName: activeWorkout.name,
-        category: activeWorkout.category,
-        attributes: tempGoals,
-        submittedAt: new Date().toISOString()
+    setWorkoutGoals((prev) => ({
+      ...prev,
+      [activeWorkout.id]: tempGoals,
+    }));
+  
+    const userId = user.uid;
+  
+    const goal = {
+      exerciseName: activeWorkout.name,
+      category: activeWorkout.category,
+      attributes: tempGoals,
+      submittedAt: new Date().toISOString(),
+    };
+  
+    const userDocRef = doc(db, "userGoals", userId);
+  
+    try {
+      const currentSnapshot = await getDoc(userDocRef);
+      const currentData = currentSnapshot.exists() ? currentSnapshot.data() : {};
+  
+      const updatedData = {
+        ...currentData,
+        goals: {
+          ...(currentData.goals || {}),
+          [`goals.${activeWorkout.id}`]: goal,
+        },
       };
-
-      const userDocRef = doc(db, "userGoals", userId);
-      try {
-        await setDoc(
-          userDocRef,
-          {
-            userId,
-            [`goals.${activeWorkout.id}`]: goal
-          },
-          { merge: true }
-        );
-        console.log("Goal saved successfully");
-      } catch (error) {
-        console.error("Error saving goal: ", error);
-      }
-
+  
+      await setDoc(userDocRef, updatedData);
+      console.log("Goal saved successfully");
+  
       setActiveWorkout(null);
       setTempGoals({});
+    } catch (error) {
+      console.error("Error saving goal: ", error);
     }
   };
+  
 
   const renderGoalContent = () => {
     if (!activeWorkout) {
