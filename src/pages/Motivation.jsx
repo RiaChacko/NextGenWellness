@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import "../pages/Motivation.css";
 import Navbar from "./Navbar";
+
 import {
     collection,
     doc,
@@ -12,6 +13,8 @@ import {
   } from "firebase/firestore";
   import { auth, db } from "./firebaseConfig";
   import { getAuth } from 'firebase/auth';
+  import MotivationGallery from "./MotivationGallery";
+
 
 
 function Motivation () {
@@ -193,6 +196,7 @@ function Motivation () {
                     </div>
                 </div> */}
             </div>
+            <MotivationGallery />
 
             {/* <div className="progress-so-far-section">
                 <h2>Your Progress So Far</h2>
@@ -213,7 +217,22 @@ function Motivation () {
                     </div>
                 </div>
             </div>  */}
+
+
             {/* <button className="motivation-submit">SUBMIT</button> */}
+            {/* <h3 className="text-xl font-semibold mb-4">Motivation Images & Videos</h3>
+            <div className="grid grid-cols-3 gap-4 mb-12">
+                {Array(3).fill(0).map((_, i) => (
+                    <div key={i} className="border-2 border-pink-400 rounded-lg aspect-video flex items-center justify-center text-4xl text-pink-400">+</div>
+                ))}
+            </div>
+
+            <h3 className="text-xl font-semibold mb-4">Your Progress So Far</h3>
+            <div className="grid grid-cols-3 gap-4">
+                {Array(3).fill(0).map((_, i) => (
+                    <div key={i} className="border-2 border-pink-400 rounded-lg aspect-video flex items-center justify-center text-4xl text-pink-400">+</div>
+                ))}
+            </div> */}
             <div className="random-quote-container">
                 <h2>Random Motivation:</h2>
                 <div className="quote-box">
