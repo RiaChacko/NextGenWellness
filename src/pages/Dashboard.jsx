@@ -192,7 +192,7 @@ function Dashboard () {
           <div className="modal-overlay">
             <div className="modal-content">
               <h3>All Metrics</h3>
-              <p>Calories Burned: {caloriesBurned/1}%</p>
+              <p>Calories Burned: {caloriesBurned/1}kcal</p>
               <button onClick={closeModal}>Close</button>
             </div>
           </div>
