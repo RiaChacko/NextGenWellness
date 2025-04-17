@@ -8,9 +8,15 @@ const Card = ({ children, category }) => {
   };
 
   return (
-    <div className={`p-4 rounded-lg shadow-md ${categoryColors[category] || "bg-gray-800"}`}>
-      {children}
-    </div>
+    // <div className={`p-4 rounded-lg shadow-md ${categoryColors[category] || "bg-red-800"}`}>
+    //   {children}
+    // </div>
+    <div
+    className="p-4 rounded-lg shadow-md"
+    style={{ backgroundColor: categoryColors[category] || "#374274" }}
+  >
+    {children}
+  </div>
   );
 };
 
