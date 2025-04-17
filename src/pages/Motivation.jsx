@@ -1,6 +1,18 @@
 import React, { useState,useEffect } from "react";
 import "../pages/Motivation.css";
 import Navbar from "./Navbar";
+import {
+    collection,
+    doc,
+    onSnapshot,
+    getDoc,
+    setDoc,
+    getDocs,
+    addDoc
+  } from "firebase/firestore";
+  import { auth, db } from "./firebaseConfig";
+  import { getAuth } from 'firebase/auth';
+
 
 function Motivation () {
 
@@ -17,17 +29,58 @@ function Motivation () {
         setShowMotivationForm(!showMotivationForm);
     };
 
-    const handleWhySubmit = (e) => {
+    const handleWhySubmit = async (e) => {
         e.preventDefault();
-        setShowWhyForm(false); 
-        setWhyInput(""); 
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert('User not authenticated');
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, 'userWhys'), {
+                uid: user.uid, // associate with the user
+                reason: whyInput,
+                timestamp: new Date(),
+            });
+    
+            setWhyInput('');
+            setShowWhyForm(false);
+        } catch (error) {
+            console.error('Error saving reason:', error);
+            alert('Error saving your reason. Please try again.');
+        }
     };
 
 
-    const handleMotivationSubmit = (e) => {
+    const handleMotivationSubmit = async (e) => {
+        // e.preventDefault();
+        // setShowMotivationForm(false); 
+        // setMotivationalQuote(""); 
         e.preventDefault();
-        setShowMotivationForm(false); 
-        setMotivationalQuote(""); 
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert('User not authenticated');
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, 'userMotivation'), {
+                uid: user.uid, // associate with the user
+                motivation: motivationalQuote,
+                timestamp: new Date(),
+            });
+    
+            setMotivationalQuote('');
+            setShowMotivationForm(false);
+        } catch (error) {
+            console.error('Error saving motivation:', error);
+            alert('Error saving your motivation. Please try again.');
+        }
     };
 
     const [streak, setStreak] = useState(0);
