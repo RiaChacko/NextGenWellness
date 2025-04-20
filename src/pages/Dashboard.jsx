@@ -164,7 +164,6 @@ function Dashboard() {
 
     const relevantDays = daysOfWeek.slice(currentDayIndex);
     let daysWithActivities = 0;
-
     relevantDays.forEach((day, offset) => {
       if (daysWithActivities >= 3) return;
 
@@ -246,13 +245,15 @@ function Dashboard() {
             <h4>Age</h4>
             <p>{age} years</p>
           </div>
-          <div className="icons-dashboard">
+          
+        </div>
+        <div className="icons-dashboard">
             <button className="notification-button" onClick={toggleNotificationModal}>
               <FaBell size={20} />
             </button>
-          </div>
+            <button onClick={handleLogout}>LOG OUT</button>
         </div>
-        <button onClick={handleLogout}>LOG OUT</button>
+        
       </div>
       <div className="dashboard-content-space">
         <div className="dashboard-metrics-container">
