@@ -10,6 +10,7 @@ import fitnessplan from "../assets/fitnessplan.png";
 import goalsetting from "../assets/goalsetting.png";
 import { db } from "./firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import anisha from "../assets/anisha.jpg";
 
 function Landing() {
 
@@ -132,7 +133,7 @@ function Landing() {
                         <div class="role">Backend Developer</div>
                     </div>
                     <div class="profile">
-                        <img src="https://media.discordapp.net/attachments/1309296703505043458/1336467682756661318/image.jpg?ex=68022d45&is=6800dbc5&hm=2ca67c7bbdf2e759df16bff4d141d224ffd444e5e331509acb7043c59bd4a21f&=&format=webp&width=1451&height=1670" alt="Person 3" class="headshot"></img>
+                        <img src={anisha} alt="Person 3" class="headshot"></img>
                         <div class="name">Anisha Paul</div>
                         <div class="role">Backend Developer</div>
                     </div>
