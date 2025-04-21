@@ -540,6 +540,7 @@ function Dashboard() {
             </button>
             <button onClick={handleLogout}>LOG OUT</button>
         </div>
+        </div>
         
       </div>
       <div className="dashboard-content-space">
