@@ -1,12 +1,12 @@
+//all import statements
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "./firebaseConfig";
 import { sendPasswordResetEmail } from "firebase/auth";
-
-
 import logo from "../assets/welcome-to.svg";
 import "../pages/ForgotPassword.css";
 
+//function to send reset password email for user
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(""); 
@@ -47,6 +47,7 @@ function ForgotPassword() {
       </div>
 
       <div className="text-input center">
+        //form to take in user input
         <form onSubmit={handleForgotPassword}>
           <div className="center">
             <input
@@ -65,7 +66,6 @@ function ForgotPassword() {
             SEND RESET EMAIL
           </button>
         </form>
-
         {message && (
           <p className="center" style={{ color: "green" }}>
             {message}
