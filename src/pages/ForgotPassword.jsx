@@ -47,7 +47,7 @@ function ForgotPassword() {
       </div>
 
       <div className="text-input center">
-        //form to take in user input
+        
         <form onSubmit={handleForgotPassword}>
           <div className="center">
             <input
