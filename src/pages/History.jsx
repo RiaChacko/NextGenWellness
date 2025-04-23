@@ -15,6 +15,8 @@ function History() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDetails, setSelectedDetails] = useState("");
 
+  //Shows details if user clicks the details button 
+  //for a specific entry in the table
   const openModal = (details) => {
     setSelectedDetails(details);
     setIsModalOpen(true);
@@ -27,6 +29,8 @@ function History() {
 
   useEffect(() => {
     const getData = onAuthStateChanged(auth, async (currentUser) => {
+
+      //Checks if user is currently logged in
         if (currentUser) {
             setUser(currentUser);
         } else {
@@ -42,11 +46,13 @@ function History() {
       if (!user) return; 
   
       try {
+        //Gets user history data if they have ever logged anything with the app
           const historyDoc = await getDoc(doc(db, "userHistory", user.uid));
           
           if (historyDoc.exists()) {
               const fetchedData = historyDoc.data();
               
+              //Formats date
               if (Array.isArray(fetchedData.history)) {
                 const formattedData = fetchedData.history.map(entry => ({
                     item: entry.item,
@@ -82,6 +88,7 @@ function History() {
     }
 }, [user]);
 
+//Following two functions handle switching between pages
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);

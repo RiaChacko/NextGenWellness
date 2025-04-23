@@ -25,9 +25,11 @@ function Log() {
 
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
+                        //If a user is currently logged in then proceed
                         if (currentUser) {
                             setUser(currentUser);
                             try {
+                                //Get user goals if they have created any
                                 const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
                                 if (goalDoc.exists()) {
                                     const goalData = goalDoc.data()["goals"];
@@ -67,6 +69,7 @@ function Log() {
         setWeight(e.target.value);
     };
 
+    //Add steps to user's activity, history, and calories burned for the day
     const handleStepsSubmit = async (e) => {
         e.preventDefault();
         const newSteps = parseInt(steps, 10);
@@ -143,6 +146,8 @@ function Log() {
             }
     };
 
+    //Change user weight as shown on dashboard
+    //Add weight to user history collection
     const handleWeightSubmit = async (e) => {
         e.preventDefault();
         const newWeight = parseInt(weight, 10);
@@ -209,6 +214,7 @@ function Log() {
         }));
     };
 
+    //Calculates calories by category of exercise using met values
     const calculateCalories = (category, attributes, weightKg) => {
         const MET_VALUES = {
             cardio: 8.0,
@@ -250,6 +256,7 @@ function Log() {
         return Math.round(met * weightKg * durationHours);
     };
     
+    //Adds user logged workout to dashboard/activity/history/calories
     const handleSubmit = async (e, goal) => {
         e.preventDefault();
 
@@ -349,6 +356,7 @@ function Log() {
         }
     };
  
+    //Toggling steps and weight logging forms
     const toggleStepsForm = () => setShowStepsForm(!showStepsForm);
     const toggleWeightForm = () => setShowWeightForm(!showWeightForm);
 

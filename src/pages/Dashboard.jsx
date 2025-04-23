@@ -43,6 +43,7 @@ function Dashboard() {
 
   useEffect(() => {
     const getData = onAuthStateChanged(auth, async (currentUser) => {
+      //if a user is currently logged in then proceed
       if (currentUser) {
         try {
           const userDoc = await getDoc(doc(db, "users", currentUser.uid));
@@ -61,6 +62,8 @@ function Dashboard() {
           const docId = `${userId}-${localDate}`;
           const userDocRef = doc(db, "activities", docId);
           const userSnap = await getDoc(userDocRef);
+
+          //gets user data for the current day if any activity has been logged
           if (userSnap.exists()) {
             const userData = userSnap.data().activities;
             const activityArray = Object.values(userData);
@@ -79,6 +82,7 @@ function Dashboard() {
             setCaloriesBurned(totalCalories.toFixed(2));
           }
 
+          //gets user goals if any have been created
           const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
           if (goalDoc.exists()) {
             const goalData = goalDoc.data()["goals"];
@@ -103,6 +107,8 @@ function Dashboard() {
           const formattedDate = `${month < 10 ? "0" + month : month}/${
             day < 10 ? "0" + day : day
           }/${year}`;
+
+          //gets ai-made fitness plan if it has been generated for the current week
           const plansCollection = collection(db, "workoutPlans");
           const q = query(
             plansCollection,
@@ -132,6 +138,7 @@ function Dashboard() {
     return () => getData();
   }, []);
 
+  //This function adds notifications for the user as they progress using the app
   const computeNotifications = async (userId = user?.uid) => {
     if (!userId) return;
 
@@ -400,12 +407,14 @@ function Dashboard() {
     setNotifications(notificationsList);
   };
 
+  //Calculates user height in ft/inches to display on top bar
   const calcHeight = (heightInput) => {
     const feet = Math.floor(heightInput / 12);
     const inches = heightInput % 12;
     return `${feet}'${inches}\"`;
   };
 
+  //Calculates user age in years to display on top bar
   const calcAge = (bdayInput) => {
     const [month, day, year] = bdayInput.split("/").map(Number);
     const birthDate = new Date(year, month - 1, day);
@@ -421,6 +430,7 @@ function Dashboard() {
     return age;
   };
 
+  //Logs user out if they click the logout button on top bar
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -430,6 +440,8 @@ function Dashboard() {
     }
   };
 
+  //shows recommended activities on dashboard if user has clicked
+  // generate on fitness plan page
   const getRecommendedActivities = () => {
     if (!workoutPlan) return [];
     const activities = [];

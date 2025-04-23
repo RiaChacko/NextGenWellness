@@ -20,6 +20,7 @@ function StepsChart() {
     return () => unsubscribe();
   }, []);
 
+  //Adjusts last 7 days shown based on current day
   const getLast7Days = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const today = new Date().getDay();
@@ -42,8 +43,10 @@ function StepsChart() {
           querySnapshot.forEach((doc) => {
               const data = doc.data();
               data.activities.forEach((activity) => {
+                //Only counts steps activity out of all activity logged
                   if (activity.activityType === "Steps") {
                       const activityDate = activity.timestamp.toDate(); 
+                      //Goes only through last 7 days
                       const localDate = new Date(activityDate.getTime() - activityDate.getTimezoneOffset() * 60000); 
                       const dateKey = localDate.toISOString().split("T")[0];
   
@@ -52,6 +55,7 @@ function StepsChart() {
               });
           });
   
+          //Maps the numerical data to the graph
           const weekDays = [...Array(7)].map((_, i) => {
               const date = new Date();
               date.setDate(date.getDate() - (6 - i));
@@ -83,6 +87,7 @@ function StepsChart() {
     ],
 };
 
+//Styling for graph
   const options = {
     responsive: true,
     scales: {
