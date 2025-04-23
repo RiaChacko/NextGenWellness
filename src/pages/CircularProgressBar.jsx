@@ -2,6 +2,7 @@ import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
+//Takes in percentage passed in, capping at 100 if necessary
 const StaticCircularProgress = ({ percent }) => {
   const percentage = Math.min(percent, 100); 
 
