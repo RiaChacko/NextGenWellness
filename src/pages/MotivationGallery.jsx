@@ -3,6 +3,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+// defines the MotivationGallery component, which is used in Motivation.jsx
 const MotivationGallery = () => {
   const [whys, setWhys] = useState([]);
   const [motivations, setMotivations] = useState([]);
@@ -10,11 +11,12 @@ const MotivationGallery = () => {
 
   const auth = getAuth();
 
-  useEffect(() => {
+  // fetches the user's motivation and why data from the database and sets state variables whys and motivations
+  useEffect(() => { 
     let unsubscribeWhys = () => {};
     let unsubscribeMotivations = () => {};
 
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => { // checks if the user is logged in
       if (user) {
         const userWhysQuery = query(collection(db, "userWhys"), where("uid", "==", user.uid));
         const userMotivationQuery = query(collection(db, "userMotivation"), where("uid", "==", user.uid));
@@ -45,7 +47,7 @@ const MotivationGallery = () => {
 
   return (
     <div className="motivation-gallery-container px-6 py-10 text-white max-w-6xl mx-auto mt-10 ml-[16vw]">
-      {/* Added 'ml-[16vw]' to account for the width of the sidebar navbar */}
+      {/*  account for the width of the sidebar navbar */}
       <h2 className="text-2xl font-bold mb-2">Motivation Quotes</h2>
       <p className="mb-6 text-sm text-gray-300">
         Add short quotes or sayings that motivate you to keep pushing forward.

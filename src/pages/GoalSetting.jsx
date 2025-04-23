@@ -45,7 +45,7 @@ const GoalSetting = () => {
     const fetchWorkouts = async () => {
       const all = [];
       try {
-        const collectionSnap = await getDocs(collection(db, "workouts"));
+        const collectionSnap = await getDocs(collection(db, "workouts")); // fetch all workouts from workouts collection
         const all = collectionSnap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -64,7 +64,7 @@ const GoalSetting = () => {
 
   useEffect(() => {
     if (!user) return;
-    const docRef = doc(db, "userGoals", user.uid);
+    const docRef = doc(db, "userGoals", user.uid); // fetch user goals from userGoals collection
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -76,6 +76,7 @@ const GoalSetting = () => {
     return () => unsubscribe();
   }, [user]);
 
+  // edit goal button: set the editedGoals state with the goalKey and goalData
   const handleEdit = (goalKey, goalData) => {
     setEditedGoals((prev) => ({
       ...prev,
@@ -89,6 +90,7 @@ const GoalSetting = () => {
     setShowGoalModal(true);
   };
 
+  // save new goal data to the database
   const handleSaveNewGoal = async () => {
     if (!user || !selectedWorkout) return;
   
@@ -97,6 +99,7 @@ const GoalSetting = () => {
       const docSnap = await getDoc(docRef);
       const currentData = docSnap.exists() ? docSnap.data() : {}; 
   
+      // create a new goal object
       const goalData = {
         attributes: tempGoals,
         exerciseName: selectedWorkout.name || "Unnamed Workout", 
@@ -122,6 +125,7 @@ const GoalSetting = () => {
     }
   };
   
+  // save edited goal data to the database
   const handleSave = async (goalKey) => {
     const editedGoalData = editedGoals[goalKey];
     if (!editedGoalData) return;
@@ -160,6 +164,7 @@ const GoalSetting = () => {
     }
   };
 
+  // handle the change in the input fields for the goal attributes
   const handleAttributeChange = (goalKey, attrKey, value) => {
     setEditedGoals((prev) => ({
       ...prev,
@@ -173,6 +178,7 @@ const GoalSetting = () => {
     }));
   };
 
+  // form to create a new goal; will be displayed when the user clicks on the add new goal button  
   const GoalForm = ({ activeWorkout, handleSave }) => {
     const fields = activeWorkout.trackingAttributes;
     if (!fields) return null;
@@ -212,7 +218,7 @@ const GoalSetting = () => {
       <div className="main-content">
         <main className="goal-main">
           <h1>FITNESS GOALS</h1>
-          <div className="goal-grid">
+          <div className="goal-grid"> {/* Added a grid layout for the goals */}
             {Object.keys(goals).length === 0 ? (
               <p>No goals available.</p>
 
@@ -226,7 +232,7 @@ const GoalSetting = () => {
                 const { attributes = {}, name } = goalData;
 
                 return (
-                  <Card key={goalKey} className="goal-card">
+                  <Card key={goalKey} className="goal-card"> {/* From Card class; displays goal attrs and allows editing */}
                     <div className="card-content">
                       <h3>{capitalize(name || displayName)}</h3>
                       {isEditing ? (
