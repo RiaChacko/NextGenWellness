@@ -18,8 +18,10 @@ function Profile () {
 
     useEffect(() => {
         const getData = onAuthStateChanged(auth, async (currentUser) => {
+            //If user is logged in then proceed
             if (currentUser) {
                 try {
+                    //Gets user data including name and email
                     const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                     if (userDoc.exists()) {
                         const userData = userDoc.data();
@@ -41,6 +43,7 @@ function Profile () {
         return () => getData();
     }, []);
 
+    //Allows user to log out from account
     const handleLogout = async () => {
         try {
             await signOut(auth);
@@ -54,8 +57,10 @@ function Profile () {
         setDeleteAccountConfirmMessage(true);
     }
 
+    //Handles account deletion
     const handleDelete = async () => {
 
+        //Deletes from activities, userGoals collections
         try {
 
             const activitiesRef = collection(db, "activities");
@@ -82,6 +87,7 @@ function Profile () {
 
         }
 
+        //Deletes from users table
         deleteUser(user).then(async () => {
             const batch = writeBatch(db);
             const usersRef = collection(db, "users");
@@ -103,6 +109,7 @@ function Profile () {
         setDeleteAccountConfirmMessage(false);
     }
 
+    //Sends password reset email to user email
     const handlePasswordReset = () => {
         const auth = getAuth();
         sendPasswordResetEmail(auth, email)
@@ -117,6 +124,7 @@ function Profile () {
 
     
 
+    //Allows dynamic name changing and updates in firestore collection for user
     const handleChangeName = async () => {
         if (!newName || newName === name) return; 
         const user = auth.currentUser;

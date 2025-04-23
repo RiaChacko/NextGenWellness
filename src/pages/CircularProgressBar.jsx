@@ -1,8 +1,9 @@
 import React from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-// using the react circular progress bar library
-// this function accepts a parameter of percent
+
+//Takes in percentage passed in, capping at 100 if necessary
+
 const StaticCircularProgress = ({ percent }) => {
   const percentage = Math.min(percent, 100); 
 // styling of progress bar

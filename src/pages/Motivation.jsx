@@ -38,13 +38,13 @@ function Motivation () {
         const user = auth.currentUser;
 
         if (!user) {
-            alert('User not authenticated');
+            alert('User not authenticated'); // alert if the user is not logged into the app
             return;
         }
 
         try {
             await addDoc(collection(db, 'userWhys'), {
-                uid: user.uid, // associate with the user
+                uid: user.uid, // fetch user id from db
                 reason: whyInput,
                 timestamp: new Date(),
             });
@@ -58,10 +58,8 @@ function Motivation () {
     };
 
 
+    // function to save the motivational quote to the database
     const handleMotivationSubmit = async (e) => {
-        // e.preventDefault();
-        // setShowMotivationForm(false); 
-        // setMotivationalQuote(""); 
         e.preventDefault();
         const auth = getAuth();
         const user = auth.currentUser;
@@ -73,7 +71,7 @@ function Motivation () {
 
         try {
             await addDoc(collection(db, 'userMotivation'), {
-                uid: user.uid, // associate with the user
+                uid: user.uid, // fetch user id from db
                 motivation: motivationalQuote,
                 timestamp: new Date(),
             });
@@ -86,6 +84,7 @@ function Motivation () {
         }
     };
 
+    // function to calculate the user's consecutive days of logged activities
     async function calculateStreak(userId) {
         const activitiesRef = collection(db, "users", userId, "activities");
         const q = query(activitiesRef, orderBy("timestamp", "desc"));
@@ -94,13 +93,14 @@ function Motivation () {
       
         if (docs.length === 0) return 0;
       
-        // Optional: check if the latest activity is within 24h
+        // check if the latest activity is older than 24 hours and return 0 if so
         const now = new Date();
         const latest = docs[0].data().timestamp.toDate();
         if ((now - latest) / (1000 * 60 * 60) > 24) return 0;
       
         let streak = 1;
-      
+
+        // loop through the documents to check for consecutive days
         for (let i = 0; i < docs.length - 1; i++) {
           const current = docs[i].data().timestamp.toDate();
           const next = docs[i + 1].data().timestamp.toDate();
@@ -140,6 +140,8 @@ function Motivation () {
         setStreak(streak + 1);
         localStorage.setItem("streak", streak + 1); 
     };
+
+    // provide in-built motivational quotes tha the user can display on their page
     const [randomQuote, setRandomQuote] = useState("");
     const quotes = [
         "“The only bad workout is the one that didn’t happen.”",
@@ -204,6 +206,7 @@ function Motivation () {
                 </p> */}
             </div>
 
+            {/* call MotivationGallery component to display the user's motivation and why */}
             <MotivationGallery />
 
             <div className="random-quote-container">

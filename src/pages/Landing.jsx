@@ -20,6 +20,8 @@ function Landing() {
         navigate(path); 
     };
 
+    //The following functionality allows users to input
+    //a contact email and message if they're providing feedback
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
 
@@ -39,6 +41,7 @@ function Landing() {
         }
     
         try {
+            //Adds the data to firebase collection
             await addDoc(collection(db, "contactEmails"), {
                 email: email,
                 message: message,
