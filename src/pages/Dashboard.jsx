@@ -20,6 +20,7 @@ import {
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 function Dashboard() {
+  // initialize needed variables 
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [height, setHeight] = useState("");
@@ -32,19 +33,22 @@ function Dashboard() {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [workoutPlan, setWorkoutPlan] = useState(null);
   const [notifications, setNotifications] = useState([]);
+  // used to route to different pages
   const navigate = useNavigate();
-
+  // used for metrics overlay 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  // toggle function for the notifications modal
   const toggleNotificationModal = () => {
     if (!isNotificationModalOpen) computeNotifications(); 
     setIsNotificationModalOpen(!isNotificationModalOpen);
   };
-
+// useEffect used onload of the page
   useEffect(() => {
     const getData = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         try {
+          // retrieving user details
           const userDoc = await getDoc(doc(db, "users", currentUser.uid));
           if (userDoc.exists()) {
             const userData = userDoc.data();
@@ -54,7 +58,7 @@ function Dashboard() {
             setWeight(userData.weight || "No weight found");
             setAge(calcAge(userData.birthdate) || "No age found");
           }
-
+// getting user details and setting the retrieved information to the variables initialized above
           const userId = currentUser.uid;
           const today = new Date();
           const localDate = today.toLocaleDateString("en-CA");
@@ -78,7 +82,7 @@ function Dashboard() {
             setActivity(activities);
             setCaloriesBurned(totalCalories.toFixed(2));
           }
-
+// user goals information
           const goalDoc = await getDoc(doc(db, "userGoals", currentUser.uid));
           if (goalDoc.exists()) {
             const goalData = goalDoc.data()["goals"];
@@ -131,7 +135,7 @@ function Dashboard() {
 
     return () => getData();
   }, []);
-
+// Notifications information
   const computeNotifications = async (userId = user?.uid) => {
     if (!userId) return;
 
@@ -179,7 +183,7 @@ function Dashboard() {
         date: today,
       });
     }
-
+// goals info
     for (const goal of goals) {
       const q = query(
         collection(db, "activities"),
@@ -272,7 +276,7 @@ function Dashboard() {
         date: today,
       });
     }
-
+// streak setting section
     let stepStreak = 0;
     lastDate = null;
     const stepDatesSeen = new Set();
@@ -309,7 +313,7 @@ function Dashboard() {
         date: today,
       });
     }
-
+// setting the fitness plan view
     if (workoutPlan) {
       const currentDayIndex = today.getDay() === 0 ? 6 : today.getDay() - 1;
       const daysOfWeek = [
@@ -363,7 +367,7 @@ function Dashboard() {
         }
       }
     }
-
+// retrieving user history
     const historyWeightQuery = query(
       collection(db, "userHistory"),
       where("userId", "==", userId),
@@ -399,7 +403,7 @@ function Dashboard() {
 
     setNotifications(notificationsList);
   };
-
+// calculating the user inputted height, age
   const calcHeight = (heightInput) => {
     const feet = Math.floor(heightInput / 12);
     const inches = heightInput % 12;
@@ -482,7 +486,7 @@ function Dashboard() {
     });
     return activities;
   };
-
+// notifications overlay
   const NotificationModal = ({ onClose }) => {
     const formatDate = (date) => {
       return date.toLocaleDateString("en-US", {
@@ -493,6 +497,7 @@ function Dashboard() {
     };
 
     return (
+      // html for the notifications overlay
       <div className="notification-modal">
         <button className="notification-modal-close" onClick={onClose}>
           <FaTimes />
@@ -514,6 +519,7 @@ function Dashboard() {
   };
 
   return (
+    // html/css styling for the entire dashboard page
     <div className="dashboard-container">
       <Navbar />
       <div className="top-header-dashboard">
