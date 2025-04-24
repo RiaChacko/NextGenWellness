@@ -12,6 +12,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "./firebaseConfig";
 
 function Questionnaire() {
+  // initialize all the variables we need for the questionnaire
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
@@ -34,7 +35,7 @@ function Questionnaire() {
     });
     return () => unsubscribe();
   }, []);
-
+  // getting workouts
   useEffect(() => {
     const fetchWorkouts = async () => {
       const querySnapshot = await getDocs(collection(db, "workouts"));
@@ -57,7 +58,7 @@ function Questionnaire() {
 
     fetchWorkouts();
   }, []);
-
+// handling workout clicks function
   const handleWorkoutClick = (workout) => {
     if (activeWorkout && activeWorkout.id === workout.id) {
       setActiveWorkout(null);
@@ -67,7 +68,7 @@ function Questionnaire() {
       setTempGoals(workoutGoals[workout.id] || {});
     }
   };
-
+// handles the save of set goal
   const handleSave = async () => {
     if (!activeWorkout || !user) {
       console.error("Workout or user missing");
@@ -112,7 +113,7 @@ function Questionnaire() {
     }
   };
   
-
+// workouts list
   const renderGoalContent = () => {
     if (!activeWorkout) {
       return (
@@ -152,7 +153,7 @@ function Questionnaire() {
       </div>
     );
   };
-
+// function that handles navigate
   const handleNext = async () => {
     if (!height || !weight || !birthdate) {
       window.alert("Please complete all personal information fields (height, weight, and birthdate).");
@@ -183,7 +184,7 @@ function Questionnaire() {
   };
 
   const orderedCategories = ["yoga", "cardio", "strength"];
-
+// html structure for the questionnaire page
   return (
     <div className="entire-page-q">
       <div className="top-right-title">
