@@ -15,7 +15,7 @@ import "../pages/SignUp.css";
 import google from "../assets/google-lg.png";
 
 function SignUp () {
-
+// initialize variables
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,7 +61,7 @@ function SignUp () {
       setShowAlert(true);
       return;
     }
-
+// creates a user in backend
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -85,7 +85,7 @@ function SignUp () {
       setShowAlert(true);
     }
   };
-
+// handles google signup
   const handleGoogleSignUp = async () => {
     setShowAlert(false);
     setErrorMessage("");
@@ -107,7 +107,7 @@ function SignUp () {
       setShowAlert(true);
     }
   };
-
+//html structure for signup 
     return(
       <div className="signup-page">
           <div className="center-s">
