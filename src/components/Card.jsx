@@ -1,5 +1,5 @@
 import React from "react";
-
+// card component that can be reused
 const Card = ({ children, category }) => {
   const categoryColors = {
     cardio: "bg-pink-600",
