@@ -9,12 +9,14 @@ import { db } from "./firebaseConfig";
 
 const auth = getAuth();
 
+// chatgpt api
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY || "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",
   dangerouslyAllowBrowser: true,
 });
 
 function RecommendedActivities() {
+  // initialize variables
   const [weekStartDate, setWeekStartDate] = useState("");
   const [weekStartDateForDocId, setWeekStartDateForDocId] = useState(""); 
   const [workoutPlan, setWorkoutPlan] = useState(null);
@@ -47,7 +49,7 @@ function RecommendedActivities() {
 
     setWeekStartDate(formattedDate);
     setWeekStartDateForDocId(formattedDateForDocId);
-
+// getting all workouts for the user
     const fetchWorkouts = async () => {
       try {
         const workoutsCollection = collection(db, "workouts");
@@ -66,7 +68,7 @@ function RecommendedActivities() {
         console.error("Error fetching workouts:", error);
       }
     };
-
+// show existing plan
     const fetchExistingPlan = async () => {
       if (!userId) return;
       try {
@@ -123,7 +125,7 @@ function RecommendedActivities() {
       return { goalsData: {}, historyData: [] };
     }
   };
-
+// function that generates workout plan
   const generateWorkoutPlan = async () => {
     const { goalsData, historyData } = await fetchUserData();
 
@@ -194,7 +196,7 @@ function RecommendedActivities() {
       alert("Failed to generate workout plan: " + error.message);
     }
   };
-
+// download pdf of workout plan function
   const downloadPDF = () => {
     if (!workoutPlan || !hasPlan) return;
 
@@ -255,7 +257,7 @@ function RecommendedActivities() {
 
     doc.save("workout_plan.pdf");
   };
-
+// html structure for the fitness plan page
   return (
     <div className="recommended-container">
       <Navbar />
