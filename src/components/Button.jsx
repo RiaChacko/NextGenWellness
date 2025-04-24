@@ -1,5 +1,5 @@
 import React from "react";
-
+// button component that can be reused
 const Button = ({ children, onClick, className = "" }) => {
   return (
     <button
