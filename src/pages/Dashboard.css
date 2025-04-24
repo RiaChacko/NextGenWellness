@@ -1,10 +1,11 @@
+/*Styling for dashboard page*/
 .dashboard-container {
   background-color: #17161F;
   height: 105rem;
   overflow: hidden;
   position: relative;
 }
-
+/*Styling for dashboard page navbar*/
 .top-header-dashboard {
   display: flex;
   flex-direction: row;
@@ -92,7 +93,7 @@
 }
 
 
-
+/*Styling for dashboard page notifications overlay*/
 .notification-button {
   background-color: transparent;
   border: none;
@@ -125,6 +126,7 @@
   left: 18rem;
   flex-wrap: wrap;
 }
+
 
 .dashboard-metrics-container {
   padding: 2rem;
@@ -169,7 +171,7 @@
   left: 0rem;
   height: min-content;
 }
-
+/*Styling for dashboard page fitness goals*/
 .fitness-goals-dashboard {
   color: white;
   font-family: 'Lexend Mega', sans-serif;
@@ -213,7 +215,7 @@
   border-radius: .4rem;
   padding: .5rem;
 }
-
+/*Styling for dashboard page fitness plan*/
 .recommended-activity-individual {
   display: flex;
   flex-direction: row;
